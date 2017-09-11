@@ -46,9 +46,14 @@ public class Jailbreak {
         return pathExists
     }
     
+    internal class var sandboxBreak : Bool {
+        
+        return writeIdFile("")
+    }
+    
     internal class var isJailbroken : Bool {
         
-        return existingPath.count != 0 || cydiaInstalled
+        return existingPath.count != 0 || cydiaInstalled || sandboxBreak
     }
 
     private class var sandBoxUniqueID : JailBreakInfo? {
@@ -127,22 +132,22 @@ public class Jailbreak {
             let encoder = JSONEncoder()
             if let data = try? encoder.encode(uniqueSandBoxId), let idString = String(data: data, encoding: .utf8) {
                 
-                print(idString)
-                writeIdFile(idString)
+                let _ = writeIdFile(idString)
             }
         }
         
         return uniqueSandBoxId
     }
     
-    private class func writeIdFile(_ idString : String) {
+    private class func writeIdFile(_ idString : String) -> Bool {
         
         do {
             
             try idString.write(toFile:Vars.jailBreakPath, atomically:true, encoding:String.Encoding.utf8)
+            return true
         } catch {
             
-            return
+            return false
         }
     }
     

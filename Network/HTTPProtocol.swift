@@ -10,6 +10,36 @@ import Foundation
 
 public class HTTPProtocol {
     
+    public class func postBin() {
+        
+        DispatchQueue.global(qos: .default).sync {
+            
+            RequestManager.shared.doRequest(requestType: .postBin) {
+                
+                (data, error) in
+                
+                if let error = error {
+                    
+                    print(error)
+                }
+                
+                if let data = data {
+           
+                    do {
+                        
+                        let jsonResult = try JSONSerialization.jsonObject(with: data, options:
+                            JSONSerialization.ReadingOptions.mutableContainers)
+                        print(jsonResult) //this part works fine
+                
+                    } catch let error {
+                        
+                        print(error)
+                    }
+                }
+            }
+        }
+    }
+    
     public class func getBrowserInfo(fromToken token: String, completion: ((BrowserInfo?, Error?) -> Void)?) {
         
         DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + 0) {

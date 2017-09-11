@@ -20,6 +20,7 @@ enum RequestMethod : String {
 enum RequestManagerType {
     
     case requestScript(token : String)
+    case postBin
     
     var url : URL? {
         
@@ -28,6 +29,10 @@ enum RequestManagerType {
         case .requestScript(let token):
             
             guard let url = URL(string: "https://demo-test-backup.jsctool.com/api/v4/transactions/bySite/ios-sdk-test/\(token)?include=all") else { return nil }
+            return url
+            
+        case .postBin:
+            guard let url = URL(string: "https://httpbin.org/post") else { return nil }
             return url
         }
     }
@@ -38,6 +43,8 @@ enum RequestManagerType {
             
         case .requestScript:
             return .GET
+        case .postBin:
+            return .POST
         }
     }
     
@@ -48,6 +55,9 @@ enum RequestManagerType {
         case .requestScript:
             
             return generateAuthString(username: "ios-sdk-test", password: "geekios")
+        case .postBin:
+            return nil
+            
         }
     }
     
@@ -57,6 +67,8 @@ enum RequestManagerType {
             
         case .requestScript:
             return true
+        case .postBin:
+            return false
         }
         
     }

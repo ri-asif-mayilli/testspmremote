@@ -11,7 +11,7 @@ import Foundation
 struct DataModel : Codable {
     
     let sysctlInfo      = SysctlInfo()
-//    var jailBreakInfo   = JailBreakInfo()
+    var jailBreakInfo   = JailBreakInfo()
 }
 
 struct Device : Codable {
@@ -94,7 +94,11 @@ struct JailBreakInfo : Codable {
     var jailBroken      = Jailbreak.isJailbroken
     let existingPaths   = Jailbreak.existingPath
     let cydiaInstalled  = Jailbreak.cydiaInstalled
-//    let sandboxBreakOut = Jailbreak.sandboxWrite
+    let sandboxBreakOut = Jailbreak.sandboxBreak
+    
+    public init() {
+        
+    }
     
     public init(appID : String, created: Date, existingPaths: [String]) {
 

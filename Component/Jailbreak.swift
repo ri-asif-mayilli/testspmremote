@@ -89,6 +89,7 @@ public class Jailbreak {
         }
     }
     
+    @available(iOS 10, *)
     private static var cydiaIOS10 : () -> Bool = {
 
         guard let url = URL(string: Vars.CYDIA_URL) else { return false }

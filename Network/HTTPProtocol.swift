@@ -12,8 +12,8 @@ public class HTTPProtocol {
     
     public class func postBin() {
         
-        DispatchQueue.global(qos: .default).sync {
-            
+        DispatchQueue.global(qos: .userInteractive).async {
+        
             RequestManager.shared.doRequest(requestType: .postBin) {
                 
                 (data, error) in
@@ -26,9 +26,8 @@ public class HTTPProtocol {
                 if let data = data {
            
                     do {
-                        
-                        let jsonResult = try JSONSerialization.jsonObject(with: data, options:
-                            JSONSerialization.ReadingOptions.mutableContainers)
+   
+                        let jsonResult = try JSONSerialization.jsonObject(with: data)
                         print(jsonResult) //this part works fine
                 
                     } catch let error {
@@ -40,7 +39,7 @@ public class HTTPProtocol {
         }
     }
     
-    public class func getBrowserInfo(fromToken token: String, completion: ((BrowserInfo?, Error?) -> Void)?) {
+    public class func getBrowserInfo(fromToken token: String, completion: ((BrowserDTO?, Error?) -> Void)?) {
         
         DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + 0) {
             
@@ -60,7 +59,7 @@ public class HTTPProtocol {
                     let decoder = JSONDecoder()
                     do {
                         
-                        var browserInfo = try decoder.decode(BrowserInfo.self, from: data)
+                        var browserInfo = try decoder.decode(BrowserDTO.self, from: data)
                         browserInfo.transactionDate = Date()
                         if let completion = completion {
                             

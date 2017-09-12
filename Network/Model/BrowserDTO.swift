@@ -18,7 +18,7 @@ import Foundation
 
 import Foundation
 
-public struct BrowserInfo : Codable {
+public struct BrowserDTO : Codable {
     
     public var transactionDate         : Date?
     public var netspeed                : String?

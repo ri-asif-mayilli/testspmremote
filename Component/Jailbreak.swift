@@ -13,7 +13,7 @@ public class Jailbreak {
     
     /// Returns a class with all Jailbreak Informationes
     ///
-    internal class var info : JailBreakInfo? {
+    internal class var info : JailbreakDTO? {
         
         #if arch(i386) || arch(x86_64)
             
@@ -56,7 +56,7 @@ public class Jailbreak {
         return existingPath.count != 0 || cydiaInstalled || sandboxBreak
     }
 
-    private class var sandBoxUniqueID : JailBreakInfo? {
+    private class var sandBoxUniqueID : JailbreakDTO? {
         
         do {
             
@@ -64,7 +64,7 @@ public class Jailbreak {
             if let jsonData = idString.data(using: .utf8) {
                 
                 let decoder = JSONDecoder()
-                return try decoder.decode(JailBreakInfo.self, from: jsonData)
+                return try decoder.decode(JailbreakDTO.self, from: jsonData)
             } else {
                 
                 return nil
@@ -81,8 +81,13 @@ public class Jailbreak {
         
         if #available(iOS 10, *) {
         
-            return cydiaIOS10()
+            var result = false
             
+            DispatchQueue.main.async {
+
+                result = cydiaIOS10()
+            }
+            return result
         } else {
         
             return cydiaIOS9
@@ -94,6 +99,7 @@ public class Jailbreak {
 
         guard let url = URL(string: Vars.CYDIA_URL) else { return false }
         var result = false
+        
         UIApplication.shared.open(url, options: [:]) {
 
             (bool) in
@@ -111,21 +117,21 @@ public class Jailbreak {
         return result
     }
     
-    private class var generate : JailBreakInfo? {
+    private class var generate : JailbreakDTO? {
         
         if !isJailbroken {
             
             return nil
         }
         
-        var uniqueSandBoxId : JailBreakInfo
+        var uniqueSandBoxId : JailbreakDTO
         if let sandBoxID = sandBoxUniqueID {
             
             uniqueSandBoxId = sandBoxID
             uniqueSandBoxId.created = Date()
         } else {
             
-            uniqueSandBoxId = JailBreakInfo(appID: UUID().uuidString, created: Date(), existingPaths: existingPath)
+            uniqueSandBoxId = JailbreakDTO(appID: UUID().uuidString, created: Date(), existingPaths: existingPath)
         }
         
         do {

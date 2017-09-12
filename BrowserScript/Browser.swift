@@ -14,7 +14,7 @@ public class Browser : NSObject {
     
     var wkWebView = WKWebView()
     var _token : String?
-    var completion : (BrowserInfo?, Error?) -> Void
+    var completion : (BrowserDTO?, Error?) -> Void
     
     public var uuidToken : String {
         
@@ -36,7 +36,7 @@ public class Browser : NSObject {
         }
     }
     
-    public init(uuid: String, completion: @escaping (BrowserInfo?, Error?) -> Void) {
+    public init(uuid: String, completion: @escaping (BrowserDTO?, Error?) -> Void) {
         
         _token = uuid
         self.completion = completion

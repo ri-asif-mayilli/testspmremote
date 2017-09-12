@@ -12,8 +12,21 @@ typealias RequestCompletionHandler = (Data?, Error?) -> Void
 
 enum RequestMethod : String {
     
-    case POST
-    case GET
+    case post
+    case get
+    
+    var value : String {
+        
+        switch(self) {
+            
+        case .post:
+            return "POST"
+            
+        case .get:
+            return "GET"
+        }
+        
+    }
 }
 
 
@@ -42,9 +55,9 @@ enum RequestManagerType {
         switch self {
             
         case .requestScript:
-            return .GET
+            return .get
         case .postBin:
-            return .POST
+            return .post
         }
     }
     
@@ -93,21 +106,57 @@ public class RequestManager {
     
     let session : URLSession?
     
+    private func createPayload(requestType : RequestManagerType) -> Data? {
+        
+        switch(requestType) {
+            
+        case .postBin:
+            let data = DeviceDTO()
+            let encoder = JSONEncoder()
+            do {
+                let enc = try encoder.encode(data)
+                return enc
+                
+            } catch let error {
+                
+                print(error)
+                return nil
+            }
+            
+        default:
+            return nil
+            
+        }
+    }
+    
+    
     private func createRequest(requestType : RequestManagerType) -> URLRequest? {
         
         guard let url = requestType.url else { return nil }
         var request = URLRequest(url: url)
-        
+        request.httpMethod = requestType.method.value
         if let authString = requestType.authString {
             
             request.setValue("Basic \(authString)", forHTTPHeaderField: "Authorization")
         }
+        
+        if let payload = createPayload(requestType: requestType) {
+            
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.httpBody = payload
+        }
+        
         return request
     }
     
     func doRequest(requestType : RequestManagerType, completion: @escaping RequestCompletionHandler) {
         
-        guard let request = createRequest(requestType: requestType) else { return }
+        guard let request = createRequest(requestType: requestType) else {
+        
+            completion(nil, NSError(domain: "Postbin", code: 666, userInfo: nil))
+            return
+            
+        }
         let task = session?.dataTask(with: request) {
             
             (data, response, error) in

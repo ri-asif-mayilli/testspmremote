@@ -38,15 +38,6 @@ class CustomInfo {
         let carrierName = carrier.carrierName
         
     }
-    
-    var brightness : Float {
-        
-        
-        debugPrint(UIScreen.screens.count)
-        debugPrint(UIScreen.main.brightness)
-        
-        return Float(0)
-    }
 }
 
 

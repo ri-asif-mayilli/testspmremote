@@ -1,5 +1,59 @@
 import Darwin
 
+enum SyctlInfoType {
+    
+    case hostname
+    case machine
+    case model
+    case activeCPUs
+    case osRelease
+    case osRev
+    case osType
+    case osVersion
+    case version
+    case memSize
+    case machineArch
+    
+    var value : String {
+        
+        switch(self) {
+        case .machineArch:
+            return ""
+            
+        case .hostname:
+            return Sysctl.hostName
+            
+        case .machine:
+            return Sysctl.machine
+            
+        case .model:
+            return Sysctl.model
+            
+        case .activeCPUs:
+            return String(describing: Sysctl.activeCPUs)
+            
+        case .osRelease:
+            return Sysctl.osRelease
+            
+        case .osRev:
+            return String(describing: Sysctl.kernID)
+            
+        case .osType:
+            return Sysctl.osType
+            
+        case .osVersion:
+            return Sysctl.osVersion
+            
+        case .memSize:
+            return Sysctl.memSize.description
+            
+        case .version:
+            return Sysctl.version
+        }
+    }
+}
+
+
 /// A "static"-only namespace around a series of functions that operate on buffers returned from the `Darwin.sysctl` function
 public struct Sysctl {
     /// Possible errors.

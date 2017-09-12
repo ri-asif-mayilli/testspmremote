@@ -42,7 +42,8 @@ struct ContactInfo {
     
         let contactStore = CNContactStore()
         let keysToFetch = [
-            CNContactFormatter.descriptorForRequiredKeys(for: .fullName)] as [Any]
+            CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
+            CNContactPhoneNumbersKey ] as [Any]
         
         // Get all the containers
         var allContainers: [CNContainer] = []
@@ -56,6 +57,7 @@ struct ContactInfo {
         
         // Iterate all containers and append their contacts to our results array
         for container in allContainers {
+            
             let fetchPredicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
             
             do {
@@ -65,14 +67,17 @@ struct ContactInfo {
                 print("Error fetching results for container")
             }
         }
-        
         return results
     }
     
-    @available(iOS 9, *)
     internal static var count : Int {
+
+        if #available(iOS 9, *) {
+            return contacts.count
+        } else {
+            return 0
+        }
         
-        return contacts.count
     }
     
     

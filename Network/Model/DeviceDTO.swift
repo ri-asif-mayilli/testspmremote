@@ -9,14 +9,52 @@
 import Foundation
 
 struct DeviceDTO : Codable {
+
+    let SysctlInfo : SysctlDTO
+    let JailBreak  : JailbreakDTO
+    let Device     : DeviceVarsDTO
+    let Battery    : BatteryDTO
+    let Proximity  : ProximityDTO
+    let Screen     : ScreenDTO
+    let Cellular   : CellularDTO
+    let Contacts    : ContactDTO
+    let Notification : NotificationDTO
     
-    let SysctlInfo      = SysctlDTO()
-    let JailBreak       = JailbreakDTO()
-    let Device          = DeviceVarsDTO()
-    let Battery         = BatteryDTO()
-    let Proximity       = ProximityDTO()
-    let Screen          = ScreenDTO()
-    let Cellular        = CellularDTO()
+    init() {
+        
+        self.SysctlInfo = SysctlDTO()
+        self.JailBreak  = JailbreakDTO()
+        self.Device     = DeviceVarsDTO()
+        self.Battery    = BatteryDTO()
+        self.Proximity  = ProximityDTO()
+        self.Screen     = ScreenDTO()
+        self.Cellular   = CellularDTO()
+        self.Contacts   = ContactDTO()
+        self.Notification = NotificationDTO(enabled: false)
+    }
+    
+    init(notificationDTO : NotificationDTO) {
+        
+        self.SysctlInfo = SysctlDTO()
+        self.JailBreak  = JailbreakDTO()
+        self.Device     = DeviceVarsDTO()
+        self.Battery    = BatteryDTO()
+        self.Proximity  = ProximityDTO()
+        self.Screen     = ScreenDTO()
+        self.Cellular   = CellularDTO()
+        self.Contacts   = ContactDTO()
+        self.Notification = notificationDTO
+    }
+}
+
+struct NotificationDTO : Codable {
+    
+    let enabled : Bool
+    
+    init(enabled: Bool) {
+        
+        self.enabled = enabled
+    }
 }
 
 struct DeviceVarsDTO : Codable {

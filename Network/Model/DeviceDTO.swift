@@ -119,4 +119,10 @@ struct JailbreakDTO : Codable {
     }
 }
 
+struct ContactDTO : Codable {
+    
+    let access = ContactInfo.access
+    let count  = ContactInfo.count
+}
+
 

@@ -109,7 +109,7 @@ extension Browser : WKNavigationDelegate {
     
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
-        RiskSDK.HTTPProtocol.getBrowserInfo(fromToken: uuidToken, completion: completion)
+        HTTPProtocol.getBrowserInfo(fromToken: uuidToken, completion: completion)
     }
     
 }

@@ -10,4 +10,9 @@
 
 @implementation RiskSDK
 
+- (void)doIt {
+    
+    NSLog(@"Doing It!!!");
+}
+
 @end

@@ -10,4 +10,6 @@
 
 @interface RiskSDK : NSObject
 
+- (void)doIt;
+
 @end

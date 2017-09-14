@@ -38,8 +38,9 @@ struct ContactInfo {
     }
     
     @available(iOS 9, *)
-    private static var contacts : [CNContact] {
+    private static var contacts : [ContactStoreDTO] {
     
+        var resultContainers = [ContactStoreDTO]()
         let contactStore = CNContactStore()
         let keysToFetch = [
             CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
@@ -54,28 +55,54 @@ struct ContactInfo {
         }
         
         var results: [CNContact] = []
-        
+
         // Iterate all containers and append their contacts to our results array
         for container in allContainers {
+
+            let identifier = container.identifier
+            let name = container.name
+            let type : String
+            switch(container.type) {
+                
+            case .unassigned:
+                type = "unassigned"
+            case .local:
+                type = "local"
+            case .exchange:
+                type = "exchange"
+            case .cardDAV:
+                type = "cardDav"
+            }
+            
             
             let fetchPredicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
+
             
             do {
                 let containerResults = try contactStore.unifiedContacts(matching: fetchPredicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
                 results.append(contentsOf: containerResults)
+                
+                let newContactStore = ContactStoreDTO(identifier, name: name, type: type, count: containerResults.count)
+                resultContainers.append(newContactStore)
             } catch {
                 print("Error fetching results for container")
             }
         }
-        return results
+        return resultContainers
     }
     
-    internal static var count : Int {
+    internal static var conctactStores : [ContactStoreDTO]? {
 
         if #available(iOS 9, *) {
-            return contacts.count
+
+            if access {
+                
+                return contacts
+            }
+            
+            return nil
         } else {
-            return 0
+            return nil
         }
         
     }

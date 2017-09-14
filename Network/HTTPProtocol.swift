@@ -10,11 +10,19 @@ import Foundation
 
 public class HTTPProtocol {
     
-    public class func postBin() {
+    public class func post() {
+        
+        DeviceDTOFactory.create(completion: { (device) in
+            
+            postBin(device: device)
+        })
+    }
+    
+    private class func postBin(device : DeviceDTO) {
         
         DispatchQueue.global(qos: .userInteractive).async {
         
-            RequestManager.shared.doRequest(requestType: .postBin) {
+            RequestManager.shared.doRequest(requestType: .postBin(deviceDTO: device)) {
                 
                 (data, error) in
                 

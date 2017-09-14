@@ -203,24 +203,25 @@ struct Proximity {
         return UIDevice.current.isProximityMonitoringEnabled
     }
     
-    // FIXME: We have to call this form main thread!
-    static var state : Bool {
+    internal static func state(completion: @escaping (Bool) -> Void) {
         
-        var weEnabled = false
+        DispatchQueue.main.async {
         
-        if !monitoringEnabled {
-         
-            weEnabled = true
-            UIDevice.current.isProximityMonitoringEnabled = !UIDevice.current.isProximityMonitoringEnabled
+            var weEnabled = false
+            if !monitoringEnabled {
+             
+                weEnabled = true
+                UIDevice.current.isProximityMonitoringEnabled = !UIDevice.current.isProximityMonitoringEnabled
+            }
+            
+            let state = UIDevice.current.proximityState
+            
+            if weEnabled {
+             
+                UIDevice.current.isProximityMonitoringEnabled = !UIDevice.current.isProximityMonitoringEnabled
+            }
+            
+                completion(state)
         }
-        
-        let state = UIDevice.current.proximityState
-        
-        if weEnabled {
-         
-            UIDevice.current.isProximityMonitoringEnabled = !UIDevice.current.isProximityMonitoringEnabled
-        }
-        
-        return state
     }
 }

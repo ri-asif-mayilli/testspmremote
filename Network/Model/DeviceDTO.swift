@@ -10,40 +10,22 @@ import Foundation
 
 struct DeviceDTO : Codable {
 
-    let SysctlInfo : SysctlDTO
-    let JailBreak  : JailbreakDTO
-    let Device     : DeviceVarsDTO
-    let Battery    : BatteryDTO
+    let SysctlInfo = SysctlDTO()
+    let JailBreak  = JailbreakDTO()
+    let Device     = DeviceVarsDTO()
+    let Battery    = BatteryDTO()
+    let Screen     = ScreenDTO()
+    let Cellular   = CellularDTO()
+    let Contacts    = ContactDTO()
+    let NetworkInfo  = NetworkInfoDTO()
+    
     let Proximity  : ProximityDTO
-    let Screen     : ScreenDTO
-    let Cellular   : CellularDTO
-    let Contacts    : ContactDTO
     let Notification : NotificationDTO
-    
-    init() {
+ 
+    init(notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
         
-        self.SysctlInfo = SysctlDTO()
-        self.JailBreak  = JailbreakDTO()
-        self.Device     = DeviceVarsDTO()
-        self.Battery    = BatteryDTO()
-        self.Proximity  = ProximityDTO()
-        self.Screen     = ScreenDTO()
-        self.Cellular   = CellularDTO()
-        self.Contacts   = ContactDTO()
-        self.Notification = NotificationDTO(enabled: false)
-    }
-    
-    init(notificationDTO : NotificationDTO) {
-        
-        self.SysctlInfo = SysctlDTO()
-        self.JailBreak  = JailbreakDTO()
-        self.Device     = DeviceVarsDTO()
-        self.Battery    = BatteryDTO()
-        self.Proximity  = ProximityDTO()
-        self.Screen     = ScreenDTO()
-        self.Cellular   = CellularDTO()
-        self.Contacts   = ContactDTO()
-        self.Notification = notificationDTO
+        self.Proximity  = proximityDTO
+        self.Notification = notificationDTO        
     }
 }
 
@@ -79,7 +61,12 @@ struct BatteryDTO  : Codable {
 struct ProximityDTO : Codable {
     
     let monitoringEnabled = Proximity.monitoringEnabled
-    let state             = Proximity.state
+    let state             : Bool
+    
+    init(state : Bool) {
+        
+        self.state = state
+    }
 }
 
 struct ScreenDTO : Codable {
@@ -146,11 +133,11 @@ struct JailbreakDTO : Codable {
     let cydiaInstalled  = Jailbreak.cydiaInstalled
     let sandboxBreakOut = Jailbreak.sandboxBreak
     
-    public init() {
+    internal init() {
         
     }
     
-    public init(appID : String, created: Date, existingPaths: [String]) {
+    internal init(appID : String, created: Date, existingPaths: [String]) {
 
         self.appID = appID
         self.created = created
@@ -159,8 +146,35 @@ struct JailbreakDTO : Codable {
 
 struct ContactDTO : Codable {
     
-    let access = ContactInfo.access
-    let count  = ContactInfo.count
+    let access      = ContactInfo.access
+    let container   : [ContactStoreDTO]?
+    
+    public init() {
+        
+        container = ContactInfo.conctactStores
+    }
+}
+
+struct ContactStoreDTO : Codable {
+    
+    let identifier : String
+    let name : String
+    let type : String
+    let contacts : Int
+    
+    public init(_ identifier: String, name: String, type: String, count: Int) {
+        
+        self.identifier = identifier
+        self.name = name
+        self.type = type
+        self.contacts = count
+    }
+}
+
+struct NetworkInfoDTO : Codable {
+ 
+    var ip = NetworkInfo.getWiFiAddress
+    var ssid = NetworkInfo.getWiFiSsid
 }
 
 

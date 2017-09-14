@@ -33,7 +33,29 @@ enum RequestMethod : String {
 enum RequestManagerType {
     
     case requestScript(token : String)
-    case postBin
+    case postBin(deviceDTO : DeviceDTO)
+    
+    var payload : Data? {
+        
+        switch(self) {
+            
+        case .requestScript:
+            return nil
+            
+        case .postBin(let payload):
+        
+            let encoder = JSONEncoder()
+            do {
+                let enc = try encoder.encode(payload)
+                return enc
+                
+            } catch let error {
+                
+                print(error)
+                return nil
+            }
+        }
+    }
     
     var url : URL? {
         
@@ -106,30 +128,6 @@ public class RequestManager {
     
     let session : URLSession?
     
-    private func createPayload(requestType : RequestManagerType) -> Data? {
-        
-        switch(requestType) {
-            
-        case .postBin:
-            let data = DeviceDTO()
-            let encoder = JSONEncoder()
-            do {
-                let enc = try encoder.encode(data)
-                return enc
-                
-            } catch let error {
-                
-                print(error)
-                return nil
-            }
-            
-        default:
-            return nil
-            
-        }
-    }
-    
-    
     private func createRequest(requestType : RequestManagerType) -> URLRequest? {
         
         guard let url = requestType.url else { return nil }
@@ -140,7 +138,7 @@ public class RequestManager {
             request.setValue("Basic \(authString)", forHTTPHeaderField: "Authorization")
         }
         
-        if let payload = createPayload(requestType: requestType) {
+        if let payload = requestType.payload {
             
             request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
             request.httpBody = payload

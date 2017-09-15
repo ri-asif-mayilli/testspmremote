@@ -16,7 +16,7 @@ public class Browser : NSObject {
     var _token : String?
     var completion : (BrowserDTO?, Error?) -> Void
     
-    public var uuidToken : String {
+    fileprivate var uuidToken : String {
         
         get {
             
@@ -36,7 +36,7 @@ public class Browser : NSObject {
         }
     }
     
-    public init(uuid: String, completion: @escaping (BrowserDTO?, Error?) -> Void) {
+    init(uuid: String, completion: @escaping (BrowserDTO?, Error?) -> Void) {
         
         _token = uuid
         self.completion = completion
@@ -45,7 +45,7 @@ public class Browser : NSObject {
         execute()
     }
     
-    public func execute() {
+    private func execute() {
         
         guard let request = createRequest2(uuidToken), let url = request.url else { return }
         
@@ -54,13 +54,13 @@ public class Browser : NSObject {
         wkWebView.load(request)
     }
     
-    public static func loadScript(fromUIWebView webView : UIWebView, token: String) {
+    private static func loadScript(fromUIWebView webView : UIWebView, token: String) {
         
         guard let request = createRequest(token) else { return }
         webView.loadRequest(request)
     }
     
-    public static func loadScript(fromWKWebView webView: WKWebView, token: String) {
+    private static func loadScript(fromWKWebView webView: WKWebView, token: String) {
         
         guard let request = createRequest(token) else { return }
         webView.load(request)

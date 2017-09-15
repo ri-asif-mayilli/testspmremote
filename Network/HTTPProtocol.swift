@@ -10,9 +10,9 @@ import Foundation
 
 public class HTTPProtocol {
     
-    public class func post(_ token: String, completion: (Error) -> Void) {
+    public class func post(_ requestToken: String, customerID: String, completion: (Error) -> Void) {
         
-        DeviceDTOFactory.create(completion: { (device) in
+        DeviceDTOFactory.create(requestToken, customerID: customerID, completion: { (device) in
             
             postBin(device: device)
         })

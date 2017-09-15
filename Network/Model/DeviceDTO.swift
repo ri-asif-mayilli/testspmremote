@@ -10,6 +10,9 @@ import Foundation
 
 struct DeviceDTO : Codable {
 
+    var requestToken : String
+    var customerID   : String
+    
     let SysctlInfo = SysctlDTO()
     let JailBreak  = JailbreakDTO()
     let Device     = DeviceVarsDTO()
@@ -22,8 +25,12 @@ struct DeviceDTO : Codable {
     let Proximity  : ProximityDTO
     let Notification : NotificationDTO
  
-    init(notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
+    let Location = LocationDTO()
+    
+    init(_ requestToken: String, customerID: String, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
         
+        self.requestToken = requestToken
+        self.customerID = customerID
         self.Proximity  = proximityDTO
         self.Notification = notificationDTO        
     }
@@ -111,16 +118,16 @@ struct CarrierDTO : Codable {
 
 struct SysctlDTO : Codable {
     
-    var hostname    : String = SyctlInfoType.hostname.value
-    var machine     : String = SyctlInfoType.machine.value
-    var activeCPUS  : String = SyctlInfoType.activeCPUs.value
-    var osRelease   : String = SyctlInfoType.osRelease.value
-    var osRev       : String = SyctlInfoType.osRev.value
-    var osType      : String = SyctlInfoType.osType.value
-    var osVersion   : String = SyctlInfoType.osVersion.value
-    var version     : String = SyctlInfoType.version.value
-    var memSize     : String = SyctlInfoType.memSize.value
-    var machineArch : String = SyctlInfoType.machineArch.value
+    var hostname    = SyctlInfoType.hostname.value.djb2hash
+    var machine     = SyctlInfoType.machine.value
+    var activeCPUS  = SyctlInfoType.activeCPUs.value
+    var osRelease   = SyctlInfoType.osRelease.value
+    var osRev       = SyctlInfoType.osRev.value
+    var osType      = SyctlInfoType.osType.value
+    var osVersion   = SyctlInfoType.osVersion.value
+    var version     = SyctlInfoType.version.value
+    var memSize     = SyctlInfoType.memSize.value
+    var machineArch = SyctlInfoType.machineArch.value
 }
 
 
@@ -174,7 +181,7 @@ struct ContactStoreDTO : Codable {
 struct NetworkInfoDTO : Codable {
  
     var ip = NetworkInfo.getWiFiAddress
-    var ssid = NetworkInfo.getWiFiSsid
+    var ssid = NetworkInfo.getWiFiSsid?.djb2hash
 }
 
 

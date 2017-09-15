@@ -44,6 +44,7 @@ enum RequestManagerType {
             
         case .postBin(let payload):
         
+            print(payload)
             let encoder = JSONEncoder()
             do {
                 let enc = try encoder.encode(payload)
@@ -140,7 +141,7 @@ internal class RequestManager {
         }
         
         if let payload = requestType.payload {
-            
+
             request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
             request.httpBody = payload
         }

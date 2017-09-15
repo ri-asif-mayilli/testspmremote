@@ -10,7 +10,7 @@ import Foundation
 
 public class HTTPProtocol {
     
-    public class func post() {
+    public class func post(_ token: String, completion: (Error) -> Void) {
         
         DeviceDTOFactory.create(completion: { (device) in
             

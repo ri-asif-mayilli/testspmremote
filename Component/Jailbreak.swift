@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class Jailbreak {
+internal class Jailbreak {
     
     /// Returns a class with all Jailbreak Informationes
     ///

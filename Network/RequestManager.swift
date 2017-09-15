@@ -117,7 +117,7 @@ enum RequestManagerType {
     }
 }
 
-public class RequestManager {
+internal class RequestManager {
     
     static let shared = RequestManager()
     private init() {

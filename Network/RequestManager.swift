@@ -67,7 +67,8 @@ enum RequestManagerType {
             return url
             
         case .postBin:
-            guard let url = URL(string: "https://httpbin.org/post") else { return nil }
+            let urlString = "\(Vars.POST_ENDPOINT)"
+            guard let url = URL(string: urlString) else { return nil }
             return url
         }
     }

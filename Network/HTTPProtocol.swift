@@ -10,6 +10,13 @@ import Foundation
 
 public class HTTPProtocol {
     
+    
+    /// Post Native iOS Data to Risk Ident Backend
+    ///
+    /// - Parameters:
+    ///   - requestToken: String : The Token for the Request
+    ///   - customerID: String : The Token for the customer
+    ///   - completion: (Error) -> Void : Completion Handler which give Back Error to App (Error)
     public class func post(_ requestToken: String, customerID: String, completion: (Error) -> Void) {
         
         DeviceDTOFactory.create(requestToken, customerID: customerID, completion: { (device) in
@@ -47,6 +54,12 @@ public class HTTPProtocol {
         }
     }
     
+    
+    /// Parameter to execute Browser Snippet and get back BrowserDTO to App
+    ///
+    /// - Parameters:
+    ///   - token: String Token for the Request
+    ///   - completion: (BrowserDTO?, Error) -> Void : Completion which gives back the BrowserDTO or an Error if Exist.
     public class func getBrowserInfo(fromToken token: String, completion: ((BrowserDTO?, Error?) -> Void)?) {
         
         DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + 0) {

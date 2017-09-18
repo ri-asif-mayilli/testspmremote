@@ -17,9 +17,6 @@ internal struct Vars {
     internal static var CYDIA_URL = "cydia://package/com.example.package"
     internal static var POST_ENDPOINT = "https://www-test-backup.jsctool.com/ios"
     internal static var ERROR_ENDPONT = "https://www-test-backup.jsctool.com/ios-err"
-    internal static var INFO_ENABLE_LOCATION_CHECK = "RISK_LOCATION_CHECK"
-    internal static var INFO_CUSTOMER_ID = "RISK_CUSTOMER_ID"
-    internal static var INFO_APP_ID      = "RISK_APP_ID"
-    internal static var INFO_APP_SECRET  = "RISK_APP_SECRET"
+
 }
 

@@ -189,6 +189,15 @@ struct NetworkInfoDTO : Codable {
  
     let ip = NetworkInfo.getWiFiAddress
     let ssid = NetworkInfo.getWiFiSsid?.djb2hash
+    let proxyConnected = ProxyInfoDTO()
+}
+
+struct ProxyInfoDTO : Codable {
+    
+    let isConnected = NetworkInfo.isProxyConnected
+    let proxyType   = NetworkInfo.proxyType
+    let proxyHost   = NetworkInfo.proxyHost
+    let proxyPort   = NetworkInfo.proxyPort
 }
 
 struct LocaleInfoDTO : Codable {

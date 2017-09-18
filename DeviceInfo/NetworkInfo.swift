@@ -9,7 +9,63 @@
 import Foundation
 import SystemConfiguration.CaptiveNetwork
 
-class NetworkInfo {
+fileprivate enum ProxyConfigType : String {
+    
+    case proxyType = "kCFProxyTypeKey"
+    case proxyPort = "kCFProxyPortNumberKey"
+    case proxyHost = "kCFProxyHostNameKey"
+}
+
+fileprivate enum ProxyType : String {
+    
+    case none                   = "kCFProxyTypeNone"
+    case autoConfigurationURL   = "kCFProxyTypeAutoConfigurationURL"
+    case autoConfigurationJava  = "kCFProxyTypeAutoConfigurationJavaScript"
+    case typeFTP                = "kCFProxyTypeFTP"
+    case typeHTTP               = "kCFProxyTypeHTTP"
+    case typeHTTPS              = "kCFProxyTypeHTTPS"
+    case typeSocks              = "kCFProxyTypeSOCKS"
+    
+    internal var isConnected : Bool {
+    
+        switch(self) {
+            
+        case .none:
+            return false
+            
+        default:
+            return true
+        }
+    }
+    
+    internal var isType : String? {
+        
+        switch(self) {
+            
+        case .autoConfigurationURL:
+            return "ProxyTypeConfigurationURL"
+            
+        case .autoConfigurationJava:
+            return "ProyTypeConfigurationJavaScript"
+          
+        case .typeFTP:
+            return "ProxyTypeFTP"
+            
+        case .typeHTTP:
+            return "ProyTypeHTTP"
+            
+        case .typeHTTPS:
+            return "ProxyTypeHTTPS"
+        case .typeSocks:
+            return "ProxyTypeSocks"
+            
+        case .none:
+            return nil
+        }
+    }
+}
+
+struct NetworkInfo {
     
     internal static var getWiFiSsid : String? {
         
@@ -53,5 +109,54 @@ class NetworkInfo {
         freeifaddrs(ifaddr)
         return address
     }
+    
+    private static var proxyEntry : [String : Any]? = {
+        
+        if let myUrl = URL(string: "http://www.apple.com") {
+            if let proxySettingsUnmanaged = CFNetworkCopySystemProxySettings() {
+                let proxySettings = proxySettingsUnmanaged.takeRetainedValue()
+                let proxiesUnmanaged = CFNetworkCopyProxiesForURL(myUrl as CFURL, proxySettings)
+                
+                if let proxies = proxiesUnmanaged.takeRetainedValue() as? [[String : Any]], proxies.count > 0 {
 
+                    return proxies[0]
+                }
+            }
+        }
+        return nil
+    }()
+    
+    
+    internal static var proxyHost : String? {
+        
+        guard let entry = proxyEntry else { return nil }
+        return entry[ProxyConfigType.proxyHost.rawValue] as? String
+        
+    }
+    
+    internal static var proxyPort : String? {
+
+        guard let entry = proxyEntry else { return nil }
+        return entry[ProxyConfigType.proxyPort.rawValue] as? String
+    }
+    
+    internal static var isProxyConnected : Bool {
+        
+        guard let entry = proxyEntry,
+            let configString = entry[ProxyConfigType.proxyType.rawValue] as? String,
+            let type = ProxyType(rawValue: configString)
+            
+            else { return false }
+        return type.isConnected
+    }
+    
+    internal static var proxyType : String? {
+        
+        guard let entry = proxyEntry,
+            let configString = entry[ProxyConfigType.proxyType.rawValue] as? String,
+            let type = ProxyType(rawValue: configString)
+        
+        else { return nil }
+        return type.isType
+    }
 }

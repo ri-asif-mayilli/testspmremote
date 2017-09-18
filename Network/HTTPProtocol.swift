@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 public class HTTPProtocol {
     
@@ -19,7 +20,7 @@ public class HTTPProtocol {
     ///   - enableLocationFinder: Bool -> Enable Location Finder, Default is false (WIP)
     ///   - location : CLLocation -> Give the User Location to the Framework. Default ist nil (WIP)
     ///   - completion: (Error) -> Void : Completion Handler which give Back Error to App (Error)
-    public class func post(_ requestToken: String, customerID: String, enableLoactionFinder: Bool = false, location: CLLocation?, completion: (Error) -> Void) {
+    public class func post(_ requestToken: String, customerID: String, enableLoactionFinder: Bool = false, location: CLLocation? = nil, completion: (Error) -> Void) {
         
         DeviceDTOFactory.create(requestToken, customerID: customerID, completion: { (device) in
             

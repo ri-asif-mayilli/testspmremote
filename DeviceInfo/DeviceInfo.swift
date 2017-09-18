@@ -74,6 +74,15 @@ struct DeviceInfo {
         return UIDevice.current.isMultitaskingSupported
     
     }
+    
+    internal static var isSimulator : Bool {
+        
+        #if (arch(i386) || arch(x86_64))
+            
+            return true
+        #endif
+        return false
+    }
 
 }
 
@@ -152,6 +161,17 @@ struct Display {
         return Float(screenBound.size.width)
     }
     
+    static var userInterfaceLayout : String {
+        
+        switch UIApplication.shared.userInterfaceLayoutDirection {
+            
+        case .leftToRight:
+            return "leftToRight"
+            
+        case .rightToLeft:
+            return "rightToLeft"
+        }
+    }
 }
 
 struct Battery {

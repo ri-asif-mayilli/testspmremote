@@ -26,6 +26,11 @@ struct DeviceDTO : Codable {
     let Notification : NotificationDTO
  
     let Location = LocationDTO()
+    let Locale = LocaleInfoDTO()
+    let Identifer = IdentifierInfoDTO()
+    let Motion = MotionInfoDTO()
+    
+    let AppInfo = AppInfoDTO()
     
     init(_ requestToken: String, customerID: String, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
         
@@ -56,6 +61,7 @@ struct DeviceVarsDTO : Codable {
     let orientationNotifaction = DeviceInfo.orientationNotifaction
     let deviceOrientation = DeviceInfo.deviceOrientation
     let multitasking    = DeviceInfo.multitaskingSupported
+    let isSimulator     = DeviceInfo.isSimulator
 }
 
 struct BatteryDTO  : Codable {
@@ -79,6 +85,7 @@ struct ProximityDTO : Codable {
 struct ScreenDTO : Codable {
     
     let idiom   = Display.userInterfaceIdiom
+    let interfaceLayout = Display.userInterfaceLayout
     let Bounds  = ScreenBoundDTO()
     let Size    = ScreenSizeDTO()
 }
@@ -180,8 +187,33 @@ struct ContactStoreDTO : Codable {
 
 struct NetworkInfoDTO : Codable {
  
-    var ip = NetworkInfo.getWiFiAddress
-    var ssid = NetworkInfo.getWiFiSsid?.djb2hash
+    let ip = NetworkInfo.getWiFiAddress
+    let ssid = NetworkInfo.getWiFiSsid?.djb2hash
 }
 
+struct LocaleInfoDTO : Codable {
+    
+    let preferedlanguages = LocaleInfo.preferedLanguages
+    let timeZone = LocaleInfo.localTimeZone
+}
 
+struct IdentifierInfoDTO : Codable {
+    
+    let vendorID = IdentifierInfo.vendor
+    let advertTrackingEnabled = IdentifierInfo.isAdvertisingEnabled
+    let advertTrackingID = IdentifierInfo.advertising
+}
+
+struct MotionInfoDTO : Codable {
+    
+    let accelerometerAvailable = MotionInfo.accelerometerAvailable
+    let deviceMotionAvailable = MotionInfo.deviceMotionAvailable
+    let magnetometerAvailable = MotionInfo.magnetometerAvailable
+    let gyroAvailable = MotionInfo.gyroAvailable
+}
+
+struct AppInfoDTO : Codable {
+    
+    let test = AppInfo.bundleName
+    
+}

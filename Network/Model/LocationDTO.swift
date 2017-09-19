@@ -6,6 +6,9 @@
 //  Copyright © 2017 Risk.Ident GmbH. All rights reserved.
 //
 
+import MapKit
+
+
 struct LocationDTO : Codable {
 
     let access = LocationInfo.access
@@ -14,4 +17,17 @@ struct LocationDTO : Codable {
     let locationChangeMonitoring = LocationInfo.significantLocationChangeMonitoringAvailable
     let headingAvailable = LocationInfo.headingAvailable
     let rangingAvailable = LocationInfo.headingAvailable
+    var longitude : Double?
+    var latitiude : Double?
+    
+    init () {
+        
+    }
+    
+    init(location: CLLocation) {
+        
+        self.longitude = location.coordinate.longitude
+        self.latitiude = location.coordinate.latitude
+        
+    }
 }

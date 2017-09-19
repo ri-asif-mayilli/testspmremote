@@ -8,6 +8,8 @@
 
 internal struct Vars {
     
+    internal static var SNIPPET_ID = "ios-sdk-test"
+    
     internal static var jailBreakPath : String {
         
         return "/private/var/rdsdk.txt"

@@ -36,7 +36,7 @@ public class Browser : NSObject {
         }
     }
     
-    init(uuid: String, completion: @escaping (BrowserDTO?, Error?) -> Void) {
+    public init(uuid: String, action: String, completion: @escaping (BrowserDTO?, Error?) -> Void) {
         
         _token = uuid
         self.completion = completion

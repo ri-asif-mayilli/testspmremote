@@ -38,7 +38,7 @@ struct AppInfo {
         
         if let plist = getPlist {
             
-            print(plist)
+//            print(plist)
         }
         return ""
     }

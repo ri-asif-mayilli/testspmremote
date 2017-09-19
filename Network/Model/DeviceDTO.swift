@@ -7,11 +7,13 @@
 //
 
 import Foundation
+import MapKit
 
 struct DeviceDTO : Codable {
 
     var requestToken : String
-    var customerID   : String
+    var action       : String
+    var snippetId   = Vars.SNIPPET_ID
     
     let SysctlInfo = SysctlDTO()
     let JailBreak  = JailbreakDTO()
@@ -24,20 +26,27 @@ struct DeviceDTO : Codable {
     
     let Proximity  : ProximityDTO
     let Notification : NotificationDTO
+    let Location     : LocationDTO
  
-    let Location = LocationDTO()
     let Locale = LocaleInfoDTO()
     let Identifer = IdentifierInfoDTO()
     let Motion = MotionInfoDTO()
     
     let AppInfo = AppInfoDTO()
     
-    init(_ requestToken: String, customerID: String, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
+    init(_ requestToken: String, action: String, location: CLLocation?, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
         
         self.requestToken = requestToken
-        self.customerID = customerID
+        self.action = action
         self.Proximity  = proximityDTO
-        self.Notification = notificationDTO        
+        self.Notification = notificationDTO
+        if let location = location {
+            
+            self.Location = LocationDTO(location: location)
+        } else {
+            
+            self.Location = LocationDTO()
+        }
     }
 }
 

@@ -44,7 +44,6 @@ enum RequestManagerType {
             
         case .postBin(let payload):
         
-            print(payload)
             let encoder = JSONEncoder()
             do {
                 let enc = try encoder.encode(payload)

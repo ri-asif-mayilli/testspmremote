@@ -31,74 +31,83 @@ public class LocationUtility
     public static func makeLocationCoarse(fromCLLocation location : CLLocation) -> CLLocation?
     
     {
-        let granularityInMeters : Double = 3 * 1000;
+        let granularityInMeters : Double = 10 * 1000;
         
         let newLocation = Location(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        return makeLocationCoarse(location: newLocation, granularityInMeters: granularityInMeters);
+        return makeLocationCoarse2(location: newLocation, granularityInMeters: granularityInMeters);
     }
    
-//    public static func makeLocationCoarse2(location : Location, granularityInMeters : Double) -> CLLocation {
-//        Location courseLocation;
-//
-//        if(location.getLatitude() == (double)0 &&  location.getLongitude() == (double)0) {
-//            // Special marker, don't bother.
-//        } else {
-//
-//        double granularityLat = 0;
-//        double granularityLon = 0;
-//
+    public static func makeLocationCoarse2(location : Location, granularityInMeters : Double) -> CLLocation {
+        var courseLocation = Location()
+
+        if(location.latitude == Double(0) &&  location.longitude == Double(0)) {
+            // Special marker, don't bother.
+        } else {
+
+        var granularityLat : Double = 0;
+        var granularityLon : Double = 0;
+
 //        {
-//            // Calculate granularityLat
+            // Calculate granularityLat
 //            {
-//                double angleUpInRadians = 0;
-//                Location newLocationUp = getLocationOffsetBy(location, granularityInMeters, angleUpInRadians);
-//
-//                granularityLat = location.getLatitude() - newLocationUp.getLatitude();
-//
-//                if(granularityLat < (double)0) {
-//
-//                    granularityLat = -granularityLat;
-//                }
+                let angleUpInRadians : Double = 0;
+            let newLocationUp : Location = getLocationOffsetBy(fromLocation: location, offsetInMeters: granularityInMeters, angleInRadians: angleUpInRadians);
+
+                granularityLat = location.latitude - newLocationUp.latitude;
+
+                if(granularityLat < Double(0)) {
+
+                    granularityLat = -granularityLat;
+                }
 //            }
-//
-//            // Calculate granularityLon
+
+            // Calculate granularityLon
 //            {
-//
-//                double angleRightInRadians = 1.57079633;
-//                Location newLocationRight = getLocationOffsetBy(location, granularityInMeters, angleRightInRadians);
-//
-//                granularityLon = location.getLongitude() - newLocationRight.getLongitude();
-//
-//                if(granularityLon < (double)0) {
-//                    granularityLon = -granularityLon;
-//                }
+
+                let angleRightInRadians : Double = 1.57079633;
+            let newLocationRight : Location = getLocationOffsetBy(fromLocation: location, offsetInMeters: granularityInMeters, angleInRadians: angleRightInRadians);
+
+                granularityLon = location.longitude - newLocationRight.longitude;
+
+                if(granularityLon < Double(0)) {
+                    granularityLon = -granularityLon;
+                }
 //            }
 //        }
-//
-//        double courseLatitude = location.getLatitude();
-//        double courseLongitude = location.getLongitude();
+
+            var courseLatitude : Double = location.latitude
+            var courseLongitude : Double = location.longitude
 //        {
-//
-//            if(granularityLon == (double)0 || granularityLat == (double)0) {
-//
-//                courseLatitude = 0;
-//                courseLongitude = 0;
-//            } else {
-//
-//                courseLatitude = (int)(courseLatitude / granularityLat) *
-//                granularityLat;
-//
-//                courseLongitude = (int)(courseLongitude / granularityLon) *
-//                granularityLon;
-//            }
+
+            if(granularityLon == Double(0) || granularityLat == Double(0)) {
+
+                courseLatitude = 0;
+                courseLongitude = 0;
+            } else {
+
+                courseLatitude = Double(Int(courseLatitude / granularityLat)) *
+                granularityLat;
+
+                courseLongitude = Double(Int(courseLongitude / granularityLon)) *
+                granularityLon;
+            }
 //        }
-//
-//        courseLocation.setLatitude(courseLatitude);
-//        courseLocation.setLongitude(courseLongitude);
-//        }
-//
-//        return courseLocation;
-//    }
+
+        courseLocation.latitude = courseLatitude
+        courseLocation.longitude = courseLongitude
+        }
+
+        
+        return CLLocation(latitude: courseLocation.latitude, longitude: courseLocation.longitude)
+//        return courseLocation
+        
+    }
+    
+    public static func calculateGranularity() {
+        
+        
+        
+    }
     
     public static func makeLocationCoarse(location : Location, granularityInMeters : Double) -> CLLocation? {
         

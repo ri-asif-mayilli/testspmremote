@@ -64,13 +64,14 @@ public class HTTPProtocol {
     ///   - completion: (BrowserDTO?, Error) -> Void : Completion which gives back the BrowserDTO or an Error if Exist.
     public class func getBrowserInfo(fromToken token: String, completion: ((BrowserDTO?, Error?) -> Void)?) {
         
-        DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + 0) {
+        DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + 5) {
             
             RequestManager.shared.doRequest(requestType: .requestScript(token: token)) {
                 
                 (data, error) in
                 if let error = error {
                     
+                    print(error)
                     if let completion = completion {
                         
                         completion(nil, error)

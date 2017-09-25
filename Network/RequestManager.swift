@@ -63,7 +63,7 @@ enum RequestManagerType {
             
         case .requestScript(let token):
             
-            guard let url = URL(string: "https://demo-test-backup.jsctool.com/api/v4/transactions/bySite/ios-sdk-test/\(token)?include=all") else { return nil }
+            guard let url = URL(string: "https://api-backup-test.jsctool.com/v4/transactions/bySite/ios-sdk-test/\(token)?include=all") else { return nil }
             return url
             
         case .postBin:

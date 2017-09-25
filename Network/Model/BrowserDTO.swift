@@ -49,7 +49,7 @@ public struct BrowserDTO : Codable {
     public var useragent               : String?
     public var plugin_ar               : String?
     public var plugin_sl               : String?
-    public var fraudscore_raw          : String?
+    public var fraudscore_raw          : Int?
     public var support_flash           : Bool?
     public var longitude               : String?
     public var plugin_java             : String?
@@ -79,7 +79,7 @@ public struct BrowserDTO : Codable {
     public var screen_y                : Int?
     public var countrycode             : String?
     public var ghostdevice             : Bool
-    public var confidencelevelhistory  : Int
+    public var confidencelevelhistory  : Int?
     public var created                 : String?
     public var matching_completed      : Bool
     public var anonymous_proxy         : Bool

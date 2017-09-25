@@ -36,6 +36,13 @@ public class Browser : NSObject {
         }
     }
     
+    
+    /// This is the Browser Class which Execute the Web Snippet.
+    ///
+    /// - Parameters:
+    ///   - uuid: String -> A Unique execution UUID for the Call.
+    ///   - action: String -> Action Description for the Execution (e.g. checkout)
+    ///   - completion: -> (BrowserDTO, Error) Callback with BrowserDTO Data or an Error if anything failed.
     public init(uuid: String, action: String, completion: @escaping (BrowserDTO?, Error?) -> Void) {
         
         _token = uuid
@@ -86,7 +93,7 @@ public class Browser : NSObject {
     
     private static func createRequest(_ token: String) -> URLRequest? {
         
-        let urlString = "https://mobile-test-backup.jsctool.com/ios-sdk-test?serverPush=false&t=\(token)"
+        let urlString = "https://mobile-backup-test.jsctool.com/ios-sdk-test?serverPush=false&t=\(token)"
         
         guard let url = URL(string: urlString) else { return nil }
         var request = URLRequest(url: url)
@@ -96,7 +103,9 @@ public class Browser : NSObject {
     
     private func createRequest2(_ token: String) -> URLRequest? {
         
-        let urlString = "https://mobile-test-backup.jsctool.com/ios-sdk-test?serverPush=false&t=\(token)"
+        let urlString = "https://mobile-backup-test.jsctool.com/ios-sdk-test?serverPush=false&t=\(token)"
+        
+//        https://mobile-backup-test.jsctool.com/testsite
         
         guard let url = URL(string: urlString) else { return nil }
         var request = URLRequest(url: url)
@@ -109,7 +118,13 @@ extension Browser : WKNavigationDelegate {
     
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
+        print("didFinish web call")
         HTTPProtocol.getBrowserInfo(fromToken: uuidToken, completion: completion)
+    }
+    
+    public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+    
+        print(error)
     }
     
 }

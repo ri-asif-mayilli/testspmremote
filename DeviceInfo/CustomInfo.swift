@@ -8,7 +8,6 @@
 
 import Foundation
 import CoreTelephony
-import CoreNFC
 import UIKit
 
 class CustomInfo {

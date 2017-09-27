@@ -142,6 +142,7 @@ internal class RequestManager {
         if let payload = requestType.payload {
 
             request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.setValue("x-di-b", forHTTPHeaderField: "Content-Encoding")
             request.httpBody = payload
         }
         
@@ -156,6 +157,7 @@ internal class RequestManager {
             return
             
         }
+        print("do request: \(request)")
         let task = session?.dataTask(with: request) {
             
             (data, response, error) in

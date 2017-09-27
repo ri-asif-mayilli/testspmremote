@@ -46,7 +46,7 @@ enum RequestManagerType {
         
             let encoder = JSONEncoder()
             do {
-                let enc = try encoder.encode(payload)
+                let enc = try encoder.encode(payload).base64EncodedData()
                 return enc
                 
             } catch let error {
@@ -163,6 +163,7 @@ internal class RequestManager {
             if let error = error {
                 
                 completion(nil, error)
+                return
             }
             
             if let response = response as? HTTPURLResponse {

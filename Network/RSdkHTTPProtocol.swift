@@ -56,7 +56,7 @@ public class RSdkHTTPProtocol {
     /// - Parameters:
     ///   - token: String Token for the Request
     ///   - completion: (BrowserDTO?, Error) -> Void : Completion which gives back the BrowserDTO or an Error if Exist.
-    public class func getBrowserInfo(fromToken token: String, completion: ((RSdkBrowserDTO?, Error?) -> Void)?) {
+    public class func getBrowserInfo(fromToken token: String, completion: ((Error?) -> Void)?) {
         
         DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + 5) {
             
@@ -68,7 +68,7 @@ public class RSdkHTTPProtocol {
                     print(error)
                     if let completion = completion {
                         
-                        completion(nil, error)
+                        completion(error)
                         return
                     }
                 }
@@ -81,7 +81,7 @@ public class RSdkHTTPProtocol {
                         browserInfo.transactionDate = Date()
                         if let completion = completion {
                             
-                            completion(browserInfo, nil)
+                            completion(nil)
                             return
                         }
                         
@@ -89,7 +89,7 @@ public class RSdkHTTPProtocol {
                         
                         if let completion = completion {
                             
-                            completion(nil, error)
+                            completion(error)
                             return
                         }
                     }

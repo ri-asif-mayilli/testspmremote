@@ -14,7 +14,7 @@ public class RSdkBrowser : NSObject {
     
     var wkWebView = WKWebView()
     var _token : String?
-    var completion : (RSdkBrowserDTO?, Error?) -> Void
+    var completion : (Error?) -> Void
     
     fileprivate var uuidToken : String {
         
@@ -43,7 +43,7 @@ public class RSdkBrowser : NSObject {
     ///   - uuid: String -> A Unique execution UUID for the Call.
     ///   - action: String -> Action Description for the Execution (e.g. checkout)
     ///   - completion: -> (BrowserDTO, Error) Callback with BrowserDTO Data or an Error if anything failed.
-    public init(uuid: String, action: String, completion: @escaping (RSdkBrowserDTO?, Error?) -> Void) {
+    public init(uuid: String, action: String, completion: @escaping (Error?) -> Void) {
         
         _token = uuid
         self.completion = completion

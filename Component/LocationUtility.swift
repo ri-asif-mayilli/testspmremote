@@ -9,7 +9,7 @@
 import Foundation
 import MapKit
 
-public class Location {
+public class RSdkLocation {
     
     var latitude  : Double = 0
     var longitude : Double = 0
@@ -33,12 +33,12 @@ public class LocationUtility
     {
         let granularityInMeters : Double = 10 * 1000;
         
-        let newLocation = Location(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        let newLocation = RSdkLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         return makeLocationCoarse2(location: newLocation, granularityInMeters: granularityInMeters);
     }
    
-    public static func makeLocationCoarse2(location : Location, granularityInMeters : Double) -> CLLocation {
-        var courseLocation = Location()
+    public static func makeLocationCoarse2(location : RSdkLocation, granularityInMeters : Double) -> CLLocation {
+        var courseLocation = RSdkLocation()
 
         if(location.latitude == Double(0) &&  location.longitude == Double(0)) {
             // Special marker, don't bother.
@@ -51,7 +51,7 @@ public class LocationUtility
             // Calculate granularityLat
 //            {
                 let angleUpInRadians : Double = 0;
-            let newLocationUp : Location = getLocationOffsetBy(fromLocation: location, offsetInMeters: granularityInMeters, angleInRadians: angleUpInRadians);
+            let newLocationUp : RSdkLocation = getLocationOffsetBy(fromLocation: location, offsetInMeters: granularityInMeters, angleInRadians: angleUpInRadians);
 
                 granularityLat = location.latitude - newLocationUp.latitude;
 
@@ -65,7 +65,7 @@ public class LocationUtility
 //            {
 
                 let angleRightInRadians : Double = 1.57079633;
-            let newLocationRight : Location = getLocationOffsetBy(fromLocation: location, offsetInMeters: granularityInMeters, angleInRadians: angleRightInRadians);
+            let newLocationRight : RSdkLocation = getLocationOffsetBy(fromLocation: location, offsetInMeters: granularityInMeters, angleInRadians: angleRightInRadians);
 
                 granularityLon = location.longitude - newLocationRight.longitude;
 
@@ -109,7 +109,7 @@ public class LocationUtility
         
     }
     
-    public static func makeLocationCoarse(location : Location, granularityInMeters : Double) -> CLLocation? {
+    public static func makeLocationCoarse(location : RSdkLocation, granularityInMeters : Double) -> CLLocation? {
         
         if(location.latitude == 0 && location.longitude == 0) {
             
@@ -118,7 +118,7 @@ public class LocationUtility
         } else {
 
             let angleUpInRadians : Double = 0;
-            let newLocationUp: Location  = getLocationOffsetBy(fromLocation: location, offsetInMeters: granularityInMeters, angleInRadians: angleUpInRadians);
+            let newLocationUp: RSdkLocation  = getLocationOffsetBy(fromLocation: location, offsetInMeters: granularityInMeters, angleInRadians: angleUpInRadians);
         
             var granularityLat : Double = location.latitude - newLocationUp.latitude
         
@@ -127,7 +127,7 @@ public class LocationUtility
             }
 
             let angleRightInRadians : Double = 1.57079633
-            let newLocationRight : Location = getLocationOffsetBy(fromLocation: location, offsetInMeters: granularityInMeters, angleInRadians: angleRightInRadians)
+            let newLocationRight : RSdkLocation = getLocationOffsetBy(fromLocation: location, offsetInMeters: granularityInMeters, angleInRadians: angleRightInRadians)
         
             var granularityLon : Double = location.longitude - newLocationRight.latitude
         
@@ -164,7 +164,7 @@ public class LocationUtility
     }
     
     // http://www.movable-type.co.uk/scripts/latlong.html
-    private static func getLocationOffsetBy(fromLocation location : Location, offsetInMeters : Double, angleInRadians : Double) -> Location {
+    private static func getLocationOffsetBy(fromLocation location : RSdkLocation, offsetInMeters : Double, angleInRadians : Double) -> RSdkLocation {
 
         let lat1 : Double = deg2rad(location.latitude);
         let lon1 : Double = deg2rad(location.longitude);
@@ -179,7 +179,7 @@ public class LocationUtility
         atan2(sin(angleInRadians)*sin(distanceKm/earthRadiusKm)*cos(lat1),
         cos(distanceKm/earthRadiusKm)-sin(lat1)*sin(lat2));
         
-        return Location(latitude: rad2deg(lat2), longitude: rad2deg(lon2))
+        return RSdkLocation(latitude: rad2deg(lat2), longitude: rad2deg(lon2))
     }
     
     private static func rad2deg(_ radians: Double) -> Double

@@ -33,7 +33,7 @@ enum RequestMethod : String {
 enum RequestManagerType {
     
     case requestScript(token : String)
-    case postBin(deviceDTO : DeviceDTO)
+    case postBin(deviceDTO : RSdkDeviceDTO)
     
     var payload : Data? {
         
@@ -67,7 +67,7 @@ enum RequestManagerType {
             return url
             
         case .postBin:
-            let urlString = "\(Vars.POST_ENDPOINT)"
+            let urlString = "\(RSdkVars.POST_ENDPOINT)"
             guard let url = URL(string: urlString) else { return nil }
             return url
         }
@@ -117,9 +117,9 @@ enum RequestManagerType {
     }
 }
 
-internal class RequestManager {
+internal class RSdkRequestManager {
     
-    static let shared = RequestManager()
+    static let shared = RSdkRequestManager()
     private init() {
         
         let configuration = URLSessionConfiguration.default

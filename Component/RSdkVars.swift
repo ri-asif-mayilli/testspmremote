@@ -6,7 +6,7 @@
 //  Copyright © 2017 Daniel Scheibe. All rights reserved.
 //
 
-internal struct Vars {
+internal struct RSdkVars {
     
     internal static var SNIPPET_ID = "ios-sdk-test"
     

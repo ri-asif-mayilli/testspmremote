@@ -9,7 +9,7 @@
 import MapKit
 
 
-struct LocationDTO : Codable {
+internal struct LocationDTO : Codable {
 
     let access = LocationInfo.access
     let serviceEnabled = LocationInfo.serviceEnabled

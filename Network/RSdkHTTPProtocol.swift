@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public class HTTPProtocol {
+public class RSdkHTTPProtocol {
     
     
     /// Post Native iOS Data to Risk Ident Backend
@@ -28,11 +28,11 @@ public class HTTPProtocol {
         })
     }
     
-    private class func postBin(device : DeviceDTO) {
+    private class func postBin(device : RSdkDeviceDTO) {
         
         DispatchQueue.global(qos: .userInteractive).async {
         
-            RequestManager.shared.doRequest(requestType: .postBin(deviceDTO: device)) {
+            RSdkRequestManager.shared.doRequest(requestType: .postBin(deviceDTO: device)) {
                 
                 (data, error) in
                 
@@ -62,11 +62,11 @@ public class HTTPProtocol {
     /// - Parameters:
     ///   - token: String Token for the Request
     ///   - completion: (BrowserDTO?, Error) -> Void : Completion which gives back the BrowserDTO or an Error if Exist.
-    public class func getBrowserInfo(fromToken token: String, completion: ((BrowserDTO?, Error?) -> Void)?) {
+    public class func getBrowserInfo(fromToken token: String, completion: ((RSdkBrowserDTO?, Error?) -> Void)?) {
         
         DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + 5) {
             
-            RequestManager.shared.doRequest(requestType: .requestScript(token: token)) {
+            RSdkRequestManager.shared.doRequest(requestType: .requestScript(token: token)) {
                 
                 (data, error) in
                 if let error = error {
@@ -83,7 +83,7 @@ public class HTTPProtocol {
                     let decoder = JSONDecoder()
                     do {
                         
-                        var browserInfo = try decoder.decode(BrowserDTO.self, from: data)
+                        var browserInfo = try decoder.decode(RSdkBrowserDTO.self, from: data)
                         browserInfo.transactionDate = Date()
                         if let completion = completion {
                             

@@ -11,7 +11,7 @@ import Contacts
 import AddressBook
 import UIKit
 
-struct ContactInfo {
+struct RSdkContactInfo {
     
     internal static var access : Bool {
         

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import UserNotifications
 
-struct PushNotifications {
+struct RSdkPushNotifications {
     
     internal static func enabled(_ completion: @escaping (Bool) -> Void) {
         

@@ -10,11 +10,11 @@ import Foundation
 import UIKit
 import WebKit
 
-public class Browser : NSObject {
+public class RSdkBrowser : NSObject {
     
     var wkWebView = WKWebView()
     var _token : String?
-    var completion : (BrowserDTO?, Error?) -> Void
+    var completion : (RSdkBrowserDTO?, Error?) -> Void
     
     fileprivate var uuidToken : String {
         
@@ -43,7 +43,7 @@ public class Browser : NSObject {
     ///   - uuid: String -> A Unique execution UUID for the Call.
     ///   - action: String -> Action Description for the Execution (e.g. checkout)
     ///   - completion: -> (BrowserDTO, Error) Callback with BrowserDTO Data or an Error if anything failed.
-    public init(uuid: String, action: String, completion: @escaping (BrowserDTO?, Error?) -> Void) {
+    public init(uuid: String, action: String, completion: @escaping (RSdkBrowserDTO?, Error?) -> Void) {
         
         _token = uuid
         self.completion = completion
@@ -114,12 +114,12 @@ public class Browser : NSObject {
     }
 }
 
-extension Browser : WKNavigationDelegate {
+extension RSdkBrowser : WKNavigationDelegate {
     
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
         print("didFinish web call")
-        HTTPProtocol.getBrowserInfo(fromToken: uuidToken, completion: completion)
+        RSdkHTTPProtocol.getBrowserInfo(fromToken: uuidToken, completion: completion)
     }
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {

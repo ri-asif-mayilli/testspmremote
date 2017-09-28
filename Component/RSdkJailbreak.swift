@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-internal class Jailbreak {
+internal class RSdkJailbreak {
     
     /// Returns a class with all Jailbreak Informationes
     ///
@@ -60,7 +60,7 @@ internal class Jailbreak {
         
         do {
             
-            let idString = try String(contentsOfFile: Vars.jailBreakPath, encoding: .utf8)
+            let idString = try String(contentsOfFile: RSdkVars.jailBreakPath, encoding: .utf8)
             if let jsonData = idString.data(using: .utf8) {
                 
                 let decoder = JSONDecoder()
@@ -97,7 +97,7 @@ internal class Jailbreak {
     @available(iOS 10, *)
     private static var cydiaIOS10 : () -> Bool = {
 
-        guard let url = URL(string: Vars.CYDIA_URL) else { return false }
+        guard let url = URL(string: RSdkVars.CYDIA_URL) else { return false }
         var result = false
         
         UIApplication.shared.open(url, options: [:]) {
@@ -150,7 +150,7 @@ internal class Jailbreak {
         
         do {
             
-            try idString.write(toFile:Vars.jailBreakPath, atomically:true, encoding:String.Encoding.utf8)
+            try idString.write(toFile:RSdkVars.jailBreakPath, atomically:true, encoding:String.Encoding.utf8)
             return true
         } catch {
             

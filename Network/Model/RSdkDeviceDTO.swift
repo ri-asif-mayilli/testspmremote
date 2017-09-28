@@ -9,11 +9,11 @@
 import Foundation
 import MapKit
 
-struct DeviceDTO : Codable {
+struct RSdkDeviceDTO : Codable {
 
     var requestToken : String
     var action       : String
-    var snippetId   = Vars.SNIPPET_ID
+    var snippetId   = RSdkVars.SNIPPET_ID
     
     let SysctlInfo = SysctlDTO()
     let JailBreak  = JailbreakDTO()
@@ -134,16 +134,16 @@ struct CarrierDTO : Codable {
 
 struct SysctlDTO : Codable {
     
-    var hostname    = SyctlInfoType.hostname.value.djb2hash
-    var machine     = SyctlInfoType.machine.value
-    var activeCPUS  = SyctlInfoType.activeCPUs.value
-    var osRelease   = SyctlInfoType.osRelease.value
-    var osRev       = SyctlInfoType.osRev.value
-    var osType      = SyctlInfoType.osType.value
-    var osVersion   = SyctlInfoType.osVersion.value
-    var version     = SyctlInfoType.version.value
-    var memSize     = SyctlInfoType.memSize.value
-    var machineArch = SyctlInfoType.machineArch.value
+    var hostname    = RSdkSyctlInfoType.hostname.value.djb2hash
+    var machine     = RSdkSyctlInfoType.machine.value
+    var activeCPUS  = RSdkSyctlInfoType.activeCPUs.value
+    var osRelease   = RSdkSyctlInfoType.osRelease.value
+    var osRev       = RSdkSyctlInfoType.osRev.value
+    var osType      = RSdkSyctlInfoType.osType.value
+    var osVersion   = RSdkSyctlInfoType.osVersion.value
+    var version     = RSdkSyctlInfoType.version.value
+    var memSize     = RSdkSyctlInfoType.memSize.value
+    var machineArch = RSdkSyctlInfoType.machineArch.value
 }
 
 
@@ -151,10 +151,10 @@ struct JailbreakDTO : Codable {
     
     var appID           : String?
     var created         : Date?
-    var jailBroken      = Jailbreak.isJailbroken
-    let existingPaths   = Jailbreak.existingPath
-    let cydiaInstalled  = Jailbreak.cydiaInstalled
-    let sandboxBreakOut = Jailbreak.sandboxBreak
+    var jailBroken      = RSdkJailbreak.isJailbroken
+    let existingPaths   = RSdkJailbreak.existingPath
+    let cydiaInstalled  = RSdkJailbreak.cydiaInstalled
+    let sandboxBreakOut = RSdkJailbreak.sandboxBreak
     
     internal init() {
         
@@ -169,12 +169,12 @@ struct JailbreakDTO : Codable {
 
 struct ContactDTO : Codable {
     
-    let access      = ContactInfo.access
+    let access      = RSdkContactInfo.access
     let container   : [ContactStoreDTO]?
     
     public init() {
         
-        container = ContactInfo.conctactStores
+        container = RSdkContactInfo.conctactStores
     }
 }
 

@@ -18,7 +18,7 @@ import Foundation
 
 import Foundation
 
-public struct BrowserDTO : Codable {
+public struct RSdkBrowserDTO : Codable {
 
     public var transactionDate         : Date?
     public var netspeed                : String?

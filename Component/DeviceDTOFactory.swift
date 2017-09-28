@@ -9,11 +9,11 @@
 import Foundation
 import MapKit
 
-typealias DeviceDTOCompletion = (DeviceDTO) -> Void
+typealias RSdkDeviceDTOCompletion = (RSdkDeviceDTO) -> Void
 
 internal class DeviceDTOFactory {
     
-    internal static func create(_ requestToken : String, location: CLLocation?, action : String, completion: @escaping DeviceDTOCompletion) {
+    internal static func create(_ requestToken : String, location: CLLocation?, action : String, completion: @escaping RSdkDeviceDTOCompletion) {
         
         createNotificationDTO(requestToken, location: location, customerID: action) {
          
@@ -23,9 +23,9 @@ internal class DeviceDTOFactory {
         }
     }
     
-    private static func createNotificationDTO(_ requestToken: String, location: CLLocation?, customerID: String, _ completion: @escaping DeviceDTOCompletion) {
+    private static func createNotificationDTO(_ requestToken: String, location: CLLocation?, customerID: String, _ completion: @escaping RSdkDeviceDTOCompletion) {
 
-        PushNotifications.enabled() {
+        RSdkPushNotifications.enabled() {
             
             (bool) in
             
@@ -35,14 +35,14 @@ internal class DeviceDTOFactory {
         }
     }
     
-    private static func createProximityDTO(_ requestToken: String, customerID: String, location: CLLocation?, notificationDTO : NotificationDTO, withCompletion completion: @escaping DeviceDTOCompletion)  {
+    private static func createProximityDTO(_ requestToken: String, customerID: String, location: CLLocation?, notificationDTO : NotificationDTO, withCompletion completion: @escaping RSdkDeviceDTOCompletion)  {
     
         Proximity.state() {
             
             (state) in
             
             let proximityDTO = ProximityDTO(state: state)
-            let deviceDTO = DeviceDTO(requestToken, action: customerID, location: location, notificationDTO: notificationDTO, proximityDTO: proximityDTO)
+            let deviceDTO = RSdkDeviceDTO(requestToken, action: customerID, location: location, notificationDTO: notificationDTO, proximityDTO: proximityDTO)
             completion(deviceDTO)
         }
     }

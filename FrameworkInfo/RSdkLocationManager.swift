@@ -9,12 +9,12 @@
 import Foundation
 import CoreLocation
 
-public class LocationManager {
+public class RSdkLocationManager {
     
     let locationManager : CLLocationManager
     let locationManagerDelegate = LocationManagerDelegate()
     
-    public static let shared = LocationManager()
+    public static let shared = RSdkLocationManager()
     private init() {
   
         locationManager = CLLocationManager()
@@ -67,7 +67,7 @@ public class LocationManager {
      }
 }
 
-extension LocationManager : LocationManagerDelegateProtocol {
+extension RSdkLocationManager : LocationManagerDelegateProtocol {
     
     func locationComplete(withLocation location: CLLocation) {
     

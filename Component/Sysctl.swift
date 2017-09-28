@@ -1,6 +1,6 @@
 import Darwin
 
-enum SyctlInfoType {
+enum RSdkSyctlInfoType {
     
     case hostname
     case machine

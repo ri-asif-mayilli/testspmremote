@@ -26,17 +26,6 @@ class CustomInfo {
             return "inactive"
         }
     }
-    
-    func test() {
-        
-        // Setup the Network Info and create a CTCarrier object
-        let networkInfo = CTTelephonyNetworkInfo()
-        guard let carrier = networkInfo.subscriberCellularProvider else { return }
-        
-        // Get carrier name
-        let carrierName = carrier.carrierName
-        
-    }
 }
 
 

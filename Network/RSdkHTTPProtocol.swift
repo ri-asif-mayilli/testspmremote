@@ -20,15 +20,19 @@ public class RSdkHTTPProtocol {
     ///   - enableLocationFinder: Bool -> Enable Location Finder, Default is false (WIP)
     ///   - location : CLLocation -> Give the User Location to the Framework. Default ist nil (WIP)
     ///   - completion: (Error) -> Void : Completion Handler which give Back Error to App (Error)
-    public class func post(_ requestToken: String, action: String, enableLoactionFinder: Bool = false, location: CLLocation? = nil, completion: (Error) -> Void) {
+    public class func post(_ requestToken: String, action: String, enableLoactionFinder: Bool = false, location: CLLocation? = nil, completion: @escaping (Error?) -> Void) {
         
         DeviceDTOFactory.create(requestToken, location: location,action: action, completion: { (device) in
             
-            postBin(device: device)
+            postBin(device: device) {
+                (error) in
+                
+                completion(error)
+            }
         })
     }
     
-    private class func postBin(device : RSdkDeviceDTO) {
+    private class func postBin(device : RSdkDeviceDTO, completionHandler: @escaping (Error?) -> Void) {
         
         DispatchQueue.global(qos: .userInteractive).async {
         
@@ -38,20 +42,10 @@ public class RSdkHTTPProtocol {
                 
                 if let error = error {
                     
-                    print(error)
+                    completionHandler(error)
+                    return
                 }
-                
-                if let data = data {
-           
-                    do {
-   
-                        let jsonResult = try JSONSerialization.jsonObject(with: data)
-                
-                    } catch let error {
-                        
-                        print(error)
-                    }
-                }
+                completionHandler(nil)
             }
         }
     }

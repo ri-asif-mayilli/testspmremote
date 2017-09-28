@@ -38,7 +38,8 @@ public class LocationUtility
     }
    
     public static func makeLocationCoarse2(location : RSdkLocation, granularityInMeters : Double) -> CLLocation {
-        var courseLocation = RSdkLocation()
+        
+        let courseLocation = RSdkLocation()
 
         if(location.latitude == Double(0) &&  location.longitude == Double(0)) {
             // Special marker, don't bother.

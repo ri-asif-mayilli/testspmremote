@@ -30,7 +30,7 @@ struct AppInfo {
     
     internal static var infoPlistAvailable : Bool {
         
-        guard let _ = Bundle.main.path(forResource: "Info", ofType: "plist") else { return false }
+        guard let _ = Bundle.main.path(forResource: "Risk", ofType: "plist") else { return false }
         return true
     }
     
@@ -38,7 +38,7 @@ struct AppInfo {
         
         if let plist = getPlist {
             
-//            print(plist)
+            print(plist)
         }
         return ""
     }
@@ -47,7 +47,7 @@ struct AppInfo {
 
         if let plist = getPlist {
             
-
+            print(plist)
         }
         return ""
     }

@@ -45,7 +45,7 @@ enum RequestManagerType {
                 let enc = try encoder.encode(payload).base64EncodedData()
                 return enc
                 
-            } catch let error {
+            } catch let _ {
                 
 //                print(error)
                 return nil

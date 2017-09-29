@@ -36,7 +36,7 @@ struct AppInfo {
     
     internal static var bundleName : String {
         
-        if let plist = getPlist {
+        if let _ = getPlist {
             
 //            print(plist)
         }
@@ -45,7 +45,7 @@ struct AppInfo {
     
     internal static var bundleExecutable : String {
 
-        if let plist = getPlist {
+        if let _ = getPlist {
             
 //            print(plist)
         }

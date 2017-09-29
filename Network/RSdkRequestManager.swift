@@ -144,6 +144,7 @@ internal class RSdkRequestManager {
                 completion(nil, error)
                 return
             }
+            completion(nil,nil)
         }
         task?.resume()
     }

@@ -11,10 +11,9 @@ import MapKit
 
 struct RSdkDeviceDTO : Codable {
 
+    var snippetId    : String
+    var location     : String
     var requestToken : String
-    var action       : String
-    var snippetId   = RSdkVars.SNIPPET_ID
-    
     let SysctlInfo = SysctlDTO()
     let JailBreak  = JailbreakDTO()
     let Device     = DeviceVarsDTO()
@@ -34,15 +33,16 @@ struct RSdkDeviceDTO : Codable {
     
     let AppInfo = AppInfoDTO()
     
-    init(_ requestToken: String, action: String, location: CLLocation?, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
+    init(_ snippetId: String, requestToken: String, location: String, geoLocation: CLLocation?, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
         
-        self.requestToken = requestToken
-        self.action = action
-        self.Proximity  = proximityDTO
-        self.Notification = notificationDTO
-        if let location = location {
+        self.snippetId      = snippetId
+        self.requestToken   = requestToken
+        self.location       = location
+        self.Proximity      = proximityDTO
+        self.Notification   = notificationDTO
+        if let geoLocation = geoLocation {
             
-            self.Location = LocationDTO(location: location)
+            self.Location = LocationDTO(location: geoLocation)
         } else {
             
             self.Location = LocationDTO()

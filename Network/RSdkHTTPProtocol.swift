@@ -15,14 +15,23 @@ public class RSdkHTTPProtocol {
     /// Post Native iOS Data to Risk Ident Backend
     ///
     /// - Parameters:
+    ///   - snippetId : String : The Customer Snippet ID
     ///   - requestToken: String : The Token for the Request
-    ///   - customerID: String : The Token for the customer
+    ///   - location: String : Optional Location String
     ///   - enableLocationFinder: Bool -> Enable Location Finder, Default is false (WIP)
-    ///   - location : CLLocation -> Give the User Location to the Framework. Default ist nil (WIP)
+    ///   - geoLocation : CLLocation -> Give the User Location to the Framework. Default ist nil (WIP)
     ///   - completion: (Error) -> Void : Completion Handler which give Back Error to App (Error)
-    public class func post(_ requestToken: String, action: String, enableLoactionFinder: Bool = false, location: CLLocation? = nil, completion: @escaping (Error?) -> Void) {
+    public class func post(snippetId : String, requestToken: String? = nil, location: String, enableLoactionFinder: Bool = false, geoLocation: CLLocation? = nil, completion: @escaping (Error?) -> Void) {
         
-        DeviceDTOFactory.create(requestToken, location: location,action: action, completion: { (device) in
+        guard let requestToken = requestToken else { return }
+        
+        if requestToken == nil {
+          
+            // requestToken = UUID().uuidString
+            
+        }
+        
+        DeviceDTOFactory.create(snippetId: snippetId, requestToken: requestToken, location: location, geoLocation: geoLocation, completion: { (device) in
             
             postBin(device: device) {
                 (error) in

@@ -14,7 +14,7 @@ public class RSdkBrowser : NSObject {
     
     var wkWebView = WKWebView()
     var _token : String?
-    var completion : (String, Error?) -> Void
+    var completion : (String?, Error?) -> Void
     
     fileprivate var uuidToken : String {
         
@@ -43,7 +43,7 @@ public class RSdkBrowser : NSObject {
     ///   - uuid: String -> A Unique execution UUID for the Call.
     ///   - action: String -> Action Description for the Execution (e.g. checkout)
     ///   - completion: -> (BrowserDTO, Error) Callback with BrowserDTO Data or an Error if anything failed.
-    public init(snippetId: String, token: String?, location: String? = nil, completion: @escaping (String, Error?) -> Void) {
+    public init(snippetId: String, token: String?, location: String? = nil, completion: @escaping (String?, Error?) -> Void) {
     
         self.completion = completion
         super.init()
@@ -54,7 +54,6 @@ public class RSdkBrowser : NSObject {
             
             uuidToken = UUID().uuidString
         }
-    
         
         wkWebView.navigationDelegate = self
         execute(snippetId: snippetId, location: location)
@@ -71,7 +70,7 @@ public class RSdkBrowser : NSObject {
 
     private func createRequest(snippetId: String, token: String, location: String?) -> URLRequest? {
         
-        let urlString = "/(RSdkVars.SNIPPET_ENDPOINT)/\(snippetId)?t=\(token)&l=\(location ?? "")"
+        let urlString = "\(RSdkVars.SNIPPET_ENDPOINT)\(snippetId)?t=\(token)&l=\(location ?? "")"
         print(urlString)
         guard let url = URL(string: urlString) else { return nil }
         return URLRequest(url: url)
@@ -80,24 +79,15 @@ public class RSdkBrowser : NSObject {
 
 extension RSdkBrowser : WKNavigationDelegate {
     
-    public func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        
-        print("did start")
-    }
-    
-    public func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        
-        print(challenge)
-    }
-    
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
+        completion(uuidToken, nil)
         print("finsih")
     }
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
     
-        print(error)
+        completion(nil, error)
     }
     
 }

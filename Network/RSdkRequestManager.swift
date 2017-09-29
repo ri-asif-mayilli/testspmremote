@@ -63,7 +63,7 @@ enum RequestManagerType {
             
         case .requestScript(let token):
             
-            guard let url = URL(string: "https://api-backup-test.jsctool.com/v4/transactions/bySite/ios-sdk-test/\(token)?include=all") else { return nil }
+            guard let url = URL(string: "\(RSdkVars.SNIPPET_ENDPOINT)\(token)\(RSdkVars.SNIPPET_OPTIONS)") else { return nil }
             return url
             
         case .postBin:
@@ -89,7 +89,7 @@ enum RequestManagerType {
         switch self {
             
         case .requestScript:
-            
+            return nil
             return generateAuthString(username: "ios-sdk-test", password: "geekios")
         case .postBin:
             return nil

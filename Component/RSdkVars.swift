@@ -20,6 +20,9 @@ internal struct RSdkVars {
     
     internal static var POST_ENDPOINT = "https://www-backup-test.jsctool.com/ios"
     internal static var ERROR_ENDPOINT = "https://www-backup-test.jsctool.com/ios-err"
+    
+    internal static var SNIPPET_ENDPOINT = "https://api-backup-test.jsctool.com/v4/transactions/bySite/ios-sdk-test/"
+    internal static var SNIPPET_OPTIONS = "?include=all"
 
 }
 

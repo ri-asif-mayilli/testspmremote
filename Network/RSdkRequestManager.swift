@@ -32,15 +32,11 @@ enum RequestMethod : String {
 
 enum RequestManagerType {
     
-    case requestScript(token : String)
     case postBin(deviceDTO : RSdkDeviceDTO)
     
     var payload : Data? {
         
         switch(self) {
-            
-        case .requestScript:
-            return nil
             
         case .postBin(let payload):
         
@@ -61,11 +57,6 @@ enum RequestManagerType {
         
         switch self {
             
-        case .requestScript(let token):
-            
-            guard let url = URL(string: "https://api-backup-test.jsctool.com/v4/transactions/bySite/ios-sdk-test/\(token)?include=all") else { return nil }
-            return url
-            
         case .postBin:
             let urlString = "\(RSdkVars.POST_ENDPOINT)"
             guard let url = URL(string: urlString) else { return nil }
@@ -77,8 +68,6 @@ enum RequestManagerType {
         
         switch self {
             
-        case .requestScript:
-            return .get
         case .postBin:
             return .post
         }
@@ -87,10 +76,7 @@ enum RequestManagerType {
     var authString : String? {
         
         switch self {
-            
-        case .requestScript:
-            
-            return generateAuthString(username: "ios-sdk-test", password: "geekios")
+
         case .postBin:
             return nil
             
@@ -100,20 +86,11 @@ enum RequestManagerType {
     var retry : Bool {
         
         switch self {
-            
-        case .requestScript:
-            return true
+
         case .postBin:
             return false
         }
         
-    }
-    
-    private func generateAuthString(username : String, password : String) -> String {
-        
-        let loginString = String(format: "%@:%@", username, password)
-        let loginData = loginString.data(using: String.Encoding.utf8)!
-        return loginData.base64EncodedString()
     }
 }
 
@@ -166,36 +143,6 @@ internal class RSdkRequestManager {
                 
                 completion(nil, error)
                 return
-            }
-            
-            if let response = response as? HTTPURLResponse {
-                
-                switch requestType {
-                    
-                case .requestScript:
-                    
-                    if response.statusCode == 404 {
-                        
-                        DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + 5) {
-                            
-                            self.doRequest(requestType: requestType, completion: completion)
-                        }
-                        return
-                    }
-                    
-                default:
-                    break
-                }
-                
-                if let data = data {
-                    
-                    if let url = requestType.url {
-                        
-                        print("Fetched transaction result: \(url)")
-                    }
-                    
-                    completion(data, nil)
-                }
             }
         }
         task?.resume()

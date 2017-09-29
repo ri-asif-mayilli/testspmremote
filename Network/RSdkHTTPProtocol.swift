@@ -49,55 +49,6 @@ public class RSdkHTTPProtocol {
             }
         }
     }
-    
-    
-    /// Parameter to execute Browser Snippet and get back BrowserDTO to App
-    ///
-    /// - Parameters:
-    ///   - token: String Token for the Request
-    ///   - completion: (BrowserDTO?, Error) -> Void : Completion which gives back the BrowserDTO or an Error if Exist.
-    public class func getBrowserInfo(fromToken token: String, completion: ((Error?) -> Void)?) {
-        
-        DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + 5) {
-            
-            RSdkRequestManager.shared.doRequest(requestType: .requestScript(token: token)) {
-                
-                (data, error) in
-                if let error = error {
-                    
-                    print(error)
-                    if let completion = completion {
-                        
-                        completion(error)
-                        return
-                    }
-                }
-                if let data = data {
-                    
-                    let decoder = JSONDecoder()
-                    do {
-                        
-                        var browserInfo = try decoder.decode(RSdkBrowserDTO.self, from: data)
-                        browserInfo.transactionDate = Date()
-                        if let completion = completion {
-                            
-                            completion(nil)
-                            return
-                        }
-                        
-                    } catch let error {
-                        
-                        if let completion = completion {
-                            
-                            completion(error)
-                            return
-                        }
-                    }
-                    
-                }
-            }
-        }
-    }
 }
 
 

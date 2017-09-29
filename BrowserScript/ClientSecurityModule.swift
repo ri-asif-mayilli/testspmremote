@@ -9,12 +9,12 @@
 import Foundation
 import UIKit
 import WebKit
+import MapKit
 
-public class RSdkBrowser : NSObject {
+public class ClientSecurityModule : NSObject {
     
     var wkWebView = WKWebView()
     var _token : String?
-    var completion : (String?, Error?) -> Void
     
     fileprivate var uuidToken : String {
         
@@ -37,57 +37,53 @@ public class RSdkBrowser : NSObject {
     }
     
     
-    /// This is the Browser Class which Execute the Web Snippet.
+    /// This is the Client Security Module.
+    ///
+    /// Usage:
+    ///
+    /// Just init the Module and store locally the refernce to it globally.
     ///
     /// - Parameters:
-    ///   - uuid: String -> A Unique execution UUID for the Call.
-    ///   - action: String -> Action Description for the Execution (e.g. checkout)
-    ///   - completion: -> (BrowserDTO, Error) Callback with BrowserDTO Data or an Error if anything failed.
-    public init(snippetId: String, token: String?, location: String? = nil, completion: @escaping (String?, Error?) -> Void) {
+    ///   - snippetId: String -> The snippet id
+    ///   - uniqueId: String -> A Unique execution UUID for the Call.
+    ///   - location: String -> String for ?
+    ///   - enableLocationFinder: Bool -> Enable Location Finding. Default: false
+    ///   - geoLocation: CLLocation -> Class with the user location.
+    public init(snippetId: String, requestToken: String, location: String? = nil, enableLocationFinder: Bool = false, geoLocation: CLLocation? = nil) {
     
-        self.completion = completion
         super.init()
-        if let token = token {
-            
-            uuidToken = token
-        } else {
-            
-            uuidToken = UUID().uuidString
-        }
-        
+        uuidToken = requestToken
         wkWebView.navigationDelegate = self
         execute(snippetId: snippetId, location: location)
+        RSdkHTTPProtocol.post(snippetId: snippetId, requestToken: requestToken, location: location, enableLoactionFinder: enableLocationFinder, geoLocation: geoLocation) {
+            
+            (error) in
+        }
+        
     }
     
     private func execute(snippetId: String, location: String?) {
         
-        guard let request = createRequest(snippetId: snippetId, token: uuidToken, location: location), let url = request.url else { return }
+        guard let request = createRequest(snippetId: snippetId, token: uuidToken, location: location), let _ = request.url else { return }
         
-        print("Load Snippet: \(url)")
-        print("used uuid: \(uuidToken)")
         wkWebView.load(request)
     }
 
     private func createRequest(snippetId: String, token: String, location: String?) -> URLRequest? {
         
         let urlString = "\(RSdkVars.SNIPPET_ENDPOINT)\(snippetId)?t=\(token)&l=\(location ?? "")"
-        print(urlString)
         guard let url = URL(string: urlString) else { return nil }
         return URLRequest(url: url)
     }
 }
 
-extension RSdkBrowser : WKNavigationDelegate {
+extension ClientSecurityModule : WKNavigationDelegate {
     
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
-        completion(uuidToken, nil)
-        print("finsih")
     }
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
     
-        completion(nil, error)
-    }
-    
+    }    
 }

@@ -51,7 +51,7 @@ struct RSdkContactInfo {
         do {
             allContainers = try contactStore.containers(matching: nil)
         } catch {
-            print("Error fetching containers")
+//            print("Error fetching containers")
         }
         
         var results: [CNContact] = []
@@ -85,7 +85,7 @@ struct RSdkContactInfo {
                 let newContactStore = ContactStoreDTO(identifier, name: name, type: type, count: containerResults.count)
                 resultContainers.append(newContactStore)
             } catch {
-                print("Error fetching results for container")
+//                print("Error fetching results for container")
             }
         }
         return resultContainers

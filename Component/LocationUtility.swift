@@ -152,13 +152,13 @@ public class LocationUtility
                 courseLongitude = Double(Int(courseLongitude / granularityLon)) * granularityLon;
                 
                 let loc = CLLocation(latitude: Double(courseInt), longitude: Double(courseLong))
-                print (loc)
+//                print (loc)
                 
                 return loc
             }
         
-            print("course latitude: \(courseLatitude)")
-            print("couse longitude: \(courseLongitude)")
+//            print("course latitude: \(courseLatitude)")
+//            print("couse longitude: \(courseLongitude)")
             
             return nil
         }

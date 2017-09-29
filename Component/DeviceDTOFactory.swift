@@ -13,7 +13,7 @@ typealias RSdkDeviceDTOCompletion = (RSdkDeviceDTO) -> Void
 
 internal class DeviceDTOFactory {
     
-    internal static func create(snippetId: String, requestToken: String, location: String, geoLocation: CLLocation?, completion: @escaping RSdkDeviceDTOCompletion) {
+    internal static func create(snippetId: String, requestToken: String, location: String? = nil, geoLocation: CLLocation?, completion: @escaping RSdkDeviceDTOCompletion) {
         
         createNotificationDTO(snippetId: snippetId, requestToken: requestToken, location: location, geoLocation: geoLocation) {
          
@@ -23,7 +23,7 @@ internal class DeviceDTOFactory {
         }
     }
     
-    private static func createNotificationDTO(snippetId: String, requestToken: String, location: String, geoLocation: CLLocation?, completion: @escaping RSdkDeviceDTOCompletion) {
+    private static func createNotificationDTO(snippetId: String, requestToken: String, location: String? = nil, geoLocation: CLLocation?, completion: @escaping RSdkDeviceDTOCompletion) {
 
         RSdkPushNotifications.enabled() {
             
@@ -35,14 +35,14 @@ internal class DeviceDTOFactory {
         }
     }
     
-    private static func createProximityDTO(snippetId: String, requestToken: String, location: String, geoLocation: CLLocation?, notificationDTO : NotificationDTO, withCompletion completion: @escaping RSdkDeviceDTOCompletion)  {
+    private static func createProximityDTO(snippetId: String, requestToken: String, location: String? = nil, geoLocation: CLLocation?, notificationDTO : NotificationDTO, withCompletion completion: @escaping RSdkDeviceDTOCompletion)  {
     
         Proximity.state() {
             
             (state) in
             
             let proximityDTO = ProximityDTO(state: state)
-            let deviceDTO = RSdkDeviceDTO(snippetId, requestToken: requestToken, location: location, geoLocation: geoLocation, notificationDTO: notificationDTO, proximityDTO: proximityDTO)
+            let deviceDTO = RSdkDeviceDTO(snippetId, requestToken: requestToken, location: location ?? "", geoLocation: geoLocation, notificationDTO: notificationDTO, proximityDTO: proximityDTO)
             completion(deviceDTO)
         }
     }

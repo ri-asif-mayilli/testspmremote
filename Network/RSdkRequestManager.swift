@@ -47,7 +47,7 @@ enum RequestManagerType {
                 
             } catch let error {
                 
-                print(error)
+//                print(error)
                 return nil
             }
         }
@@ -134,7 +134,6 @@ internal class RSdkRequestManager {
             return
             
         }
-        print("do request: \(request)")
         let task = session?.dataTask(with: request) {
             
             (data, response, error) in

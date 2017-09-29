@@ -23,7 +23,7 @@ struct AppInfo {
             
         } catch let error {
      
-            print(error)
+//            print(error)
         }
         return nil
     }
@@ -38,7 +38,7 @@ struct AppInfo {
         
         if let plist = getPlist {
             
-            print(plist)
+//            print(plist)
         }
         return ""
     }
@@ -47,7 +47,7 @@ struct AppInfo {
 
         if let plist = getPlist {
             
-            print(plist)
+//            print(plist)
         }
         return ""
     }

@@ -164,7 +164,6 @@ public class LocationUtility
         }
     }
     
-    // http://www.movable-type.co.uk/scripts/latlong.html
     private static func getLocationOffsetBy(fromLocation location : RSdkLocation, offsetInMeters : Double, angleInRadians : Double) -> RSdkLocation {
 
         let lat1 : Double = deg2rad(location.latitude);

@@ -209,7 +209,7 @@ struct ProxyInfoDTO : Codable {
 
 struct LocaleInfoDTO : Codable {
     
-    let preferedlanguages = LocaleInfo.preferedLanguages
+    let preferredLanguages = LocaleInfo.preferredLanguages
     let timeZone = LocaleInfo.localTimeZone
 }
 

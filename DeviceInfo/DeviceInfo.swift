@@ -36,9 +36,9 @@ struct DeviceInfo {
         return UIDevice.current.systemVersion
     }
     
-    internal static var orientationNotifaction : String {
+    internal static var orientationNotifaction : Bool {
         
-        return UIDevice.current.isGeneratingDeviceOrientationNotifications.description
+        return UIDevice.current.isGeneratingDeviceOrientationNotifications
     }
     
     internal static var deviceOrientation : String {

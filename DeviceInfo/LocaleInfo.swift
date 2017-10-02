@@ -10,7 +10,7 @@ import Foundation
 
 struct LocaleInfo {
     
-    internal static var preferedLanguages : [String] {
+    internal static var preferredLanguages : [String] {
         
         return NSLocale.preferredLanguages
     }

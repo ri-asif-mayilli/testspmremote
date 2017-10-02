@@ -81,9 +81,11 @@ extension ClientSecurityModule : WKNavigationDelegate {
     
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
+        print("did finish without error")
     }
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-    
+        
+        print("did finish with error")
     }    
 }

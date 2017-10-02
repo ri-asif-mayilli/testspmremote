@@ -140,9 +140,12 @@ internal class RSdkRequestManager {
             
             if let error = error {
                 
+                print("finish request with error \(error)")
                 completion(nil, error)
                 return
             }
+            
+            print("finish request without error")
             completion(nil,nil)
         }
         task?.resume()

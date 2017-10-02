@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public class RSdkLocationManager {
+internal class RSdkLocationManager {
     
     let locationManager : CLLocationManager
     let locationManagerDelegate = LocationManagerDelegate()
@@ -24,7 +24,7 @@ public class RSdkLocationManager {
     var locationCompletion : ((CLLocation?, Error?) -> Void)?
     var headingCompletion : ((CLHeading?, Error?) -> Void)?
     
-    public func setLocationCompletion(_ completion: @escaping (CLLocation?, Error?) -> Void) {
+    internal func setLocationCompletion(_ completion: @escaping (CLLocation?, Error?) -> Void) {
         
         concurrentQueue.async(flags: .barrier) {
          
@@ -40,7 +40,7 @@ public class RSdkLocationManager {
             attributes: .concurrent) // 2
     
     @available(iOS 9, *)
-    public func getLocation(_ completion: @escaping (CLLocation?, Error?) -> Void) {
+    internal func getLocation(_ completion: @escaping (CLLocation?, Error?) -> Void) {
         
         concurrentQueue.async(flags: .barrier) {
             
@@ -52,7 +52,7 @@ public class RSdkLocationManager {
     }
     
     @available(iOS 9, *)
-    public func getHeading(_ completion: @escaping (CLHeading?, Error?) -> Void) {
+    internal func getHeading(_ completion: @escaping (CLHeading?, Error?) -> Void) {
         
         concurrentQueue.async(flags: .barrier) {
             if self.headingCompletion != nil { return }
@@ -61,7 +61,7 @@ public class RSdkLocationManager {
     }
 
     @available(iOS 9, *)
-    public func requestAuth() {
+    internal func requestAuth() {
      
         locationManager.requestAlwaysAuthorization()
      }

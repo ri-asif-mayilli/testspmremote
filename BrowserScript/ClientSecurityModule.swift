@@ -73,7 +73,6 @@ public class ClientSecurityModule : NSObject {
         
         let urlString = "\(RSdkVars.SNIPPET_ENDPOINT)\(snippetId)?t=\(token)&l=\(location ?? "")"
         guard let url = URL(string: urlString) else { return nil }
-        print(urlString)
         return URLRequest(url: url)
     }
 }
@@ -82,11 +81,10 @@ extension ClientSecurityModule : WKNavigationDelegate {
     
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
-        print("did finish without error")
     }
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         
-        print("did finish with error")
+        print("Webrequest Fail")
     }    
 }

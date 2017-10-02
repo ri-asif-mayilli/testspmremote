@@ -145,7 +145,14 @@ internal class RSdkRequestManager {
                 return
             }
             
-            print("finish request without error")
+            if let response = response as? HTTPURLResponse {
+                
+                if response.statusCode != 200 {
+                    
+                    print(response)
+                }
+            }
+            
             completion(nil,nil)
         }
         task?.resume()

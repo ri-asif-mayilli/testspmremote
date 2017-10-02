@@ -125,9 +125,9 @@ internal class RSdkJailbreak {
         }
         
         var uniqueSandBoxId : JailbreakDTO
-        if let sandBoxID = sandBoxUniqueID {
+        if let sandBoxId = sandBoxUniqueID {
             
-            uniqueSandBoxId = sandBoxID
+            uniqueSandBoxId = sandBoxId
             uniqueSandBoxId.created = Date()
         } else {
             

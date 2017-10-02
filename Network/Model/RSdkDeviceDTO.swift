@@ -14,38 +14,36 @@ struct RSdkDeviceDTO : Codable {
     var snippetId    : String
     var location     : String
     var requestToken : String
-    let SysctlInfo = SysctlDTO()
-    let JailBreak  = JailbreakDTO()
-    let Device     = DeviceVarsDTO()
-    let Battery    = BatteryDTO()
-    let Screen     = ScreenDTO()
-    let Cellular   = CellularDTO()
-    let Contacts    = ContactDTO()
-    let NetworkInfo  = NetworkInfoDTO()
+    let sysctlInfo = SysctlDTO()
+    let jailBreak  = JailbreakDTO()
+    let device     = DeviceVarsDTO()
+    let battery    = BatteryDTO()
+    let screen     = ScreenDTO()
+    let cellular   = CellularDTO()
+    let contacts    = ContactDTO()
+    let networkInfo  = NetworkInfoDTO()
     
-    let Proximity  : ProximityDTO
-    let Notification : NotificationDTO
-    let Location     : LocationDTO
+    let proximity  : ProximityDTO
+    let notification : NotificationDTO
+    let locationInfo     : LocationDTO
  
-    let Locale = LocaleInfoDTO()
-    let Identifer = IdentifierInfoDTO()
-    let Motion = MotionInfoDTO()
-    
-    let AppInfo = AppInfoDTO()
+    let locale = LocaleInfoDTO()
+    let identifer = IdentifierInfoDTO()
+    let motion = MotionInfoDTO()
     
     init(_ snippetId: String, requestToken: String, location: String, geoLocation: CLLocation?, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
         
         self.snippetId      = snippetId
         self.requestToken   = requestToken
         self.location       = location
-        self.Proximity      = proximityDTO
-        self.Notification   = notificationDTO
+        self.proximity      = proximityDTO
+        self.notification   = notificationDTO
         if let geoLocation = geoLocation {
             
-            self.Location = LocationDTO(location: geoLocation)
+            self.locationInfo = LocationDTO(location: geoLocation)
         } else {
             
-            self.Location = LocationDTO()
+            self.locationInfo = LocationDTO()
         }
     }
 }
@@ -117,14 +115,14 @@ struct ScreenSizeDTO : Codable {
 
 struct CellularDTO : Codable {
     
-    let accesTechnology    = CellularInfo.currentAccessTechnology
-    let Carrier = CarrierDTO()
+    let accesTechnologe = CellularInfo.currentAccessTechnology
+    let carrier = CarrierDTO()
 }
 
 struct CarrierDTO : Codable {
     
-    let name = CarrierInfo.name
-    let countryCode = CarrierInfo.countryCode
+    let name              = CarrierInfo.name
+    let countryCode       = CarrierInfo.countryCode
     let mobileCountryCode = CarrierInfo.countryCode
     let mobileNetworkCode = CarrierInfo.networkCode
     let isoCoutryCode     = CarrierInfo.isoCountryCode
@@ -149,7 +147,7 @@ struct SysctlDTO : Codable {
 
 struct JailbreakDTO : Codable {
     
-    var appID           : String?
+    var appId           : String?
     var created         : Date?
     var jailBroken      = RSdkJailbreak.isJailbroken
     let existingPaths   = RSdkJailbreak.existingPath
@@ -162,7 +160,7 @@ struct JailbreakDTO : Codable {
     
     internal init(appID : String, created: Date, existingPaths: [String]) {
 
-        self.appID = appID
+        self.appId = appID
         self.created = created
     }
 }
@@ -217,9 +215,9 @@ struct LocaleInfoDTO : Codable {
 
 struct IdentifierInfoDTO : Codable {
     
-    let vendorID = IdentifierInfo.vendor
+    let vendorId              = IdentifierInfo.vendor
     let advertTrackingEnabled = IdentifierInfo.isAdvertisingEnabled
-    let advertTrackingID = IdentifierInfo.advertising
+    let advertTrackingId      = IdentifierInfo.advertising
 }
 
 struct MotionInfoDTO : Codable {
@@ -228,10 +226,4 @@ struct MotionInfoDTO : Codable {
     let deviceMotionAvailable = MotionInfo.deviceMotionAvailable
     let magnetometerAvailable = MotionInfo.magnetometerAvailable
     let gyroAvailable = MotionInfo.gyroAvailable
-}
-
-struct AppInfoDTO : Codable {
-    
-    let test = AppInfo.bundleName
-    
 }

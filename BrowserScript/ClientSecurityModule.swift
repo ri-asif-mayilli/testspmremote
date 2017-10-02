@@ -73,6 +73,7 @@ public class ClientSecurityModule : NSObject {
         
         let urlString = "\(RSdkVars.SNIPPET_ENDPOINT)\(snippetId)?t=\(token)&l=\(location ?? "")"
         guard let url = URL(string: urlString) else { return nil }
+        print(urlString)
         return URLRequest(url: url)
     }
 }

@@ -19,7 +19,7 @@ internal struct RSdkVars {
     internal static var CYDIA_URL = "cydia://package/com.example.package"
     
     internal static var SNIPPET_DOMAIN = ""
-    internal static var DOMAIN = "https://www-backup-test.jsctool.com/"
+    internal static var DOMAIN = "https://www-backup-test.jsctool.com"
     
     internal static var POST_ENDPOINT   = "\(DOMAIN)/ios"
     internal static var ERROR_ENDPOINT  = "\(DOMAIN)/ios-err"

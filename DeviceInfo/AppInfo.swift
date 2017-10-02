@@ -21,7 +21,7 @@ struct AppInfo {
         let data = try Data(contentsOf: url)
             return try PropertyListSerialization.propertyList(from: data, options: .mutableContainers, format: nil) as? [String : Any]
             
-        } catch let error {
+        } catch {
      
 //            print(error)
         }

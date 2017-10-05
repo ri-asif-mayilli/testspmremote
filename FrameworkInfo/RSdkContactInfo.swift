@@ -86,21 +86,15 @@ struct RSdkContactInfo {
         return resultContainers
     }
     
-    internal static var conctactStores : [ContactStoreDTO]? {
+    internal static var conctactStores : [ContactStoreDTO] {
 
         if #available(iOS 9, *) {
-
             if access {
-                
                 return contacts
             }
-            
-            return nil
-        } else {
-            return nil
+            return []
         }
-        
+        return []
     }
-    
     
 }

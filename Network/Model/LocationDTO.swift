@@ -16,7 +16,7 @@ internal struct LocationDTO : Codable {
     let deferredLocationUpdates = LocationInfo.deferredLocationUpdatesAvailable
     let locationChangeMonitoring = LocationInfo.significantLocationChangeMonitoringAvailable
     let headingAvailable = LocationInfo.headingAvailable
-    let rangingAvailable = LocationInfo.headingAvailable
+    let rangingAvailable = LocationInfo.rangingAvailable
     var longitude : Double?
     var latitiude : Double?
     

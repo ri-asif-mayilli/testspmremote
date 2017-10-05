@@ -11,9 +11,9 @@ import MapKit
 
 struct RSdkDeviceDTO : Codable {
 
-    var snippetId    : String
-    var location     : String
-    var requestToken : String
+    var snippetId  : String
+    var location   : String
+    var token      : String
     let sysctlInfo = SysctlDTO()
     let jailBreak  = JailbreakDTO()
     let device     = DeviceVarsDTO()
@@ -34,7 +34,7 @@ struct RSdkDeviceDTO : Codable {
     init(_ snippetId: String, requestToken: String, location: String, geoLocation: CLLocation?, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
         
         self.snippetId      = snippetId
-        self.requestToken   = requestToken
+        self.token          = requestToken
         self.location       = location
         self.proximity      = proximityDTO
         self.notification   = notificationDTO
@@ -125,7 +125,7 @@ struct CarrierDTO : Codable {
     let countryCode       = CarrierInfo.countryCode
     let mobileCountryCode = CarrierInfo.countryCode
     let mobileNetworkCode = CarrierInfo.networkCode
-    let isoCoutryCode     = CarrierInfo.isoCountryCode
+    let isoCountryCode    = CarrierInfo.isoCountryCode
     let allowsVoip        = CarrierInfo.allowsVoip
     
 }
@@ -167,28 +167,24 @@ struct JailbreakDTO : Codable {
 
 struct ContactDTO : Codable {
     
-    let access      = RSdkContactInfo.access
-    let container   : [ContactStoreDTO]?
+    let access     = RSdkContactInfo.access
+    let contacts   = RSdkContactInfo.conctactStores
     
-    public init() {
-        
-        container = RSdkContactInfo.conctactStores
-    }
 }
 
 struct ContactStoreDTO : Codable {
     
     let identifier : String
     let name : String
-    let type : String
-    let contacts : Int
+    let contactType : String
+    let count : Int
     
     public init(_ identifier: String, name: String, type: String, count: Int) {
         
         self.identifier = identifier
         self.name = name
-        self.type = type
-        self.contacts = count
+        self.contactType = type
+        self.count = count
     }
 }
 
@@ -196,12 +192,16 @@ struct NetworkInfoDTO : Codable {
  
     let ip = NetworkInfo.getWiFiAddress
     let ssid = NetworkInfo.getWiFiSsid?.djb2hash
-    let proxyConnected = ProxyInfoDTO()
+    var proxy: ProxyInfoDTO?
+
+    public init() {
+        if (NetworkInfo.isProxyConnected) {
+            self.proxy = ProxyInfoDTO()
+        }
+    }
 }
 
 struct ProxyInfoDTO : Codable {
-    
-    let isConnected = NetworkInfo.isProxyConnected
     let proxyType   = NetworkInfo.proxyType
     let proxyHost   = NetworkInfo.proxyHost
     let proxyPort   = NetworkInfo.proxyPort

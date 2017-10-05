@@ -14,6 +14,7 @@ enum RequestMethod : String {
     
     case post
     case get
+    case put
     
     var value : String {
         
@@ -24,6 +25,8 @@ enum RequestMethod : String {
             
         case .get:
             return "GET"
+        case .put:
+            return "PUT"
         }
         
     }
@@ -69,7 +72,7 @@ enum RequestManagerType {
         switch self {
             
         case .postBin:
-            return .post
+            return .put
         }
     }
     

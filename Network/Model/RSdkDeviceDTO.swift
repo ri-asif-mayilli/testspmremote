@@ -65,7 +65,7 @@ struct DeviceVarsDTO : Codable {
     let localizedModel  = DeviceInfo.localizedModel
     let systemName      = DeviceInfo.systemName
     let systemVersion   = DeviceInfo.systemVersion
-    let orientationNotifaction = DeviceInfo.orientationNotifaction
+    let orientationNotification = DeviceInfo.orientationNotifaction
     let deviceOrientation = DeviceInfo.deviceOrientation
     let multitasking    = DeviceInfo.multitaskingSupported
     let isSimulator     = DeviceInfo.isSimulator
@@ -93,8 +93,8 @@ struct ScreenDTO : Codable {
     
     let idiom   = Display.userInterfaceIdiom
     let interfaceLayout = Display.userInterfaceLayout
-    let Bounds  = ScreenBoundDTO()
-    let Size    = ScreenSizeDTO()
+    let bounds  = ScreenBoundDTO()
+    let size    = ScreenSizeDTO()
 }
 
 struct ScreenBoundDTO : Codable {
@@ -110,7 +110,7 @@ struct ScreenBoundDTO : Codable {
 struct ScreenSizeDTO : Codable {
     
     let height = Display.screenSizeHeight
-    let widt   = Display.screenBoundWidth
+    let width  = Display.screenBoundWidth
 }
 
 struct CellularDTO : Codable {

@@ -53,8 +53,6 @@ struct RSdkContactInfo {
         } catch {
 //            print("Error fetching containers")
         }
-        
-        var results: [CNContact] = []
 
         // Iterate all containers and append their contacts to our results array
         for container in allContainers {
@@ -74,13 +72,10 @@ struct RSdkContactInfo {
                 type = "cardDav"
             }
             
-            
             let fetchPredicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
 
-            
             do {
                 let containerResults = try contactStore.unifiedContacts(matching: fetchPredicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
-                results.append(contentsOf: containerResults)
                 
                 let newContactStore = ContactStoreDTO(identifier, name: name, type: type, count: containerResults.count)
                 resultContainers.append(newContactStore)

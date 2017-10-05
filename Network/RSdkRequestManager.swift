@@ -57,8 +57,8 @@ enum RequestManagerType {
         
         switch self {
             
-        case .postBin:
-            let urlString = "\(RSdkVars.POST_ENDPOINT)"
+        case .postBin(let payload):
+            let urlString = "\(RSdkVars.POST_ENDPOINT)\(payload.snippetId)\(RSdkVars.ENDPOINT_ADDITIONAL)\(payload.token)"
             guard let url = URL(string: urlString) else { return nil }
             return url
         }

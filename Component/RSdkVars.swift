@@ -21,10 +21,12 @@ internal struct RSdkVars {
     internal static var SNIPPET_DOMAIN = ""
     internal static var DOMAIN = "https://www-backup-test.jsctool.com"
     
-    internal static var POST_ENDPOINT   = "\(DOMAIN)/ios"
-    internal static var ERROR_ENDPOINT  = "\(DOMAIN)/ios-err"
+    internal static var POST_ENDPOINT   = "\(DOMAIN)/ios/"
+    internal static var ERROR_ENDPOINT  = "\(DOMAIN)/ios-err/"
     
     internal static var SNIPPET_ENDPOINT = "\(DOMAIN)/demo/mobile/"
+    
+    internal static var ENDPOINT_ADDITIONAL = "/token/"
 
 }
 

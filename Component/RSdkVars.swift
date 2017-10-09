@@ -8,10 +8,9 @@
 
 internal struct RSdkVars {
     
-    internal static var jailBreakPath : String {
-        
-        return "/private/var/rdsdk.txt"
-    }
+    internal static var salt = "03992143-b713-4f73-bf37-9205a1976db7"
+    
+    internal static var jailBreakPath = "/private/var/rdsdk.txt"
     
     internal static var EMPTY_VENDOR = "00000000-0000-0000-0000-000000000000"
     internal static var CYDIA_URL = "cydia://package/com.example.package"

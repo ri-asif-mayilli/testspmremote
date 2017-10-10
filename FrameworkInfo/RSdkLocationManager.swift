@@ -11,14 +11,14 @@ import CoreLocation
 
 internal class RSdkLocationManager {
     
-    let locationManager : CLLocationManager
-    let locationManagerDelegate = LocationManagerDelegate()
+    let _locationManager : CLLocationManager
+    let _locationManagerDelegate = LocationManagerDelegate()
     
     public static let shared = RSdkLocationManager()
     private init() {
   
-        locationManager = CLLocationManager()
-        locationManager.delegate = locationManagerDelegate
+        _locationManager = CLLocationManager()
+        _locationManager.delegate = _locationManagerDelegate
     }
     
     var locationCompletion : ((CLLocation?, Error?) -> Void)?
@@ -28,7 +28,7 @@ internal class RSdkLocationManager {
         
         concurrentQueue.async(flags: .barrier) {
          
-            self.locationManagerDelegate.delegate = self
+            self._locationManagerDelegate.delegate = self
             if self.locationCompletion != nil { return }
             self.locationCompletion = completion
         }
@@ -44,10 +44,10 @@ internal class RSdkLocationManager {
         
         concurrentQueue.async(flags: .barrier) {
             
-            self.locationManagerDelegate.delegate = self
+            self._locationManagerDelegate.delegate = self
             if self.locationCompletion != nil { return }
             self.locationCompletion = completion
-            self.locationManager.requestLocation()
+            self._locationManager.requestLocation()
         }
     }
     
@@ -63,7 +63,7 @@ internal class RSdkLocationManager {
     @available(iOS 9, *)
     internal func requestAuth() {
      
-        locationManager.requestAlwaysAuthorization()
+        _locationManager.requestAlwaysAuthorization()
      }
 }
 

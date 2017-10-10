@@ -26,8 +26,8 @@ fileprivate enum ProxyType : String {
     case typeHTTPS              = "kCFProxyTypeHTTPS"
     case typeSocks              = "kCFProxyTypeSOCKS"
     
-    internal var isConnected : Bool {
-    
+    internal var isProxyConnected : Bool {
+        
         switch(self) {
             
         case .none:
@@ -38,7 +38,7 @@ fileprivate enum ProxyType : String {
         }
     }
     
-    internal var isType : String? {
+    internal var isProxyType : String? {
         
         switch(self) {
             
@@ -47,7 +47,7 @@ fileprivate enum ProxyType : String {
             
         case .autoConfigurationJava:
             return "ProyTypeConfigurationJavaScript"
-          
+            
         case .typeFTP:
             return "ProxyTypeFTP"
             
@@ -65,9 +65,9 @@ fileprivate enum ProxyType : String {
     }
 }
 
-struct NetworkInfo {
+internal struct RSdkNetworkInfo {
     
-    internal static var getWiFiSsid : String? {
+    internal static var networkInfoGetWiFiSsid : String? {
         
         var ssid: String?
         if let interfaces = CNCopySupportedInterfaces() as NSArray? {
@@ -81,7 +81,7 @@ struct NetworkInfo {
         return ssid
     }
     
-    internal static var getWiFiAddress : String? {
+    internal static var networkInfoGetWiFiAddress : String? {
         
         var address : String?
         
@@ -97,12 +97,12 @@ struct NetworkInfo {
                 
                 let name = String(cString: interface.ifa_name)
                 if  name == "en0" {
-                
-                var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
-                getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.pointee.sa_len),
-                            &hostname, socklen_t(hostname.count),
-                            nil, socklen_t(0), NI_NUMERICHOST)
-                address = String(cString: hostname)
+                    
+                    var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                    getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.pointee.sa_len),
+                                &hostname, socklen_t(hostname.count),
+                                nil, socklen_t(0), NI_NUMERICHOST)
+                    address = String(cString: hostname)
                 }
             }
         }
@@ -110,7 +110,7 @@ struct NetworkInfo {
         return address
     }
     
-    private static var proxyEntry : [String : Any]? = {
+    private static var networkInfoProxyEntry : [String : Any]? = {
         
         if let myUrl = URL(string: "http://www.apple.com") {
             if let proxySettingsUnmanaged = CFNetworkCopySystemProxySettings() {
@@ -118,7 +118,7 @@ struct NetworkInfo {
                 let proxiesUnmanaged = CFNetworkCopyProxiesForURL(myUrl as CFURL, proxySettings)
                 
                 if let proxies = proxiesUnmanaged.takeRetainedValue() as? [[String : Any]], proxies.count > 0 {
-
+                    
                     return proxies[0]
                 }
             }
@@ -127,36 +127,37 @@ struct NetworkInfo {
     }()
     
     
-    internal static var proxyHost : String? {
+    internal static var networkInfoproxyHost : String? {
         
-        guard let entry = proxyEntry else { return nil }
+        guard let entry = networkInfoProxyEntry else { return nil }
         return entry[ProxyConfigType.proxyHost.rawValue] as? String
         
     }
     
-    internal static var proxyPort : String? {
-
-        guard let entry = proxyEntry else { return nil }
+    internal static var networkInfoProxyPort : String? {
+        
+        guard let entry = networkInfoProxyEntry else { return nil }
         return entry[ProxyConfigType.proxyPort.rawValue] as? String
     }
     
-    internal static var isProxyConnected : Bool {
+    internal static var networkInfoIsProxyConnected : Bool {
         
-        guard let entry = proxyEntry,
+        guard let entry = networkInfoProxyEntry,
             let configString = entry[ProxyConfigType.proxyType.rawValue] as? String,
             let type = ProxyType(rawValue: configString)
             
             else { return false }
-        return type.isConnected
+        return type.isProxyConnected
     }
     
-    internal static var proxyType : String? {
+    internal static var networkInfoProxyType : String? {
         
-        guard let entry = proxyEntry,
+        guard let entry = networkInfoProxyEntry,
             let configString = entry[ProxyConfigType.proxyType.rawValue] as? String,
             let type = ProxyType(rawValue: configString)
-        
-        else { return nil }
-        return type.isType
+            
+            else { return nil }
+        return type.isProxyType
     }
 }
+

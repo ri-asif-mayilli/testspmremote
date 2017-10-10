@@ -187,14 +187,14 @@ struct ContactStoreDTO : Codable {
     }
 }
 
-struct NetworkInfoDTO : Codable {
+internal struct NetworkInfoDTO : Codable {
  
-    let ip = NetworkInfo.getWiFiAddress
-    let ssid = NetworkInfo.getWiFiSsid?.djb2hash
+    let ip = RSdkNetworkInfo.networkInfoGetWiFiAddress
+    let ssid = RSdkNetworkInfo.networkInfoGetWiFiSsid?.djb2hash
     var proxy: ProxyInfoDTO?
 
     public init() {
-        if (NetworkInfo.isProxyConnected) {
+        if (RSdkNetworkInfo.networkInfoIsProxyConnected) {
             self.proxy = ProxyInfoDTO()
         }
     }
@@ -202,9 +202,9 @@ struct NetworkInfoDTO : Codable {
 
 struct ProxyInfoDTO : Codable {
     
-    let proxyType   = NetworkInfo.proxyType
-    let proxyHost   = NetworkInfo.proxyHost
-    let proxyPort   = NetworkInfo.proxyPort
+    let proxyType   = RSdkNetworkInfo.networkInfoProxyType
+    let proxyHost   = RSdkNetworkInfo.networkInfoproxyHost
+    let proxyPort   = RSdkNetworkInfo.networkInfoProxyPort
 }
 
 struct LocaleInfoDTO : Codable {

@@ -201,6 +201,7 @@ struct NetworkInfoDTO : Codable {
 }
 
 struct ProxyInfoDTO : Codable {
+    
     let proxyType   = NetworkInfo.proxyType
     let proxyHost   = NetworkInfo.proxyHost
     let proxyPort   = NetworkInfo.proxyPort

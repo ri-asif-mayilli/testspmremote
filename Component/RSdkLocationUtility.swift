@@ -9,7 +9,7 @@
 import Foundation
 import MapKit
 
-public class RSdkLocation {
+internal class RSdkLocation {
     
     var latitude  : Double = 0
     var longitude : Double = 0
@@ -25,10 +25,10 @@ public class RSdkLocation {
     }
 }
 
-public class LocationUtility
+internal class RSdkLocationUtility
 {
     
-    public static func makeLocationCoarse(fromCLLocation location : CLLocation) -> CLLocation?
+    internal static func makeLocationCoarse(fromCLLocation location : CLLocation) -> CLLocation?
     
     {
         let granularityInMeters : Double = 10 * 1000;
@@ -37,7 +37,7 @@ public class LocationUtility
         return makeLocationCoarse2(location: newLocation, granularityInMeters: granularityInMeters);
     }
    
-    public static func makeLocationCoarse2(location : RSdkLocation, granularityInMeters : Double) -> CLLocation {
+    private static func makeLocationCoarse2(location : RSdkLocation, granularityInMeters : Double) -> CLLocation {
         
         let courseLocation = RSdkLocation()
 
@@ -104,13 +104,13 @@ public class LocationUtility
         
     }
     
-    public static func calculateGranularity() {
+    private static func calculateGranularity() {
         
         
         
     }
     
-    public static func makeLocationCoarse(location : RSdkLocation, granularityInMeters : Double) -> CLLocation? {
+    private static func makeLocationCoarse(location : RSdkLocation, granularityInMeters : Double) -> CLLocation? {
         
         if(location.latitude == 0 && location.longitude == 0) {
             

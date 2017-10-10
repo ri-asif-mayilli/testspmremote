@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct RSdKLocaleInfo {
+internal struct RSdkLocaleInfo {
     
     internal static var localeInfoPreferredLanguages : [String] {
         

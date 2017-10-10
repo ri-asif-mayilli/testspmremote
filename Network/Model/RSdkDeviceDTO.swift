@@ -209,8 +209,8 @@ internal struct ProxyInfoDTO : Codable {
 
 internal struct LocaleInfoDTO : Codable {
     
-    let preferredLanguages = LocaleInfo.preferredLanguages
-    let timeZone = LocaleInfo.localTimeZone
+    let preferredLanguages = RSdkLocaleInfo.localeInfoPreferredLanguages
+    let timeZone = RSdkLocaleInfo.localeInfoLocalTimeZone
 }
 
 internal struct IdentifierInfoDTO : Codable {

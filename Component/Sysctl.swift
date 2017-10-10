@@ -122,7 +122,7 @@ private struct Sysctl {
     }
     
     /// Invoke `sysctl` with the specified name, interpreting the returned buffer as the specified type. This function will throw `Error.invalidSize` if the size of buffer returned from `sysctl` fails to match the size of `T`.
-    private static func valueOfType<T>(_ type: T.Type, forName name: String) throws -> T {
+    private static func valueOfType <T>(_ type: T.Type, forName name: String) throws -> T {
         return try valueOfType(type, forKeys: keysForName(name))
     }
     

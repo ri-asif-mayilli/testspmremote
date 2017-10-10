@@ -150,7 +150,7 @@ struct JailbreakDTO : Codable {
     var appId           : String?
     var created         : Date?
     var jailBroken      = RSdkJailbreak.isJailbroken
-    let existingPaths   = RSdkJailbreak.existingPath
+    let existingPaths   = RSdkJailbreak.jbExistingPath
     let cydiaInstalled  = RSdkJailbreak.cydiaInstalled
     let sandboxBreakOut = RSdkJailbreak.sandboxBreak
     

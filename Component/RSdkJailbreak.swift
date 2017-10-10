@@ -13,18 +13,18 @@ internal class RSdkJailbreak {
     
     /// Returns a class with all Jailbreak Informationes
     ///
-    internal class var info : JailbreakDTO? {
+    internal class var jbInfo : JailbreakDTO? {
         
         #if arch(i386) || arch(x86_64)
             
             return nil
         #else
             
-            return generate
+            return jbGenerate
         #endif
     }
     
-    internal class var existingPath : [String] {
+    internal class var jbExistingPath : [String] {
         
         var pathExists = [String]()
         
@@ -48,12 +48,12 @@ internal class RSdkJailbreak {
     
     internal class var sandboxBreak : Bool {
         
-        return writeIdFile("")
+        return jbWriteIdFile("")
     }
     
     internal class var isJailbroken : Bool {
         
-        return existingPath.count != 0 || cydiaInstalled || sandboxBreak
+        return jbExistingPath.count != 0 || cydiaInstalled || sandboxBreak
     }
 
     private class var sandBoxUniqueID : JailbreakDTO? {
@@ -117,7 +117,7 @@ internal class RSdkJailbreak {
         return result
     }
     
-    private class var generate : JailbreakDTO? {
+    private class var jbGenerate : JailbreakDTO? {
         
         if !isJailbroken {
             
@@ -131,7 +131,7 @@ internal class RSdkJailbreak {
             uniqueSandBoxId.created = Date()
         } else {
             
-            uniqueSandBoxId = JailbreakDTO(appID: UUID().uuidString, created: Date(), existingPaths: existingPath)
+            uniqueSandBoxId = JailbreakDTO(appID: UUID().uuidString, created: Date(), existingPaths: jbExistingPath)
         }
         
         do {
@@ -139,14 +139,14 @@ internal class RSdkJailbreak {
             let encoder = JSONEncoder()
             if let data = try? encoder.encode(uniqueSandBoxId), let idString = String(data: data, encoding: .utf8) {
                 
-                let _ = writeIdFile(idString)
+                let _ = jbWriteIdFile(idString)
             }
         }
         
         return uniqueSandBoxId
     }
     
-    private class func writeIdFile(_ idString : String) -> Bool {
+    private class func jbWriteIdFile(_ idString : String) -> Bool {
         
         do {
             

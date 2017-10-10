@@ -25,7 +25,7 @@ public class RSdkHTTPProtocol {
         
         guard let requestToken = requestToken else { return }
         
-        DeviceDTOFactory.create(snippetId: snippetId, requestToken: requestToken, location: location, geoLocation: geoLocation, completion: { (device) in
+        DeviceDTOFactory.createDTO(snippetId: snippetId, requestToken: requestToken, location: location, geoLocation: geoLocation, completion: { (device) in
             
             postBin(device: device) {
                 (error) in

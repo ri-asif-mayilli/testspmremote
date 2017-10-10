@@ -26,7 +26,7 @@ internal struct RSdkDeviceInfo {
         return UIDevice.current.localizedModel
     }
     
-    internal static var deviceInfosystemName : String {
+    internal static var deviceInfoSystemName : String {
         
         return UIDevice.current.systemName
     }
@@ -181,7 +181,7 @@ internal struct RSdkBattery {
         return UIDevice.current.isBatteryMonitoringEnabled
     }
     
-    static var rsdkState : String {
+    static var rsdkBatteryState : String {
         
         var weEnabled = false
         
@@ -218,17 +218,17 @@ internal struct RSdkBattery {
 
 internal struct RSdkProximity {
  
-    static var rsdkMonitoringEnabled : Bool {
+    static var rsdkProximityMonitoringEnabled : Bool {
         
         return UIDevice.current.isProximityMonitoringEnabled
     }
     
-    internal static func rsdkState(completion: @escaping (Bool) -> Void) {
+    internal static func rsdkProximityState(completion: @escaping (Bool) -> Void) {
         
         DispatchQueue.main.async {
         
             var weEnabled = false
-            if !rsdkMonitoringEnabled {
+            if !rsdkProximityMonitoringEnabled {
              
                 weEnabled = true
                 UIDevice.current.isProximityMonitoringEnabled = !UIDevice.current.isProximityMonitoringEnabled

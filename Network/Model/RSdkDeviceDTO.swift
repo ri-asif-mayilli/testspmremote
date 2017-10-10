@@ -63,7 +63,7 @@ struct DeviceVarsDTO : Codable {
     let name            = RSdkDeviceInfo.deviceInfoName
     let model           = RSdkDeviceInfo.deviceInfoModel
     let localizedModel  = RSdkDeviceInfo.deviceInfoLocalizedModel
-    let systemName      = RSdkDeviceInfo.deviceInfosystemName
+    let systemName      = RSdkDeviceInfo.deviceInfoSystemName
     let systemVersion   = RSdkDeviceInfo.deviceInfoSystemVersion
     let orientationNotification = RSdkDeviceInfo.deviceInfoOrientationNotifaction
     let deviceOrientation = RSdkDeviceInfo.deviceInfoDeviceOrientation
@@ -74,13 +74,13 @@ struct DeviceVarsDTO : Codable {
 struct BatteryDTO  : Codable {
 
     let batteryMonitoringEnabled = RSdkBattery.rsdkMonitoringEnabled
-    let batteryState    = RSdkBattery.rsdkState
+    let batteryState    = RSdkBattery.rsdkBatteryState
     let batteryLevel    = RSdkBattery.rsdkLevel
 }
 
 struct ProximityDTO : Codable {
     
-    let monitoringEnabled = RSdkProximity.rsdkMonitoringEnabled
+    let monitoringEnabled = RSdkProximity.rsdkProximityMonitoringEnabled
     let state             : Bool
     
     init(state : Bool) {

@@ -99,7 +99,7 @@ enum RequestManagerType {
 
 internal class RSdkRequestManager {
     
-    static let shared = RSdkRequestManager()
+    static let sharedRequestManager = RSdkRequestManager()
     private init() {
         
         let configuration = URLSessionConfiguration.default

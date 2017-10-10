@@ -14,7 +14,7 @@ internal class RSdkLocationManager {
     let _locationManager : CLLocationManager
     let _locationManagerDelegate = LocationManagerDelegate()
     
-    public static let shared = RSdkLocationManager()
+    public static let sharedLocationManager = RSdkLocationManager()
     private init() {
   
         _locationManager = CLLocationManager()

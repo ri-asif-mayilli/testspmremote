@@ -39,7 +39,7 @@ internal class RSdkHTTPProtocol {
         
         DispatchQueue.global(qos: .userInteractive).async {
         
-            RSdkRequestManager.shared.doRequest(requestType: .postBin(deviceDTO: device)) {
+            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postBin(deviceDTO: device)) {
                 
                 (data, error) in
                 

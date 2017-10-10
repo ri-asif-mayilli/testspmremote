@@ -13,7 +13,7 @@ import UIKit
 
 struct RSdkContactInfo {
     
-    internal static var access : Bool {
+    internal static var accessContacts : Bool {
         
         if #available(iOS 9, *) {
             return permission
@@ -89,7 +89,7 @@ struct RSdkContactInfo {
     internal static var conctactStores : [ContactStoreDTO] {
 
         if #available(iOS 9, *) {
-            if access {
+            if accessContacts {
                 
                 return rSdkContactStores
             }

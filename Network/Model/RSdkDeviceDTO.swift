@@ -167,7 +167,7 @@ struct JailbreakDTO : Codable {
 
 struct ContactDTO : Codable {
     
-    let access          = RSdkContactInfo.access
+    let access          = RSdkContactInfo.accessContacts
     let contactsStores  = RSdkContactInfo.conctactStores
 }
 

@@ -13,7 +13,7 @@ typealias RSdkDeviceDTOCompletion = (RSdkDeviceDTO) -> Void
 
 internal class DeviceDTOFactory {
     
-    internal static func create(snippetId: String, requestToken: String, location: String? = nil, geoLocation: CLLocation?, completion: @escaping RSdkDeviceDTOCompletion) {
+    internal static func createDTO(snippetId: String, requestToken: String, location: String? = nil, geoLocation: CLLocation?, completion: @escaping RSdkDeviceDTOCompletion) {
         
         createNotificationDTO(snippetId: snippetId, requestToken: requestToken, location: location, geoLocation: geoLocation) {
          

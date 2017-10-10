@@ -36,7 +36,7 @@ internal class RSdkLocationManager {
     
     fileprivate let concurrentQueue =
         DispatchQueue(
-            label: "com.riskidenkt.risksdk.locationmanager", // 1
+            label: "com.riskidenkt.risksdk.risklocationmanager", // 1
             attributes: .concurrent) // 2
     
     @available(iOS 9, *)
@@ -115,7 +115,7 @@ protocol LocationManagerDelegateProtocol {
 
 class RSdkLocationManagerDelegate : NSObject, CLLocationManagerDelegate {
 
-    let privateQueue = DispatchQueue(label: "com.riskidenkt.risksdk.locationmanagerdelegate", attributes: .concurrent)
+    let privateQueue = DispatchQueue(label: "com.riskidenkt.risksdk.risklocationmanagerdelegate", attributes: .concurrent)
     
     private var _delegate : LocationManagerDelegateProtocol?
     

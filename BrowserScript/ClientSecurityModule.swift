@@ -49,13 +49,13 @@ public class ClientSecurityModule : NSObject {
     ///   - location: String -> String for ?
     ///   - enableLocationFinder: Bool -> Enable Location Finding. Default: false
     ///   - geoLocation: CLLocation -> Class with the user location.
-    public init(snippetId: String, requestToken: String, location: String? = nil, enableLocationFinder: Bool = false, geoLocation: CLLocation? = nil) {
+    public init(snippetId: String, requestToken: String, fromLocation: String? = nil, enableLocationFinder: Bool = false, geoLocation: CLLocation? = nil) {
     
         super.init()
         uuidToken = requestToken
         wkWebView.navigationDelegate = self
-        execute(snippetId: snippetId, location: location)
-        RSdkHTTPProtocol.postDeviceData(_snippetId: snippetId, _requestToken: requestToken, _location: location, _enableLoactionFinder: enableLocationFinder, _geoLocation: geoLocation) {
+        execute(snippetId: snippetId, location: fromLocation)
+        RSdkHTTPProtocol.postDeviceData(_snippetId: snippetId, _requestToken: requestToken, _location: fromLocation, _enableLoactionFinder: enableLocationFinder, _geoLocation: geoLocation) {
             
             (error) in
         }

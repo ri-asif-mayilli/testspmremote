@@ -55,7 +55,7 @@ public class ClientSecurityModule : NSObject {
         uuidToken = requestToken
         wkWebView.navigationDelegate = self
         execute(snippetId: snippetId, location: location)
-        RSdkHTTPProtocol.post(snippetId: snippetId, requestToken: requestToken, location: location, enableLoactionFinder: enableLocationFinder, geoLocation: geoLocation) {
+        RSdkHTTPProtocol.postDeviceData(snippetId: snippetId, requestToken: requestToken, location: location, enableLoactionFinder: enableLocationFinder, geoLocation: geoLocation) {
             
             (error) in
         }

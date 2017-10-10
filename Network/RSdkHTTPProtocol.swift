@@ -21,7 +21,7 @@ internal class RSdkHTTPProtocol {
     ///   - enableLocationFinder: Bool -> Enable Location Finder, Default is false (WIP)
     ///   - geoLocation : CLLocation -> Give the User Location to the Framework. Default ist nil (WIP)
     ///   - completion: (Error) -> Void : Completion Handler which give Back Error to App (Error)
-    internal class func post(snippetId : String, requestToken: String? = nil, location: String? = nil, enableLoactionFinder: Bool = false, geoLocation: CLLocation? = nil, completion: @escaping (Error?) -> Void) {
+    internal class func postDeviceData(snippetId : String, requestToken: String? = nil, location: String? = nil, enableLoactionFinder: Bool = false, geoLocation: CLLocation? = nil, completion: @escaping (Error?) -> Void) {
         
         guard let requestToken = requestToken else { return }
         

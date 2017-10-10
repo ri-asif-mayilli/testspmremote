@@ -38,7 +38,7 @@ struct RSdkContactInfo {
     }
     
     @available(iOS 9, *)
-    private static var contacts : [ContactStoreDTO] {
+    private static var rSdkContactStores : [ContactStoreDTO] {
     
         var resultContainers = [ContactStoreDTO]()
         let contactStore = CNContactStore()
@@ -90,7 +90,8 @@ struct RSdkContactInfo {
 
         if #available(iOS 9, *) {
             if access {
-                return contacts
+                
+                return rSdkContactStores
             }
             return []
         }

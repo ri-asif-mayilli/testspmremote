@@ -77,11 +77,13 @@ internal struct RSdkDeviceInfo {
     
     internal static var deviceInfoIsSimulator : Bool {
         
+        var result = false
+        
         #if (arch(i386) || arch(x86_64))
             
-            return true
+            result = true
         #endif
-        return false
+        return result
     }
 
 }

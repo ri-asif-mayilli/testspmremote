@@ -109,7 +109,7 @@ extension RSdkLocationManager : LocationManagerDelegateProtocol {
 protocol LocationManagerDelegateProtocol {
     
     func locationComplete(withLocation location: CLLocation)
-    func locationComplete(withHeading heading: CLHeading)
+    func locationComplete(withHeading location: CLHeading)
     func locationComplete(withError error: Error, location: Bool)
 }
 

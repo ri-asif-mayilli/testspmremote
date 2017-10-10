@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-internal struct DeviceInfo {
+internal struct RSdkDeviceInfo {
     
     internal static var deviceInfoName : String {
         

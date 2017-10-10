@@ -60,15 +60,15 @@ struct NotificationDTO : Codable {
 
 struct DeviceVarsDTO : Codable {
     
-    let name            = DeviceInfo.deviceInfoName
-    let model           = DeviceInfo.deviceInfoModel
-    let localizedModel  = DeviceInfo.deviceInfoLocalizedModel
-    let systemName      = DeviceInfo.deviceInfosystemName
-    let systemVersion   = DeviceInfo.deviceInfoSystemVersion
-    let orientationNotification = DeviceInfo.deviceInfoOrientationNotifaction
-    let deviceOrientation = DeviceInfo.deviceInfoDeviceOrientation
-    let multitasking    = DeviceInfo.deviceInfoMultitaskingSupported
-    let isSimulator     = DeviceInfo.deviceInfoIsSimulator
+    let name            = RSdkDeviceInfo.deviceInfoName
+    let model           = RSdkDeviceInfo.deviceInfoModel
+    let localizedModel  = RSdkDeviceInfo.deviceInfoLocalizedModel
+    let systemName      = RSdkDeviceInfo.deviceInfosystemName
+    let systemVersion   = RSdkDeviceInfo.deviceInfoSystemVersion
+    let orientationNotification = RSdkDeviceInfo.deviceInfoOrientationNotifaction
+    let deviceOrientation = RSdkDeviceInfo.deviceInfoDeviceOrientation
+    let multitasking    = RSdkDeviceInfo.deviceInfoMultitaskingSupported
+    let isSimulator     = RSdkDeviceInfo.deviceInfoIsSimulator
 }
 
 struct BatteryDTO  : Codable {

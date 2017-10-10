@@ -23,9 +23,9 @@
 import Foundation
 import CoreTelephony
 
-struct CellularInfo {
+internal struct RSdkCellularInfo {
     
-    internal static var currentAccessTechnology : String? {
+    internal static var celluarInfoCurrentAccessTechnology : String? {
     
         if #available(iOS 9, *) {
             return CTTelephonyNetworkInfo().currentRadioAccessTechnology
@@ -34,35 +34,35 @@ struct CellularInfo {
     }
 }
 
-struct CarrierInfo {
+internal struct RSdkCarrierInfo {
     
-    static private var carrier : CTCarrier? {
+    static private var carrierInfoCarrier : CTCarrier? {
         
         return CTTelephonyNetworkInfo().subscriberCellularProvider
     }
     
-    static internal var name : String? {
+    static internal var carrierInfoName : String? {
         
-        return carrier?.carrierName
+        return carrierInfoCarrier?.carrierName
     }
     
-    static internal var countryCode : String? {
+    static internal var carrierInfoCountryCode : String? {
     
-        return carrier?.mobileCountryCode
+        return carrierInfoCarrier?.mobileCountryCode
     }
     
-    static internal var networkCode : String? {
+    static internal var carrierInfoNetworkCode : String? {
     
-        return carrier?.mobileNetworkCode
+        return carrierInfoCarrier?.mobileNetworkCode
     }
     
-    static internal var isoCountryCode : String? {
+    static internal var carrierInfoIsoCountryCode : String? {
         
-        return carrier?.isoCountryCode
+        return carrierInfoCarrier?.isoCountryCode
     }
     
-    static internal var allowsVoip : Bool? {
+    static internal var carrierInfoAllowsVoip : Bool? {
         
-        return carrier?.allowsVOIP
+        return carrierInfoCarrier?.allowsVOIP
     }
 }

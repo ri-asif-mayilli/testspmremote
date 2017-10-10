@@ -12,7 +12,7 @@ import CoreLocation
 internal class RSdkLocationManager {
     
     let _locationManager : CLLocationManager
-    let _locationManagerDelegate = LocationManagerDelegate()
+    let _locationManagerDelegate = RSdkLocationManagerDelegate()
     
     public static let sharedLocationManager = RSdkLocationManager()
     private init() {
@@ -113,7 +113,7 @@ protocol LocationManagerDelegateProtocol {
     func locationComplete(withError error: Error, location: Bool)
 }
 
-class LocationManagerDelegate : NSObject, CLLocationManagerDelegate {
+class RSdkLocationManagerDelegate : NSObject, CLLocationManagerDelegate {
 
     let privateQueue = DispatchQueue(label: "com.riskidenkt.risksdk.locationmanagerdelegate", attributes: .concurrent)
     

@@ -14,7 +14,7 @@ enum RSdkSyctlInfoType {
     case memSize
     case machineArch
     
-    var value : String {
+    var sysctlValue : String {
         
         switch(self) {
         case .machineArch:

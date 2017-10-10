@@ -8,14 +8,14 @@
 
 import Foundation
 
-struct LocaleInfo {
+struct RSdKLocaleInfo {
     
-    internal static var preferredLanguages : [String] {
+    internal static var localeInfoPreferredLanguages : [String] {
         
         return NSLocale.preferredLanguages
     }
     
-    internal static var localTimeZone : String {
+    internal static var localeInfoLocalTimeZone : String {
         
         return TimeZone.current.identifier
     }

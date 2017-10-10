@@ -200,30 +200,30 @@ internal struct NetworkInfoDTO : Codable {
     }
 }
 
-struct ProxyInfoDTO : Codable {
+internal struct ProxyInfoDTO : Codable {
     
     let proxyType   = RSdkNetworkInfo.networkInfoProxyType
     let proxyHost   = RSdkNetworkInfo.networkInfoproxyHost
     let proxyPort   = RSdkNetworkInfo.networkInfoProxyPort
 }
 
-struct LocaleInfoDTO : Codable {
+internal struct LocaleInfoDTO : Codable {
     
     let preferredLanguages = LocaleInfo.preferredLanguages
     let timeZone = LocaleInfo.localTimeZone
 }
 
-struct IdentifierInfoDTO : Codable {
+internal struct IdentifierInfoDTO : Codable {
     
-    let vendorId              = IdentifierInfo.vendor
-    let advertTrackingEnabled = IdentifierInfo.isAdvertisingEnabled
-    let advertTrackingId      = IdentifierInfo.advertising
+    let vendorId              = RSdkIdentifierInfo.identifierInfoVendor
+    let advertTrackingEnabled = RSdkIdentifierInfo.identifierInfoIsAdvertisingEnabled
+    let advertTrackingId      = RSdkIdentifierInfo.identifierInfoAdvertising
 }
 
-struct MotionInfoDTO : Codable {
+internal struct MotionInfoDTO : Codable {
     
-    let accelerometerAvailable = MotionInfo.accelerometerAvailable
-    let deviceMotionAvailable = MotionInfo.deviceMotionAvailable
-    let magnetometerAvailable = MotionInfo.magnetometerAvailable
-    let gyroAvailable = MotionInfo.gyroAvailable
+    let accelerometerAvailable  = RSdkMotionInfo.motionInfoAccelerometerAvailable
+    let deviceMotionAvailable   = RSdkMotionInfo.motionInfoDeviceMotionAvailable
+    let magnetometerAvailable   = RSdkMotionInfo.motionInfoMagnetometerAvailable
+    let gyroAvailable           = RSdkMotionInfo.motionInfoGyroAvailable
 }

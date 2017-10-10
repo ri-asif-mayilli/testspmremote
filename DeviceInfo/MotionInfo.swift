@@ -8,24 +8,24 @@
 
 import CoreMotion
 
-struct MotionInfo {
+struct RSdkMotionInfo {
     
-    internal static var deviceMotionAvailable : Bool {
+    internal static var motionInfoDeviceMotionAvailable : Bool {
         
         return CMMotionManager().isDeviceMotionAvailable
     }
 
-    internal static var accelerometerAvailable : Bool {
+    internal static var motionInfoAccelerometerAvailable : Bool {
         
         return CMMotionManager().isAccelerometerAvailable
     }
     
-    internal static var gyroAvailable : Bool {
+    internal static var motionInfoGyroAvailable : Bool {
         
         return CMMotionManager().isGyroAvailable
     }
     
-    internal static var magnetometerAvailable : Bool {
+    internal static var motionInfoMagnetometerAvailable : Bool {
         
         return CMMotionManager().isMagnetometerAvailable
     }

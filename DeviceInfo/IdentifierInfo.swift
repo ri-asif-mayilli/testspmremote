@@ -9,19 +9,19 @@
 import UIKit
 import AdSupport
 
-struct IdentifierInfo {
+struct RSdkIdentifierInfo {
     
-    internal static var vendor : String? {
+    internal static var identifierInfoVendor : String? {
     
         return UIDevice.current.identifierForVendor?.uuidString
     }
     
-    internal static var isAdvertisingEnabled : Bool {
+    internal static var identifierInfoIsAdvertisingEnabled : Bool {
         
         return ASIdentifierManager.shared().isAdvertisingTrackingEnabled
     }
     
-    internal static var advertising : String {
+    internal static var identifierInfoAdvertising : String {
         
         return ASIdentifierManager.shared().advertisingIdentifier.uuidString
     }

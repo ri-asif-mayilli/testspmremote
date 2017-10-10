@@ -46,7 +46,7 @@ public class ClientSecurityModule : NSObject {
     /// - Parameters:
     ///   - snippetId: String -> The snippet id
     ///   - uniqueId: String -> A Unique execution UUID for the Call.
-    ///   - location: String -> String for ?
+    ///   - fromLocation: String -> String for ?
     ///   - enableLocationFinder: Bool -> Enable Location Finding. Default: false
     ///   - geoLocation: CLLocation -> Class with the user location.
     public init(snippetId: String, requestToken: String, fromLocation: String? = nil, enableLocationFinder: Bool = false, geoLocation: CLLocation? = nil) {

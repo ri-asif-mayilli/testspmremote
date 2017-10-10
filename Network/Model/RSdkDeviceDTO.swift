@@ -60,27 +60,27 @@ struct NotificationDTO : Codable {
 
 struct DeviceVarsDTO : Codable {
     
-    let name            = DeviceInfo.name
-    let model           = DeviceInfo.model
-    let localizedModel  = DeviceInfo.localizedModel
-    let systemName      = DeviceInfo.systemName
-    let systemVersion   = DeviceInfo.systemVersion
-    let orientationNotification = DeviceInfo.orientationNotifaction
-    let deviceOrientation = DeviceInfo.deviceOrientation
-    let multitasking    = DeviceInfo.multitaskingSupported
-    let isSimulator     = DeviceInfo.isSimulator
+    let name            = DeviceInfo.deviceInfoName
+    let model           = DeviceInfo.deviceInfoModel
+    let localizedModel  = DeviceInfo.deviceInfoLocalizedModel
+    let systemName      = DeviceInfo.deviceInfosystemName
+    let systemVersion   = DeviceInfo.deviceInfoSystemVersion
+    let orientationNotification = DeviceInfo.deviceInfoOrientationNotifaction
+    let deviceOrientation = DeviceInfo.deviceInfoDeviceOrientation
+    let multitasking    = DeviceInfo.deviceInfoMultitaskingSupported
+    let isSimulator     = DeviceInfo.deviceInfoIsSimulator
 }
 
 struct BatteryDTO  : Codable {
 
-    let batteryMonitoringEnabled = Battery.monitoringEnabled
-    let batteryState    = Battery.state
-    let batteryLevel    = Battery.level
+    let batteryMonitoringEnabled = RSdkBattery.rsdkMonitoringEnabled
+    let batteryState    = RSdkBattery.rsdkState
+    let batteryLevel    = RSdkBattery.rsdkLevel
 }
 
 struct ProximityDTO : Codable {
     
-    let monitoringEnabled = Proximity.monitoringEnabled
+    let monitoringEnabled = RSdkProximity.rsdkMonitoringEnabled
     let state             : Bool
     
     init(state : Bool) {
@@ -91,26 +91,26 @@ struct ProximityDTO : Codable {
 
 struct ScreenDTO : Codable {
     
-    let idiom   = Display.userInterfaceIdiom
-    let interfaceLayout = Display.userInterfaceLayout
+    let idiom   = RSdkDisplay.rsdkDisplayUserInterfaceIdiom
+    let interfaceLayout = RSdkDisplay.rsdkUserInterfaceLayout
     let bounds  = ScreenBoundDTO()
     let size    = ScreenSizeDTO()
 }
 
 struct ScreenBoundDTO : Codable {
     
-    let minX    = Display.screenBoundMinX
-    let maxX    = Display.screenBoundMaxX
-    let minY    = Display.screenBoundMinY
-    let maxY    = Display.screenBoundMaxX
-    let height  = Display.screenBoundHeight
-    let width   = Display.screenBoundWidth
+    let minX    = RSdkDisplay.rsdkScreenBoundMinX
+    let maxX    = RSdkDisplay.rsdkScreenBoundMaxX
+    let minY    = RSdkDisplay.rsdkScreenBoundMinY
+    let maxY    = RSdkDisplay.rsdkScreenBoundMaxX
+    let height  = RSdkDisplay.rsdkScreenBoundHeight
+    let width   = RSdkDisplay.rsdkScreenBoundWidth
 }
 
 struct ScreenSizeDTO : Codable {
     
-    let height = Display.screenSizeHeight
-    let width  = Display.screenBoundWidth
+    let height = RSdkDisplay.rsdkScreenSizeHeight
+    let width  = RSdkDisplay.rsdkScreenBoundWidth
 }
 
 struct CellularDTO : Codable {

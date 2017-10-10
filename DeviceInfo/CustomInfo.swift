@@ -10,9 +10,9 @@ import Foundation
 import CoreTelephony
 import UIKit
 
-class CustomInfo {
+internal struct CustomInfo {
     
-    public var applicationState : String {
+    internal var customInfoApplicationState : String {
         
         switch (UIApplication.shared.applicationState) {
             

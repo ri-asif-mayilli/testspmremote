@@ -9,39 +9,39 @@
 import Foundation
 import UIKit
 
-struct DeviceInfo {
+internal struct DeviceInfo {
     
-    internal static var name : String {
+    internal static var deviceInfoName : String {
         
         return UIDevice.current.name
     }
     
-    internal static var model : String {
+    internal static var deviceInfoModel : String {
         
         return UIDevice.current.model
     }
     
-    internal static var localizedModel : String {
+    internal static var deviceInfoLocalizedModel : String {
         
         return UIDevice.current.localizedModel
     }
     
-    internal static var systemName : String {
+    internal static var deviceInfosystemName : String {
         
         return UIDevice.current.systemName
     }
     
-    internal static var systemVersion : String {
+    internal static var deviceInfoSystemVersion : String {
         
         return UIDevice.current.systemVersion
     }
     
-    internal static var orientationNotifaction : Bool {
+    internal static var deviceInfoOrientationNotifaction : Bool {
         
         return UIDevice.current.isGeneratingDeviceOrientationNotifications
     }
     
-    internal static var deviceOrientation : String {
+    internal static var deviceInfoDeviceOrientation : String {
         
         let orientation = UIDevice.current.orientation
         switch(orientation) {
@@ -69,13 +69,13 @@ struct DeviceInfo {
         }
     }
     
-    internal static var multitaskingSupported : Bool {
+    internal static var deviceInfoMultitaskingSupported : Bool {
     
         return UIDevice.current.isMultitaskingSupported
     
     }
     
-    internal static var isSimulator : Bool {
+    internal static var deviceInfoIsSimulator : Bool {
         
         #if (arch(i386) || arch(x86_64))
             
@@ -86,9 +86,9 @@ struct DeviceInfo {
 
 }
 
-struct Display {
+internal struct RSdkDisplay {
     
-    internal static var userInterfaceIdiom : String {
+    internal static var rsdkDisplayUserInterfaceIdiom : String {
         
         let idiom = UIDevice.current.userInterfaceIdiom
         switch(idiom) {
@@ -106,62 +106,62 @@ struct Display {
         }
     }
     
-    static var brightness : Float {
+    static var rsdkBrightness : Float {
         
         return Float(UIScreen.main.brightness)
     }
     
-    private static var screenBound : CGRect {
+    private static var rsdkScreenBound : CGRect {
         
         return UIScreen.main.bounds
     }
     
-    static var screenBoundMinX : Float {
+    static var rsdkScreenBoundMinX : Float {
         
-        return Float(screenBound.minX)
+        return Float(rsdkScreenBound.minX)
     }
     
-    static var screenBoundMaxX : Float {
+    static var rsdkScreenBoundMaxX : Float {
         
-        return Float(screenBound.maxX)
+        return Float(rsdkScreenBound.maxX)
     }
     
-    static var screenBoundMinY : Float {
+    static var rsdkScreenBoundMinY : Float {
         
-        return Float(screenBound.minY)
+        return Float(rsdkScreenBound.minY)
     }
     
-    static var screenBoundMaxY : Float {
+    static var rsdkScreenBoundMaxY : Float {
         
-        return Float(screenBound.maxY)
+        return Float(rsdkScreenBound.maxY)
     }
     
-    static var screenBoundHeight : Float {
+    static var rsdkScreenBoundHeight : Float {
         
-        return Float(screenBound.height)
+        return Float(rsdkScreenBound.height)
     }
     
-    static var screenBoundWidth : Float {
+    static var rsdkScreenBoundWidth : Float {
         
-        return Float(screenBound.width)
+        return Float(rsdkScreenBound.width)
     }
     
-    static var screenScale : Float {
+    static var rsdkScreenScale : Float {
         
         return Float(UIScreen.main.scale)
     }
     
-    static var screenSizeHeight : Float {
+    static var rsdkScreenSizeHeight : Float {
         
-        return Float(screenBound.size.height)
+        return Float(rsdkScreenBound.size.height)
     }
     
-    static var screenSizeWidth : Float {
+    static var rsdkScreenSizeWidth : Float {
         
-        return Float(screenBound.size.width)
+        return Float(rsdkScreenBound.size.width)
     }
     
-    static var userInterfaceLayout : String {
+    static var rsdkUserInterfaceLayout : String {
         
         switch UIApplication.shared.userInterfaceLayoutDirection {
             
@@ -174,14 +174,14 @@ struct Display {
     }
 }
 
-struct Battery {
+internal struct RSdkBattery {
 
-    static var monitoringEnabled : Bool {
+    static var rsdkMonitoringEnabled : Bool {
         
         return UIDevice.current.isBatteryMonitoringEnabled
     }
     
-    static var state : String {
+    static var rsdkState : String {
         
         var weEnabled = false
         
@@ -210,25 +210,25 @@ struct Battery {
         }
     }
     
-    static var level : Float {
+    static var rsdkLevel : Float {
         
         return UIDevice.current.batteryLevel
     }
 }
 
-struct Proximity {
+internal struct RSdkProximity {
  
-    static var monitoringEnabled : Bool {
+    static var rsdkMonitoringEnabled : Bool {
         
         return UIDevice.current.isProximityMonitoringEnabled
     }
     
-    internal static func state(completion: @escaping (Bool) -> Void) {
+    internal static func rsdkState(completion: @escaping (Bool) -> Void) {
         
         DispatchQueue.main.async {
         
             var weEnabled = false
-            if !monitoringEnabled {
+            if !rsdkMonitoringEnabled {
              
                 weEnabled = true
                 UIDevice.current.isProximityMonitoringEnabled = !UIDevice.current.isProximityMonitoringEnabled

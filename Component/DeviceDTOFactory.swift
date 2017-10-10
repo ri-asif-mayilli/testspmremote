@@ -37,7 +37,7 @@ internal class DeviceDTOFactory {
     
     private static func createProximityDTO(snippetId: String, requestToken: String, location: String? = nil, geoLocation: CLLocation?, notificationDTO : NotificationDTO, withCompletion completion: @escaping RSdkDeviceDTOCompletion)  {
     
-        Proximity.state() {
+        RSdkProximity.rsdkState() {
             
             (state) in
             

@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public class RSdkHTTPProtocol {
+internal class RSdkHTTPProtocol {
     
     
     /// Post Native iOS Data to Risk Ident Backend

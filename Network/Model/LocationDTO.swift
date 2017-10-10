@@ -11,12 +11,12 @@ import MapKit
 
 internal struct LocationDTO : Codable {
 
-    let access = LocationInfo.access
-    let serviceEnabled = LocationInfo.serviceEnabled
-    let deferredLocationUpdates = LocationInfo.deferredLocationUpdatesAvailable
-    let locationChangeMonitoring = LocationInfo.significantLocationChangeMonitoringAvailable
-    let headingAvailable = LocationInfo.headingAvailable
-    let rangingAvailable = LocationInfo.rangingAvailable
+    let access = RSdkLocationInfo.locationInfoAccess
+    let serviceEnabled = RSdkLocationInfo.locationInfoServiceEnabled
+    let deferredLocationUpdates = RSdkLocationInfo.locationInfoDeferredLocationUpdatesAvailable
+    let locationChangeMonitoring = RSdkLocationInfo.locationInfoSignificantLocationChangeMonitoringAvailable
+    let headingAvailable = RSdkLocationInfo.locationInfoHeadingAvailable
+    let rangingAvailable = RSdkLocationInfo.locationInfoRangingAvailable
     var longitude : Double?
     var latitiude : Double?
     

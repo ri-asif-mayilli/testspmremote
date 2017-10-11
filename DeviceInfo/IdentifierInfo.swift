@@ -11,11 +11,6 @@ import AdSupport
 
 struct RSdkIdentifierInfo {
     
-    internal static var identifierInfoVendor : String? {
-    
-        return UIDevice.current.identifierForVendor?.uuidString
-    }
-    
     internal static var identifierInfoIsAdvertisingEnabled : Bool {
         
         return ASIdentifierManager.shared().isAdvertisingTrackingEnabled
@@ -26,4 +21,27 @@ struct RSdkIdentifierInfo {
         return ASIdentifierManager.shared().advertisingIdentifier.uuidString
     }
     
+    internal static var identifierUniqueAppIdentifier : String {
+        
+        if let appIdData = RSdkKeyChainService.load(fromType: .uniqueAppID), let appId = String(data: appIdData, encoding: .utf8) {
+            
+            return  appId
+        }
+        let appId = UUID().uuidString
+        if let data = appId.data(using: .utf8) {
+            
+            let result = RSdkKeyChainService.save(forType: .uniqueAppID, data: data)
+            switch(result) {
+                
+                default:
+                break
+            }
+        }
+        return appId
+    }
+    
+    internal static var identifierInfoVendor : String? {
+        
+        return UIDevice.current.identifierForVendor?.uuidString
+    }
 }

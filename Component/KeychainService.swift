@@ -11,7 +11,7 @@ internal enum RSdkKeyChainIDType : String {
 
 internal class RSdkKeyChainService {
     
-    class func save(key: String, data: Data) -> OSStatus {
+    class func saveToChain(key: String, data: Data) -> OSStatus {
         let query = [
             kSecClass as String       : kSecClassGenericPassword as String,
             kSecAttrAccount as String : key,
@@ -22,7 +22,7 @@ internal class RSdkKeyChainService {
         return SecItemAdd(query as CFDictionary, nil)
     }
     
-    class func save(forType type: RSdkKeyChainIDType, data: Data) -> OSStatus {
+    class func saveToChain(forType type: RSdkKeyChainIDType, data: Data) -> OSStatus {
         let query = [
             kSecClass as String       : kSecClassGenericPassword as String,
             kSecAttrAccount as String : type.rawValue,
@@ -32,7 +32,7 @@ internal class RSdkKeyChainService {
         return SecItemAdd(query as CFDictionary, nil)
     }
     
-    class func load(fromType type: RSdkKeyChainIDType) -> Data? {
+    class func loadFromChain(fromType type: RSdkKeyChainIDType) -> Data? {
         let query = [
             kSecClass as String       : kSecClassGenericPassword,
             kSecAttrAccount as String : type.rawValue,
@@ -50,7 +50,7 @@ internal class RSdkKeyChainService {
         }
     }
     
-    class func load(key: String) -> Data? {
+    class func loadFromChain(key: String) -> Data? {
         let query = [
             kSecClass as String       : kSecClassGenericPassword,
             kSecAttrAccount as String : key,
@@ -66,14 +66,6 @@ internal class RSdkKeyChainService {
         } else {
             return nil
         }
-    }
-    
-    class func createUniqueID() -> String {
-        let uuid: CFUUID = CFUUIDCreate(nil)
-        let cfStr: CFString = CFUUIDCreateString(nil, uuid)
-        
-        let swiftString: String = cfStr as String
-        return swiftString
     }
 }
 

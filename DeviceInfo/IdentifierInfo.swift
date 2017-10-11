@@ -23,14 +23,14 @@ struct RSdkIdentifierInfo {
     
     internal static var identifierUniqueAppIdentifier : String {
         
-        if let appIdData = RSdkKeyChainService.load(fromType: .uniqueAppID), let appId = String(data: appIdData, encoding: .utf8) {
+        if let appIdData = RSdkKeyChainService.loadFromChain(fromType: .uniqueAppID), let appId = String(data: appIdData, encoding: .utf8) {
             
             return  appId
         }
         let appId = UUID().uuidString
         if let data = appId.data(using: .utf8) {
             
-            let result = RSdkKeyChainService.save(forType: .uniqueAppID, data: data)
+            let result = RSdkKeyChainService.saveToChain(forType: .uniqueAppID, data: data)
             switch(result) {
                 
                 default:

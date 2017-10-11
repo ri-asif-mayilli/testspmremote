@@ -130,7 +130,7 @@ internal class RSdkRequestManager {
         
         guard let request = createRequest(requestType: requestType) else {
         
-            completion(nil, NSError(domain: "Postbin", code: 666, userInfo: nil))
+            completion(nil, NSError(domain: "", code: 666, userInfo: nil))
             return
             
         }

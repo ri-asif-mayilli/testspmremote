@@ -60,12 +60,11 @@ public class ClientSecurityModule : NSObject {
             (error) in
         }
         
-        let _ = Obfuscator.sharedObfuscator.bytesByObfuscatingString(string: "/Applications/Cydia.app")
-        let _ = Obfuscator.sharedObfuscator.bytesByObfuscatingString(string: "/Library/MobileSubstrate/MobileSubstrate.dylib")
-        let _ = Obfuscator.sharedObfuscator.bytesByObfuscatingString(string: "/bin/bash")
-        let _ = Obfuscator.sharedObfuscator.bytesByObfuscatingString(string: "/usr/sbin/sshd")
-        let _ = Obfuscator.sharedObfuscator.bytesByObfuscatingString(string: "/etc/apt")
-        let _ = Obfuscator.sharedObfuscator.bytesByObfuscatingString(string: "/private/var/lib/apt")
+        let _ = Obfuscator.sharedObfuscator.bytesByObfuscatingString(string: "application/json; charset=utf-8")
+        let _ = Obfuscator.sharedObfuscator.bytesByObfuscatingString(string: "Content-Type")
+        let _ = Obfuscator.sharedObfuscator.bytesByObfuscatingString(string: "x-di-b")
+        let _ = Obfuscator.sharedObfuscator.bytesByObfuscatingString(string: "Content-Encoding")
+
     }
     
     private func execute(snippetId: String, location: String?) {

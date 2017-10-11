@@ -21,11 +21,13 @@ enum RequestMethod : String {
         switch(self) {
             
         case .post:
-            return "POST"
             
+            return "POST"
         case .get:
+            
             return "GET"
         case .put:
+            
             return "PUT"
         }
         
@@ -104,25 +106,20 @@ internal class RSdkRequestManager {
         
         let configuration = URLSessionConfiguration.default
         let session = URLSession(configuration: configuration)
-        self.session = session
+        self.rsdkRequestSession = session
     }
     
-    let session : URLSession?
+    let rsdkRequestSession : URLSession?
     
     private func createRequest(requestType : RequestManagerType) -> URLRequest? {
         
         guard let url = requestType.url else { return nil }
         var request = URLRequest(url: url)
         request.httpMethod = requestType.method.value
-        if let authString = requestType.authString {
-            
-            request.setValue("Basic \(authString)", forHTTPHeaderField: "Authorization")
-        }
         
         if let payload = requestType.payload {
-
-            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-            request.setValue("x-di-b", forHTTPHeaderField: "Content-Encoding")
+            request.setValue(RSdkVars.RequestManagerVars.encodingType, forHTTPHeaderField: RSdkVars.RequestManagerVars.encodingHeaderType)
+            request.setValue(RSdkVars.RequestManagerVars.xdib, forHTTPHeaderField: RSdkVars.RequestManagerVars.xdibContentEncoding)
             request.httpBody = payload
         }
         
@@ -137,7 +134,7 @@ internal class RSdkRequestManager {
             return
             
         }
-        let task = session?.dataTask(with: request) {
+        let task = rsdkRequestSession?.dataTask(with: request) {
             
             (data, response, error) in
             

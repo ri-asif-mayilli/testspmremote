@@ -8,6 +8,35 @@
 
 internal struct RSdkVars {
     
+    internal struct RequestManagerVars {
+        
+        private static var _encodingType : [UInt8] = [58, 82, 41, 45, 3, 54, 36, 0, 29, 29, 54, 78, 38, 3, 13, 9, 79, 121, 20, 14, 7, 55, 38, 38, 31, 117, 48, 86, 74, 13, 26]
+        internal static var encodingType : String {
+            
+            return Obfuscator.sharedObfuscator.revealObfuscation(key: _encodingType)
+        }
+        
+        private static var _encodingHeaderType : [UInt8] = [24, 77, 55, 53, 15, 59, 49, 89, 32, 11, 40, 4]
+        internal static var encodingHeaderType : String {
+            
+            return Obfuscator.sharedObfuscator.revealObfuscation(key: _encodingHeaderType)
+        }
+        
+        private static var _xdib : [UInt8] = [35, 15, 61, 40, 71, 55]
+        internal static var xdib : String {
+            
+            return Obfuscator.sharedObfuscator.revealObfuscation(key: _xdib)
+        }
+        
+        private static var _xdibContentEncoding : [UInt8] = [24, 77, 55, 53, 15, 59, 49, 89, 49, 28, 59, 14, 40, 25, 12, 0]
+        internal static var xdibContentEncoding : String {
+            
+            return Obfuscator.sharedObfuscator.revealObfuscation(key: _xdibContentEncoding)
+        }
+        
+        
+    }
+    
     internal static var jailBreakPath   : [UInt8] = [116, 82, 43, 40, 28, 52, 49, 17, 91, 4, 57, 19, 99, 2, 6, 20, 16, 50, 89, 18, 30, 49]
     
     // content [ String ] = [ "Applications/Cydia.app", "/Library/MobileSubstrate/MobileSubstrate.dylib", "/bin/bash", "/usr/sbin/sshd", "/etc/apt", "/private/var/lib/apt" ]
@@ -60,7 +89,7 @@ internal struct RSdkVars {
         return Obfuscator.sharedObfuscator.revealObfuscation(key: _SNIPPET_ENDPOINT_ENC)
     }
     
-    private static var _ENDPOINT_ADDITIONAL_ENC : [UInt8] = [116, 86, 54, 42, 15, 59, 106] // content /token/
+    private static var _ENDPOINT_ADDITIONAL_ENC : [UInt8] = [116, 86, 54, 42, 15, 59, 106] // content: /token/
     private static var ENDPOINT_ADDITIONAL_DEC  : String  {
         
         return Obfuscator.sharedObfuscator.revealObfuscation(key: _ENDPOINT_ADDITIONAL_ENC)

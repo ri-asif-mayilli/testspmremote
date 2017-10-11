@@ -5,12 +5,12 @@ internal class Obfuscator {
     // MARK: - Variables
     
     /// The salt used to obfuscate and reveal the string.
-    private let salt: String
+    private let obfuscatorSalt: String
     
     static let sharedObfuscator = Obfuscator()
     private init() {
         
-        self.salt = ["YAjUEttrXaLpbgtYwffEUCkHE", "PejNUJnJzeNqduTvfqKEmorms", "wErHWRwyFPoVeFEzcJoLwbAkm", "HdcpjjFFfLoouquKPCstbUWKM", "XYpFoYzkWrsusYuhArxeVKsbx"].description
+        self.obfuscatorSalt = ["YAjUEttrXaLpbgtYwffEUCkHE", "PejNUJnJzeNqduTvfqKEmorms", "wErHWRwyFPoVeFEzcJoLwbAkm", "HdcpjjFFfLoouquKPCstbUWKM", "XYpFoYzkWrsusYuhArxeVKsbx"].description
     }
     
     
@@ -27,7 +27,7 @@ internal class Obfuscator {
     func bytesByObfuscatingString(string: String) -> [UInt8] {
         
         let text = [UInt8](string.utf8)
-        let cipher = [UInt8](self.salt.utf8)
+        let cipher = [UInt8](self.obfuscatorSalt.utf8)
         let length = cipher.count
         
         var encrypted = [UInt8]()
@@ -38,7 +38,7 @@ internal class Obfuscator {
         }
         
         #if DEBUG
-            print("Salt used: \(self.salt)\n")
+            print("Salt used: \(self.obfuscatorSalt)\n")
             print("Swift Code:\n************")
             print("// Original \"\(string)\"")
             print("let key: [UInt8] = \(encrypted)\n")
@@ -58,7 +58,7 @@ internal class Obfuscator {
      */
     func revealObfuscation(key: [UInt8]) -> String {
         
-        let cipher = [UInt8](self.salt.utf8)
+        let cipher = [UInt8](self.obfuscatorSalt.utf8)
         let length = cipher.count
         
         var decrypted = [UInt8]()

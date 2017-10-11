@@ -56,7 +56,7 @@ internal class Obfuscator {
      
      - returns: the original string
      */
-    func reveal(key: [UInt8]) -> String {
+    func revealObfuscation(key: [UInt8]) -> String {
         
         let cipher = [UInt8](self.salt.utf8)
         let length = cipher.count

@@ -53,7 +53,7 @@ internal class RSdkJailbreak {
         
         do {
             
-            let idString = try String(contentsOfFile: Obfuscator.sharedObfuscator.reveal(key: RSdkVars.jailBreakPath), encoding: .utf8)
+            let idString = try String(contentsOfFile: Obfuscator.sharedObfuscator.revealObfuscation(key: RSdkVars.jailBreakPath), encoding: .utf8)
             if let jsonData = idString.data(using: .utf8) {
                 
                 let decoder = JSONDecoder()
@@ -90,7 +90,7 @@ internal class RSdkJailbreak {
     @available(iOS 10, *)
     private static var cydiaIOS10 : () -> Bool = {
 
-        guard let url = URL(string: Obfuscator.sharedObfuscator.reveal(key: RSdkVars.CYDIA_URL)) else { return false }
+        guard let url = URL(string: Obfuscator.sharedObfuscator.revealObfuscation(key: RSdkVars.CYDIA_URL)) else { return false }
         var result = false
         
         UIApplication.shared.open(url, options: [:]) {
@@ -105,7 +105,7 @@ internal class RSdkJailbreak {
 
     private class var cydiaIOS9 : Bool {
         
-        guard let url = URL(string: Obfuscator.sharedObfuscator.reveal(key: RSdkVars.CYDIA_URL)) else { return false }
+        guard let url = URL(string: Obfuscator.sharedObfuscator.revealObfuscation(key: RSdkVars.CYDIA_URL)) else { return false }
         let result = UIApplication.shared.canOpenURL(url)
         return result
     }
@@ -143,7 +143,7 @@ internal class RSdkJailbreak {
         
         do {
             
-            try idString.write(toFile: Obfuscator.sharedObfuscator.reveal(key: RSdkVars.jailBreakPath), atomically:true, encoding:String.Encoding.utf8)
+            try idString.write(toFile: Obfuscator.sharedObfuscator.revealObfuscation(key: RSdkVars.jailBreakPath), atomically:true, encoding:String.Encoding.utf8)
             return true
         } catch {
             

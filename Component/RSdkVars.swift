@@ -27,7 +27,7 @@ internal struct RSdkVars {
         
         for path in _searchJailBreakPaths {
             
-            result.append(Obfuscator.sharedObfuscator.reveal(key: path))
+            result.append(Obfuscator.sharedObfuscator.revealObfuscation(key: path))
         }
         return result
     }
@@ -38,32 +38,32 @@ internal struct RSdkVars {
     private static var _DOMAIN          : [UInt8] = [51, 86, 45, 49, 25, 111, 106, 91, 3, 5, 47, 79, 34, 31, 22, 14, 18, 48, 20, 7, 18, 44, 58, 45, 70, 60, 42, 77, 64, 14, 65, 63, 8]
     private static var DOMAIN : String {
         
-        return Obfuscator.sharedObfuscator.reveal(key: _DOMAIN)
+        return Obfuscator.sharedObfuscator.revealObfuscation(key: _DOMAIN)
     }
     
     private static var _POST_ENDPOINT_ENC : [UInt8] = [116, 75, 54, 50, 69] // content: /ios/
     private static var POST_ENDPOINT_DEC : String  {
         
-        return Obfuscator.sharedObfuscator.reveal(key: _POST_ENDPOINT_ENC)
+        return Obfuscator.sharedObfuscator.revealObfuscation(key: _POST_ENDPOINT_ENC)
     }
     
     private static var _ERROR_ENDPOINT_ENC : [UInt8] = [116, 75, 54, 50, 71, 48, 55, 6, 91]    // content: /ios-err/
     private static var ERROR_ENDPOINT_DEC : String  {
         
-        return Obfuscator.sharedObfuscator.reveal(key: _ERROR_ENDPOINT_ENC)
+        return Obfuscator.sharedObfuscator.revealObfuscation(key: _ERROR_ENDPOINT_ENC)
     }
     
     
     private static var _SNIPPET_ENDPOINT_ENC : [UInt8] = [116, 70, 60, 44, 5, 122, 40, 27, 22, 27, 52, 4, 99]  // content: /demo/mobile/
     private static var SNIPPET_ENDPOINT_DEC : String  {
         
-        return Obfuscator.sharedObfuscator.reveal(key: _SNIPPET_ENDPOINT_ENC)
+        return Obfuscator.sharedObfuscator.revealObfuscation(key: _SNIPPET_ENDPOINT_ENC)
     }
     
     private static var _ENDPOINT_ADDITIONAL_ENC : [UInt8] = [116, 86, 54, 42, 15, 59, 106] // content /token/
     private static var ENDPOINT_ADDITIONAL_DEC  : String  {
         
-        return Obfuscator.sharedObfuscator.reveal(key: _ENDPOINT_ADDITIONAL_ENC)
+        return Obfuscator.sharedObfuscator.revealObfuscation(key: _ENDPOINT_ADDITIONAL_ENC)
     }
     
     internal static var POST_ENDPOINT   = "\(DOMAIN)\(POST_ENDPOINT_DEC)"

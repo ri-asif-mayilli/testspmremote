@@ -1,18 +1,16 @@
 import Foundation
 
-class ObfuscatorSwift {
+internal class Obfuscator {
     
     // MARK: - Variables
     
     /// The salt used to obfuscate and reveal the string.
-    private var salt: String = ""
+    private let salt: String
     
-    
-    // MARK: - Initialization
-    
-    init(withSalt salt: [AnyObject]) {
+    static let sharedObfuscator = Obfuscator()
+    private init() {
         
-        self.salt = salt.description
+        self.salt = ["YAjUEttrXaLpbgtYwffEUCkHE", "PejNUJnJzeNqduTvfqKEmorms", "wErHWRwyFPoVeFEzcJoLwbAkm", "HdcpjjFFfLoouquKPCstbUWKM", "XYpFoYzkWrsusYuhArxeVKsbx"].description
     }
     
     
@@ -39,7 +37,7 @@ class ObfuscatorSwift {
             encrypted.append(t.element ^ cipher[t.offset % length])
         }
         
-        #if DEVELOPMENT
+        #if DEBUG
             print("Salt used: \(self.salt)\n")
             print("Swift Code:\n************")
             print("// Original \"\(string)\"")

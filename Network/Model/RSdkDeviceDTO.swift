@@ -134,7 +134,7 @@ struct SysctlDTO : Codable {
     
     var hostname    = RSdkSyctlInfoType.hostname.sysctlValue.djb2hash
     var machine     = RSdkSyctlInfoType.machine.sysctlValue
-    var activeCPUS  = RSdkSyctlInfoType.activeCPUs.sysctlValue
+    var activeCPUs  = RSdkSyctlInfoType.activeCPUs.sysctlValue
     var osRelease   = RSdkSyctlInfoType.osRelease.sysctlValue
     var osRev       = RSdkSyctlInfoType.osRev.sysctlValue
     var osType      = RSdkSyctlInfoType.osType.sysctlValue

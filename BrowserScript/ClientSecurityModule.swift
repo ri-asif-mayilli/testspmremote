@@ -55,12 +55,15 @@ public class ClientSecurityModule : NSObject {
         uuidToken = token
         wkWebView.navigationDelegate = self
         execute(snippetId: snippetId, _location: location)
+        RSdkHTTPProtocol.postDeviceData(_snippetId: snippetId, _requestToken: token, _location: location, _enableLoactionFinder: enableLocationFinder, _geoLocation: geoLocation) {
+            
+            (error) in
+        }
     }
     
     private func execute(snippetId: String, _location: String?) {
         
-        guard let request = createRequest(snippetId: snippetId, token: uuidToken, _location: _location), let _ = request.url else { return }
-        
+        guard let request = createRequest(snippetId: snippetId, token: uuidToken, _location: _location), let _ = request.url else { return }        
         wkWebView.load(request)
     }
 

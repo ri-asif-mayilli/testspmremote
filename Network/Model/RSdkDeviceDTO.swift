@@ -28,7 +28,7 @@ struct RSdkDeviceDTO : Codable {
     let locationInfo     : LocationDTO
  
     let locale = LocaleInfoDTO()
-    let identifer = IdentifierInfoDTO()
+    let identifier = IdentifierInfoDTO()
     let motion = MotionInfoDTO()
     
     init(_ snippetId: String, requestToken: String, location: String, geoLocation: CLLocation?, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
@@ -134,7 +134,7 @@ struct SysctlDTO : Codable {
     
     var hostname    = RSdkSyctlInfoType.hostname.value.djb2hash
     var machine     = RSdkSyctlInfoType.machine.value
-    var activeCPUS  = RSdkSyctlInfoType.activeCPUs.value
+    var activeCPUs  = RSdkSyctlInfoType.activeCPUs.value
     var osRelease   = RSdkSyctlInfoType.osRelease.value
     var osRev       = RSdkSyctlInfoType.osRev.value
     var osType      = RSdkSyctlInfoType.osType.value

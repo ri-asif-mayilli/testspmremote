@@ -28,7 +28,7 @@ struct RSdkDeviceDTO : Codable {
     let locationInfo     : LocationDTO
  
     let locale = LocaleInfoDTO()
-    let identifer = IdentifierInfoDTO()
+    let identifier = IdentifierInfoDTO()
     let motion = MotionInfoDTO()
     
     init(_ snippetId: String, requestToken: String, _location: String, geoLocation: CLLocation?, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {

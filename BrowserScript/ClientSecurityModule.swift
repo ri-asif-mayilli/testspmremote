@@ -48,26 +48,25 @@ public class ClientSecurityModule : NSObject {
     ///   - uniqueId: String -> A Unique execution UUID for the Call.
     ///   - location: String -> String for ?
     ///   - enableLocationFinder: Bool -> Enable Location Finding. Default: false
-    ///   - geoLocation: CLLocation -> Class with the user location.
+    ///   - geoLocation: CLLocation -> Class with the user _location.
     public init(snippetId: String, token: String, location: String? = nil, enableLocationFinder: Bool = false, geoLocation: CLLocation? = nil) {
     
         super.init()
         uuidToken = token
         wkWebView.navigationDelegate = self
-        execute(snippetId: snippetId, location: location)
-        
+        execute(snippetId: snippetId, _location: location)
     }
     
-    private func execute(snippetId: String, location: String?) {
+    private func execute(snippetId: String, _location: String?) {
         
-        guard let request = createRequest(snippetId: snippetId, token: uuidToken, location: location), let _ = request.url else { return }
+        guard let request = createRequest(snippetId: snippetId, token: uuidToken, _location: _location), let _ = request.url else { return }
         
         wkWebView.load(request)
     }
 
-    private func createRequest(snippetId: String, token: String, location: String?) -> URLRequest? {
+    private func createRequest(snippetId: String, token: String, _location: String?) -> URLRequest? {
         
-        let urlString = "\(RSdkVars.SNIPPET_ENDPOINT)\(snippetId)?t=\(token)&l=\(location ?? "")"
+        let urlString = "\(RSdkVars.SNIPPET_ENDPOINT)\(snippetId)?t=\(token)&l=\(_location ?? "")"
         guard let url = URL(string: urlString) else { return nil }
         return URLRequest(url: url)
     }

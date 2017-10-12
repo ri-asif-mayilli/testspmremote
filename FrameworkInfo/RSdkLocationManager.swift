@@ -69,7 +69,7 @@ internal class RSdkLocationManager {
 
 extension RSdkLocationManager : LocationManagerDelegateProtocol {
     
-    func locationComplete(withLocation location: CLLocation) {
+    func locationComplete(withLocation _location: CLLocation) {
     
         concurrentQueue.async(flags: .barrier) {
         
@@ -81,7 +81,7 @@ extension RSdkLocationManager : LocationManagerDelegateProtocol {
         }
     }
     
-    func locationComplete(withError error: Error, location: Bool) {
+    func locationComplete(withError error: Error, _location: Bool) {
     
         concurrentQueue.async(flags: .barrier) {
         
@@ -108,9 +108,9 @@ extension RSdkLocationManager : LocationManagerDelegateProtocol {
 
 protocol LocationManagerDelegateProtocol {
     
-    func locationComplete(withLocation location: CLLocation)
-    func locationComplete(withHeading location: CLHeading)
-    func locationComplete(withError error: Error, location: Bool)
+    func locationComplete(withLocation _location: CLLocation)
+    func locationComplete(withHeading _location: CLHeading)
+    func locationComplete(withError error: Error, _location: Bool)
 }
 
 class RSdkLocationManagerDelegate : NSObject, CLLocationManagerDelegate {
@@ -148,6 +148,6 @@ class RSdkLocationManagerDelegate : NSObject, CLLocationManagerDelegate {
     
     public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
 
-        delegate?.locationComplete(withError: error, location: true)
+        delegate?.locationComplete(withError: error, _location: true)
     }
 }

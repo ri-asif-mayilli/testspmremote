@@ -24,10 +24,10 @@ internal struct LocationDTO : Codable {
         
     }
     
-    init(location: CLLocation) {
+    init(_location: CLLocation) {
         
-        self.longitude = location.coordinate.longitude
-        self.latitiude = location.coordinate.latitude
+        self.longitude = _location.coordinate.longitude
+        self.latitiude = _location.coordinate.latitude
         
     }
 }

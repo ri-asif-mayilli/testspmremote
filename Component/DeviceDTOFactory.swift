@@ -42,7 +42,7 @@ internal class DeviceDTOFactory {
             (state) in
             
             let _proximityDTO = ProximityDTO(state: state)
-            let _deviceDTO = RSdkDeviceDTO(_snippetId, requestToken: _requestToken, location: _location ?? "", geoLocation: _geoLocation, notificationDTO: _notificationDTO, proximityDTO: _proximityDTO)
+            let _deviceDTO = RSdkDeviceDTO(_snippetId, requestToken: _requestToken, _location: _location ?? "", geoLocation: _geoLocation, notificationDTO: _notificationDTO, proximityDTO: _proximityDTO)
             _completion(_deviceDTO)
         }
     }

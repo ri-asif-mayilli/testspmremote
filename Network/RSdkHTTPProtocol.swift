@@ -17,7 +17,7 @@ internal class RSdkHTTPProtocol {
     /// - Parameters:
     ///   - snippetId : String : The Customer Snippet ID
     ///   - requestToken: String : The Token for the Request
-    ///   - location: String : Optional Location String
+    ///   - _location: String : Optional Location String
     ///   - enableLocationFinder: Bool -> Enable Location Finder, Default is false (WIP)
     ///   - geoLocation : CLLocation -> Give the User Location to the Framework. Default ist nil (WIP)
     ///   - completion: (Error) -> Void : Completion Handler which give Back Error to App (Error)

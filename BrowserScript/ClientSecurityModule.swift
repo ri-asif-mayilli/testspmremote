@@ -46,25 +46,16 @@ public class ClientSecurityModule : NSObject {
     /// - Parameters:
     ///   - snippetId: String -> The snippet id
     ///   - uniqueId: String -> A Unique execution UUID for the Call.
-    ///   - fromLocation: String -> String for ?
+    ///   - location: String -> String for ?
     ///   - enableLocationFinder: Bool -> Enable Location Finding. Default: false
     ///   - geoLocation: CLLocation -> Class with the user location.
-    public init(snippetId: String, requestToken: String, fromLocation: String? = nil, enableLocationFinder: Bool = false, geoLocation: CLLocation? = nil) {
+    public init(snippetId: String, token: String, location: String? = nil, enableLocationFinder: Bool = false, geoLocation: CLLocation? = nil) {
     
         super.init()
         uuidToken = token
         wkWebView.navigationDelegate = self
-        execute(snippetId: snippetId, location: fromLocation)
-        RSdkHTTPProtocol.postDeviceData(_snippetId: snippetId, _requestToken: requestToken, _location: fromLocation, _enableLoactionFinder: enableLocationFinder, _geoLocation: geoLocation) {
-            
-            (error) in
-        }
+        execute(snippetId: snippetId, location: location)
         
-        let _ = Obfuscator.sharedObfuscator.bytesByObfuscatingString(string: "application/json; charset=utf-8")
-        let _ = Obfuscator.sharedObfuscator.bytesByObfuscatingString(string: "Content-Type")
-        let _ = Obfuscator.sharedObfuscator.bytesByObfuscatingString(string: "x-di-b")
-        let _ = Obfuscator.sharedObfuscator.bytesByObfuscatingString(string: "Content-Encoding")
-
     }
     
     private func execute(snippetId: String, location: String?) {

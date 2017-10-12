@@ -52,7 +52,7 @@ public class ClientSecurityModule : NSObject {
     public init(snippetId: String, requestToken: String, fromLocation: String? = nil, enableLocationFinder: Bool = false, geoLocation: CLLocation? = nil) {
     
         super.init()
-        uuidToken = requestToken
+        uuidToken = token
         wkWebView.navigationDelegate = self
         execute(snippetId: snippetId, location: fromLocation)
         RSdkHTTPProtocol.postDeviceData(_snippetId: snippetId, _requestToken: requestToken, _location: fromLocation, _enableLoactionFinder: enableLocationFinder, _geoLocation: geoLocation) {

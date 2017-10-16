@@ -15,6 +15,7 @@ public class ClientSecurityModule : NSObject {
     
     var wkWebView = WKWebView()
     var _token : String?
+    var _snippetId : String?
     
     fileprivate var uuidToken : String {
         
@@ -53,11 +54,20 @@ public class ClientSecurityModule : NSObject {
     
         super.init()
         uuidToken = token
+        _snippetId = snippetId
         wkWebView.navigationDelegate = self
         execute(snippetId: snippetId, _location: location)
         RSdkHTTPProtocol.postDeviceData(_snippetId: snippetId, _requestToken: token, _location: location, _enableLoactionFinder: enableLocationFinder, _geoLocation: geoLocation) {
             
             (error) in
+            
+            if let error = error {
+            
+                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, error.localizedDescription))) {
+                (_,_) in
+                
+                }
+            }
         }
     }
     
@@ -83,6 +93,11 @@ extension ClientSecurityModule : WKNavigationDelegate {
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         
-        print("Webrequest Fail")
+        guard let snippet = _snippetId, let uuidToken = _token else { return }
+        
+        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .executeWebSnippet(snippet, uuidToken, error.localizedDescription))) {
+            (_,_) in
+            
+        }
     }    
 }

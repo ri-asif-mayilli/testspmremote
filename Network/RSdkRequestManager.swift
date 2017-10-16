@@ -38,6 +38,7 @@ enum RequestMethod : String {
 enum RequestManagerType {
     
     case postBin(deviceDTO : RSdkDeviceDTO)
+    case postError(error : RSdkErrorType)
     
     var payload : Data? {
         
@@ -50,9 +51,25 @@ enum RequestManagerType {
                 let enc = try encoder.encode(payload).base64EncodedData()
                 return enc
                 
+            } catch let error {
+   
+                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .encodeNativeData(payload.snippetId, payload.token, error.localizedDescription))) {
+                    (_,_) in
+                    
+                }
+                return nil
+            }
+        
+        case .postError(let error):
+        
+            let encoder = JSONEncoder()
+            do {
+                let dto = RSdkErrorDTO(error)
+                let enc = try encoder.encode(dto).base64EncodedData()
+                return enc
+                
             } catch {
                 
-//                print(error)
                 return nil
             }
         }
@@ -63,7 +80,15 @@ enum RequestManagerType {
         switch self {
             
         case .postBin(let payload):
+            
             let urlString = "\(RSdkVars.POST_ENDPOINT)\(payload.snippetId)\(RSdkVars.ENDPOINT_ADDITIONAL)\(payload.token)"
+            guard let url = URL(string: urlString) else { return nil }
+            return url
+        
+        
+        case .postError(let error):
+
+            let urlString = "\(RSdkVars.ERROR_ENDPOINT)\(error.snippetId)\(RSdkVars.ENDPOINT_ADDITIONAL)\(error.requestToken)"
             guard let url = URL(string: urlString) else { return nil }
             return url
         }
@@ -75,6 +100,9 @@ enum RequestManagerType {
             
         case .postBin:
             return .put
+    
+        case .postError:
+            return .put
         }
     }
     
@@ -84,7 +112,8 @@ enum RequestManagerType {
 
         case .postBin:
             return nil
-            
+        case .postError:
+            return nil
         }
     }
     
@@ -93,6 +122,9 @@ enum RequestManagerType {
         switch self {
 
         case .postBin:
+            return false
+            
+        case .postError:
             return false
         }
         

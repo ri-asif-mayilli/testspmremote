@@ -56,6 +56,10 @@ enum RSdkSyctlInfoType {
 
 /// A "static"-only namespace around a series of functions that operate on buffers returned from the `Darwin.sysctl` function
 private struct Sysctl {
+    
+    private static let _requestToken = RSdkRequestInfoManager.sharedRequestInfoManager.token
+    private static let _snippetId = RSdkRequestInfoManager.sharedRequestInfoManager.snippetId
+    
     /// Possible errors.
     private enum Error: Swift.Error {
         case unknown
@@ -146,55 +150,228 @@ private struct Sysctl {
     private static func stringForName (_ name: String) throws -> String {
         return try stringForKeys(keysForName(name))
     }
+
+    private static func missingDataError(error: Error) -> String {
+        
+        guard let _snippetId = _snippetId, let _requestToken = _requestToken else {
+            
+            let dataError = RSdkErrorType.missingData
+            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: dataError), completion: { (_, _) in
+                
+            })
+            return ""
+        }
+        
+        return createErrorMessage(_requestToken: _requestToken, _snippetId: _snippetId, _error: error)
+    }
+    
+    private static func createErrorMessage(_requestToken : String, _snippetId: String, _error : Error)  -> String {
+        
+        let sdkError = RSdkErrorType.getSystemData(_snippetId, _requestToken, _error.localizedDescription)
+        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: sdkError), completion: { (_, _) in
+            
+        })
+        return ""
+    }
+    
+    private static func missingInt32DataError(error: Error) -> Int32 {
+        
+        guard let _snippetId = _snippetId, let _requestToken = _requestToken else {
+            
+            let dataError = RSdkErrorType.missingData
+            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: dataError), completion: { (_, _) in
+                
+            })
+            return 0
+        }
+        
+        return createInt32ErrorMessage(_requestToken: _requestToken, _snippetId: _snippetId, _error: error)
+    }
+    
+    private static func createInt32ErrorMessage(_requestToken : String, _snippetId: String, _error : Error)  -> Int32 {
+        
+        let sdkError = RSdkErrorType.getSystemData(_snippetId, _requestToken, _error.localizedDescription)
+        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: sdkError), completion: { (_, _) in
+            
+        })
+        return 0
+    }
+    
+    private static func missingInt64DataError(error: Error) -> UInt64 {
+        
+        guard let _snippetId = _snippetId, let _requestToken = _requestToken else {
+            
+            let dataError = RSdkErrorType.missingData
+            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: dataError), completion: { (_, _) in
+                
+            })
+            return 0
+        }
+        
+        return createInt64ErrorMessage(_requestToken: _requestToken, _snippetId: _snippetId, _error: error)
+    }
+    
+    private static func createInt64ErrorMessage(_requestToken : String, _snippetId: String, _error : Error)  -> UInt64 {
+        
+        let sdkError = RSdkErrorType.getSystemData(_snippetId, _requestToken, _error.localizedDescription)
+        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: sdkError), completion: { (_, _) in
+            
+        })
+        return 0
+    }
     
     /// e.g. "MyComputer.local" (from System Preferences -> Sharing -> Computer Name) or
     /// "My-Name-iPhone" (from Settings -> General -> About -> Name)
-    internal static var sysctlHostName : String { return try! Sysctl.stringForKeys([CTL_KERN, KERN_HOSTNAME]) }
+    internal static var sysctlHostName : String {
+        
+        do {
+        
+            return try Sysctl.stringForKeys([CTL_KERN, KERN_HOSTNAME])
+            
+        } catch let error {
+            
+            return missingDataError(error: error as! Sysctl.Error)
+        }
+    }
     
     /// e.g. "x86_64" or "N71mAP"
     /// NOTE: this is *corrected* on iOS devices to fetch hw.model
     internal static var sysctlMachine : String {
+        
+        do {
+        
         #if os(iOS) && !arch(x86_64) && !arch(i386)
-            return try! Sysctl.stringForKeys([CTL_HW, HW_MODEL])
+            return try Sysctl.stringForKeys([CTL_HW, HW_MODEL])
         #else
-            return try! Sysctl.stringForKeys([CTL_HW, HW_MACHINE])
+            return try Sysctl.stringForKeys([CTL_HW, HW_MACHINE])
         #endif
+        } catch let error {
+            
+            return missingDataError(error: error as! Sysctl.Error)
+        }
     }
     
     /// e.g. "MacPro4,1" or "iPhone8,1"
     /// NOTE: this is *corrected* on iOS devices to fetch hw.machine
     internal static var sysctlModel : String {
+        
+        do {
+        
         #if os(iOS) && !arch(x86_64) && !arch(i386)
-            return try! Sysctl.stringForKeys([CTL_HW, HW_MACHINE])
+            return try Sysctl.stringForKeys([CTL_HW, HW_MACHINE])
         #else
-            return try! Sysctl.stringForKeys([CTL_HW, HW_MODEL])
+            return try Sysctl.stringForKeys([CTL_HW, HW_MODEL])
         #endif
+        } catch let error {
+            
+            return missingDataError(error: error as! Sysctl.Error)
+        }
     }
     
-    internal static var sysctlMachineArch : String { return try! Sysctl.stringForKeys([CTL_HW, HW_MACHINE_ARCH]) }
+    internal static var sysctlMachineArch : String {
+        
+        do {
+        
+        return try Sysctl.stringForKeys([CTL_HW, HW_MACHINE_ARCH])
+        } catch let error {
+            
+            return missingDataError(error: error as! Sysctl.Error)
+        }
+    }
     
-    internal static var sysctlActiveCPUs : Int32 { return try! Sysctl.valueOfType(Int32.self, forKeys: [CTL_HW, HW_AVAILCPU]) }
+    internal static var sysctlActiveCPUs : Int32 {
+        
+        do {
+            return try Sysctl.valueOfType(Int32.self, forKeys: [CTL_HW, HW_AVAILCPU])
+        } catch let error {
+            
+            return missingInt32DataError(error: error as! Sysctl.Error)
+        }
+    }
     
     /// e.g. "15.3.0" or "15.0.0"
-    internal static var sysctlOsRelease : String { return try! Sysctl.stringForKeys([CTL_KERN, KERN_OSRELEASE]) }
+    internal static var sysctlOsRelease : String {
+        
+        do {
+            return try Sysctl.stringForKeys([CTL_KERN, KERN_OSRELEASE])
+        } catch let error {
+            
+            return missingDataError(error: error as! Sysctl.Error)
+        }
+    }
     
     /// e.g. 199506 or 199506
-    internal static var sysctlOsRev : Int32 { return try! Sysctl.valueOfType(Int32.self, forKeys: [CTL_KERN, KERN_OSREV]) }
+    internal static var sysctlOsRev : Int32 {
+        
+        do {
+            return try Sysctl.valueOfType(Int32.self, forKeys: [CTL_KERN, KERN_OSREV])
+        } catch let error {
+            
+            return missingInt32DataError(error: error as! Sysctl.Error)
+        }
+    }
     
     /// e.g. "Darwin" or "Darwin"
-    internal static var sysctlOsType : String { return try! Sysctl.stringForKeys([CTL_KERN, KERN_OSTYPE]) }
+    internal static var sysctlOsType : String {
+        
+        do {
+            return try Sysctl.stringForKeys([CTL_KERN, KERN_OSTYPE])
+        } catch let error {
+            
+            return missingDataError(error: error as! Sysctl.Error)
+        }
+    }
     
-    internal static var sysctlKernID : Int32 { return try! Sysctl.valueOfType(Int32.self, forKeys: [CTL_KERN, KERN_SAVED_IDS]) }
+    internal static var sysctlKernID : Int32 {
+        
+        do {
+            return try Sysctl.valueOfType(Int32.self, forKeys: [CTL_KERN, KERN_SAVED_IDS])
+        } catch let error {
+            
+            return missingInt32DataError(error: error as! Sysctl.Error)
+        }
+    }
     
     /// e.g. "15D21" or "13D20"
-    internal static var sysctlOsVersion : String { return try! Sysctl.stringForKeys([CTL_KERN, KERN_OSVERSION]) }
+    internal static var sysctlOsVersion : String {
+        
+        do {
+            return try Sysctl.stringForKeys([CTL_KERN, KERN_OSVERSION])
+        } catch let error {
+            
+            return missingDataError(error: error as! Sysctl.Error)
+        }
+    }
     
     /// e.g. "Darwin Kernel Version 15.3.0: Thu Dec 10 18:40:58 PST 2015; root:xnu-3248.30.4~1/RELEASE_X86_64" or
     /// "Darwin Kernel Version 15.0.0: Wed Dec  9 22:19:38 PST 2015; root:xnu-3248.31.3~2/RELEASE_ARM64_S8000"
-    internal static var sysctlVersion : String { return try! Sysctl.stringForKeys([CTL_KERN, KERN_VERSION]) }
+    internal static var sysctlVersion : String {
+        
+        do {
+            return try Sysctl.stringForKeys([CTL_KERN, KERN_VERSION])
+        } catch let error {
+            
+            return missingDataError(error: error as! Sysctl.Error)
+        }
+    }
     
-    internal static var sysctlDomainName : String { return try! Sysctl.stringForKeys([CTL_KERN, KERN_DOMAINNAME]) }
+    internal static var sysctlDomainName : String {
+        
+        do {
+            return try Sysctl.stringForKeys([CTL_KERN, KERN_DOMAINNAME])
+        } catch let error {
+            
+            return missingDataError(error: error as! Sysctl.Error)
+        }
+    }
     
-    internal static var sysctlMemSize : UInt64 { return try! Sysctl.valueOfType(UInt64.self, forKeys: [CTL_HW, HW_MEMSIZE]) }
-    
+    internal static var sysctlMemSize : UInt64 {
+        
+        do {
+            return try Sysctl.valueOfType(UInt64.self, forKeys: [CTL_HW, HW_MEMSIZE])
+        } catch let error {
+            
+            return missingInt64DataError(error: error as! Sysctl.Error)
+        }
+    }
 }

@@ -14,6 +14,8 @@ internal enum RSdkErrorType {
     case postNativeData(String, String, String)
     case executeWebSnippet(String, String, String)
     case getSystemData(String, String, String)
+    case contactStore(String, String, String)
+    case missingData
     
     var code : Int {
         
@@ -30,6 +32,13 @@ internal enum RSdkErrorType {
             
         case .getSystemData(_, _, _):
             return 4
+
+        case .contactStore(_, _, _):
+            return 5
+            
+        case .missingData:
+            return 50
+            
         }
     }
 
@@ -48,6 +57,12 @@ internal enum RSdkErrorType {
             
         case .getSystemData(let value,_,_):
             return value
+        
+        case .contactStore(let value,_,_):
+            return value
+            
+        default:
+            return ""
         }
     }
     
@@ -66,6 +81,12 @@ internal enum RSdkErrorType {
             
         case .getSystemData(_, let value,_):
             return value
+            
+        case .contactStore(_, let value,_):
+            return value
+            
+        default:
+            return ""
         }
     }
     
@@ -83,6 +104,12 @@ internal enum RSdkErrorType {
         
         case .getSystemData(_,_, let value):
         return value
+        
+        case .contactStore(_,_, let value):
+            return value
+            
+        case .missingData:
+            return "Missing snippet id or Request Token for Error Message"
         }
     }
 }

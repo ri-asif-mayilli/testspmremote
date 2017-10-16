@@ -50,8 +50,24 @@ struct RSdkContactInfo {
         var allContainers: [CNContainer] = []
         do {
             allContainers = try contactStore.containers(matching: nil)
-        } catch {
+        } catch let error {
 
+            guard let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager.snippetId, let requestToken = RSdkRequestInfoManager.sharedRequestInfoManager.token else {
+                
+                let dataError = RSdkErrorType.missingData
+                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: dataError), completion: { (_, _) in
+                    
+                })
+                
+                return []                
+            }
+            
+            let contactError = RSdkErrorType.contactStore(snippetId, requestToken, error.localizedDescription)
+            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: contactError), completion: { (_, _) in
+                
+            })
+            
+            return []
         }
 
         // Iterate all containers and append their contacts to our results array
@@ -80,6 +96,23 @@ struct RSdkContactInfo {
                 let newContactStore = ContactStoreDTO(identifier, name: name, type: type, count: containerResults.count)
                 resultContainers.append(newContactStore)
             } catch {
+                
+                guard let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager.snippetId, let requestToken = RSdkRequestInfoManager.sharedRequestInfoManager.token else {
+                    
+                    let dataError = RSdkErrorType.missingData
+                    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: dataError), completion: { (_, _) in
+                        
+                    })
+                    
+                    return []
+                }
+                
+                let contactError = RSdkErrorType.contactStore(snippetId, requestToken, error.localizedDescription)
+                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: contactError), completion: { (_, _) in
+                    
+                })
+                
+                return []
             }
         }
         return resultContainers

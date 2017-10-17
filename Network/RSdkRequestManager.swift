@@ -136,9 +136,9 @@ internal class RSdkRequestManager {
     static let sharedRequestManager = RSdkRequestManager()
     private init() {
         
-        let configuration = URLSessionConfiguration.default
-        let session = URLSession(configuration: configuration)
-        self.rsdkRequestSession = session
+        let _configuration = URLSessionConfiguration.default
+        let _session = URLSession(configuration: _configuration)
+        self.rsdkRequestSession = _session
     }
     
     let rsdkRequestSession : URLSession?

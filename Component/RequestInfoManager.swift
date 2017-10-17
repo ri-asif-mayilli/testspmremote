@@ -10,16 +10,16 @@ import Foundation
 
 internal class RSdkRequestInfoManager {
     
-    var token : String?
-    var snippetId : String?
+    var _token : String?
+    var _snippetId : String?
     
     internal static var sharedRequestInfoManager = RSdkRequestInfoManager()
     private init() {}
     
-    func setupManager(token : String, snippetId : String) {
+    func setupManager(_token : String, _snippetId : String) {
         
-        self.token = token
-        self.snippetId = snippetId
+        self._token = _token
+        self._snippetId = _snippetId
     }
     
     

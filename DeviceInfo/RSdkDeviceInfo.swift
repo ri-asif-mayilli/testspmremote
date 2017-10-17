@@ -185,21 +185,21 @@ internal struct RSdkBattery {
     
     static var rsdkBatteryState : String {
         
-        var weEnabled = false
+        var _weEnabled = false
         
         if UIDevice.current.isBatteryMonitoringEnabled == false {
             
-            weEnabled = true
+            _weEnabled = true
             UIDevice.current.isBatteryMonitoringEnabled = !UIDevice.current.isBatteryMonitoringEnabled
         }
         
-        let state = UIDevice.current.batteryState
-        if weEnabled {
+        let _state = UIDevice.current.batteryState
+        if _weEnabled {
             
             UIDevice.current.isBatteryMonitoringEnabled = !UIDevice.current.isBatteryMonitoringEnabled
         }
         
-        switch(state) {
+        switch(_state) {
             
         case .charging:
             return "charging"
@@ -229,21 +229,21 @@ internal struct RSdkProximity {
         
         DispatchQueue.main.async {
         
-            var weEnabled = false
+            var _weEnabled = false
             if !rsdkProximityMonitoringEnabled {
              
-                weEnabled = true
+                _weEnabled = true
                 UIDevice.current.isProximityMonitoringEnabled = !UIDevice.current.isProximityMonitoringEnabled
             }
             
-            let state = UIDevice.current.proximityState
+            let _state = UIDevice.current.proximityState
             
-            if weEnabled {
+            if _weEnabled {
              
                 UIDevice.current.isProximityMonitoringEnabled = !UIDevice.current.isProximityMonitoringEnabled
             }
             
-                completion(state)
+                completion(_state)
         }
     }
 }

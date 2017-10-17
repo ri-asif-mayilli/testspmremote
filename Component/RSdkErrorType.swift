@@ -17,7 +17,7 @@ internal enum RSdkErrorType {
     case contactStore(String, String, String)
     case missingData
     
-    var code : Int {
+    var _code : Int {
         
         switch(self) {
             
@@ -42,7 +42,7 @@ internal enum RSdkErrorType {
         }
     }
 
-    var snippetId : String {
+    var _snippetId : String {
     
         switch(self) {
         
@@ -66,7 +66,7 @@ internal enum RSdkErrorType {
         }
     }
     
-    var requestToken : String {
+    var _requestToken : String {
         
         switch(self) {
 
@@ -90,7 +90,7 @@ internal enum RSdkErrorType {
         }
     }
     
-    var description : String {
+    var _description : String {
 
         switch(self) {
         case .encodeNativeData(_,_, let value):

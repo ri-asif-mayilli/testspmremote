@@ -88,7 +88,7 @@ enum RequestManagerType {
         
         case .postError(let error):
 
-            let urlString = "\(RSdkVars.ERROR_ENDPOINT)\(error.snippetId)\(RSdkVars.ENDPOINT_ADDITIONAL)\(error.requestToken)"
+            let urlString = "\(RSdkVars.ERROR_ENDPOINT)\(error._snippetId)\(RSdkVars.ENDPOINT_ADDITIONAL)\(error._requestToken)"
             guard let url = URL(string: urlString) else { return nil }
             return url
         }

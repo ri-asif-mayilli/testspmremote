@@ -17,10 +17,10 @@ struct RSdkErrorDTO : Codable {
     
     internal init(_ errorType : RSdkErrorType) {
        
-        self.snippetId          = errorType.snippetId
-        self.requestToken       = errorType.requestToken
-        self.errorCode          = errorType.code
-        self.errorDescription   = errorType.description
+        self.snippetId          = errorType._snippetId
+        self.requestToken       = errorType._requestToken
+        self.errorCode          = errorType._code
+        self.errorDescription   = errorType._description
         
     }
 }

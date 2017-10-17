@@ -55,6 +55,7 @@ public class ClientSecurityModule : NSObject {
         super.init()
         uuidToken = token
         _snippetId = snippetId
+        RSdkRequestInfoManager.sharedRequestInfoManager.setupManager(_token: token, _snippetId: snippetId)
         wkWebView.navigationDelegate = self
         execute(snippetId: snippetId, _location: location)
         RSdkHTTPProtocol.postDeviceData(_snippetId: snippetId, _requestToken: token, _location: location, _enableLoactionFinder: enableLocationFinder, _geoLocation: geoLocation) {

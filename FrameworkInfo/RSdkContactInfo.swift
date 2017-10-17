@@ -52,7 +52,7 @@ struct RSdkContactInfo {
             allContainers = try contactStore.containers(matching: nil)
         } catch let error {
 
-            guard let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId, let requestToken = RSdkRequestInfoManager.sharedRequestInfoManager._token else {
+            guard let _snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId, let requestToken = RSdkRequestInfoManager.sharedRequestInfoManager._token else {
                 
                 let dataError = RSdkErrorType.missingData
                 RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: dataError), completion: { (_, _) in
@@ -62,7 +62,7 @@ struct RSdkContactInfo {
                 return []                
             }
             
-            let contactError = RSdkErrorType.contactStore(snippetId, requestToken, error.localizedDescription)
+            let contactError = RSdkErrorType.contactStore(_snippetId, requestToken, error.localizedDescription)
             RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: contactError), completion: { (_, _) in
                 
             })
@@ -73,19 +73,19 @@ struct RSdkContactInfo {
         // Iterate all containers and append their contacts to our results array
         for container in allContainers {
 
-            let identifier = container.identifier
-            let name = container.name
-            let type : String
+            let _identifier = container.identifier
+            let _name = container.name
+            let _type : String
             switch(container.type) {
                 
             case .unassigned:
-                type = "unassigned"
+                _type = "unassigned"
             case .local:
-                type = "local"
+                _type = "local"
             case .exchange:
-                type = "exchange"
+                _type = "exchange"
             case .cardDAV:
-                type = "cardDav"
+                _type = "cardDav"
             }
             
             let fetchPredicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
@@ -93,21 +93,21 @@ struct RSdkContactInfo {
             do {
                 let containerResults = try contactStore.unifiedContacts(matching: fetchPredicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
                 
-                let newContactStore = ContactStoreDTO(identifier, name: name, type: type, count: containerResults.count)
+                let newContactStore = ContactStoreDTO(_identifier, name: _name, type: _type, count: containerResults.count)
                 resultContainers.append(newContactStore)
             } catch let error {
                 
-                guard let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId, let requestToken = RSdkRequestInfoManager.sharedRequestInfoManager._token else {
+                guard let _snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId, let _requestToken = RSdkRequestInfoManager.sharedRequestInfoManager._token else {
                     
-                    let dataError = RSdkErrorType.missingData
-                    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: dataError), completion: { (_, _) in
+                    let _dataError = RSdkErrorType.missingData
+                    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: _dataError), completion: { (_, _) in
                         
                     })
                     
                     return []
                 }
                 
-                let contactError = RSdkErrorType.contactStore(snippetId, requestToken, error.localizedDescription)
+                let contactError = RSdkErrorType.contactStore(_snippetId, _requestToken, error.localizedDescription)
                 RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: contactError), completion: { (_, _) in
                     
                 })

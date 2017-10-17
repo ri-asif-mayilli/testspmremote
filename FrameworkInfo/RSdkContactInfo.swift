@@ -52,7 +52,7 @@ struct RSdkContactInfo {
             allContainers = try contactStore.containers(matching: nil)
         } catch let error {
 
-            guard let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager.snippetId, let requestToken = RSdkRequestInfoManager.sharedRequestInfoManager.token else {
+            guard let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId, let requestToken = RSdkRequestInfoManager.sharedRequestInfoManager._token else {
                 
                 let dataError = RSdkErrorType.missingData
                 RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: dataError), completion: { (_, _) in
@@ -95,9 +95,9 @@ struct RSdkContactInfo {
                 
                 let newContactStore = ContactStoreDTO(identifier, name: name, type: type, count: containerResults.count)
                 resultContainers.append(newContactStore)
-            } catch {
+            } catch let error {
                 
-                guard let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager.snippetId, let requestToken = RSdkRequestInfoManager.sharedRequestInfoManager.token else {
+                guard let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId, let requestToken = RSdkRequestInfoManager.sharedRequestInfoManager._token else {
                     
                     let dataError = RSdkErrorType.missingData
                     RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: dataError), completion: { (_, _) in

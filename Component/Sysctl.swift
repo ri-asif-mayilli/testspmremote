@@ -57,8 +57,8 @@ enum RSdkSyctlInfoType {
 /// A "static"-only namespace around a series of functions that operate on buffers returned from the `Darwin.sysctl` function
 private struct Sysctl {
     
-    private static let _requestToken = RSdkRequestInfoManager.sharedRequestInfoManager.token
-    private static let _snippetId = RSdkRequestInfoManager.sharedRequestInfoManager.snippetId
+    private static let _requestToken = RSdkRequestInfoManager.sharedRequestInfoManager._token
+    private static let _snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId
     
     /// Possible errors.
     private enum Error: Swift.Error {

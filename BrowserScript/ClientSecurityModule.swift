@@ -57,7 +57,7 @@ public class ClientSecurityModule : NSObject {
         _snippetId = snippetId
         RSdkRequestInfoManager.sharedRequestInfoManager.setupManager(_token: token, _snippetId: snippetId)
         wkWebView.navigationDelegate = self
-        execute(snippetId: snippetId, _location: location)
+        doExecute(_snippetId: snippetId, _location: location)
         RSdkHTTPProtocol.postDeviceData(_snippetId: snippetId, _requestToken: token, _location: location, _enableLoactionFinder: enableLocationFinder, _geoLocation: geoLocation) {
             
             (error) in
@@ -72,15 +72,15 @@ public class ClientSecurityModule : NSObject {
         }
     }
     
-    private func execute(snippetId: String, _location: String?) {
+    private func doExecute(_snippetId: String, _location: String?) {
         
-        guard let request = createRequest(snippetId: snippetId, token: uuidToken, _location: _location), let _ = request.url else { return }        
+        guard let request = createRequest(_snippetId: _snippetId, _token: uuidToken, _location: _location), let _ = request.url else { return }
         wkWebView.load(request)
     }
 
-    private func createRequest(snippetId: String, token: String, _location: String?) -> URLRequest? {
+    private func createRequest(_snippetId: String, _token: String, _location: String?) -> URLRequest? {
         
-        let urlString = "\(RSdkVars.SNIPPET_ENDPOINT)\(snippetId)?t=\(token)&l=\(_location ?? "")"
+        let urlString = "\(RSdkVars.SNIPPET_ENDPOINT)\(_snippetId)?t=\(_token)&l=\(_location ?? "")"
         guard let url = URL(string: urlString) else { return nil }
         return URLRequest(url: url)
     }

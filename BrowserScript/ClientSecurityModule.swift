@@ -98,7 +98,7 @@ public class ClientSecurityModule : NSObject {
         if let _customArgs = _customArgs {
             
             urlString = addCustomArgs(urlStringBuild, _customArgs: _customArgs)
-            print(urlString)
+
         } else {
             
             urlString = urlStringBuild

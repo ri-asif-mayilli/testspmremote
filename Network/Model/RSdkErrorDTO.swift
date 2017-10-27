@@ -9,7 +9,6 @@
 import Foundation
 
 struct RSdkErrorDTO : Codable {
-    
     let errorCode        : Int
     let errorDescription : String
     

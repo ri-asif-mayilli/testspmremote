@@ -55,7 +55,7 @@ public class ClientSecurityModule : NSObject {
     ///   - customArgs: [ String : String ] -> Dictionary of Strings. Default: nil
     ///   - enableLocationFinder: Bool -> Enable Location Finding. Default: false
     ///   - geoLocation: CLLocation -> Class with the user _location.
-    public init(snippetId: String, token: String, location: String? = nil,
+    @objc public init(snippetId: String, token: String, location: String? = nil,
                 customArgs: [ String : String ]? = nil, enableLocationFinder: Bool = false, geoLocation: CLLocation? = nil) {
     
         super.init()

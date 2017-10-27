@@ -172,8 +172,12 @@ internal class RSdkRequestManager {
             (data, response, error) in
             
             if let error = error {
-                
-                print("finish request with error \(error)")
+
+                if let token = RSdkRequestInfoManager.sharedRequestInfoManager._token,
+                    let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId {
+                    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, error.localizedDescription))) { (_,_)  in }
+                }
+
                 completion(nil, error)
                 return
             }
@@ -181,6 +185,12 @@ internal class RSdkRequestManager {
             if let response = response as? HTTPURLResponse {
                 
                 if response.statusCode != 200 {
+                    
+                    if let token = RSdkRequestInfoManager.sharedRequestInfoManager._token,
+                        let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId {
+                        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, "http status "))) { (_,_)  in }
+                    }
+
                     
                     print(response)
                 }

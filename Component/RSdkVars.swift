@@ -65,11 +65,12 @@ internal struct RSdkVars {
     internal static var CYDIA_URL       : [UInt8] = [56, 91, 61, 40, 11, 111, 106, 91, 4, 19, 59, 10, 45, 23, 7, 72, 23, 54, 26, 72, 3, 61, 52, 46, 27, 36, 32, 12, 92, 65, 65, 59, 4, 13, 43]
     
     private static var _DOMAIN          : [UInt8] = [51, 86, 45, 49, 25, 111, 106, 91, 3, 5, 47, 79, 34, 31, 22, 14, 18, 48, 20, 7, 18, 44, 58, 45, 70, 60, 42, 77, 64, 14, 65, 63, 8]
+    
     private static var DOMAIN : String {
-        
+
         return Obfuscator.sharedObfuscator.revealObfuscation(key: _DOMAIN)
     }
-    
+
     private static var _POST_ENDPOINT_ENC : [UInt8] = [116, 75, 54, 50, 69] // content: /ios/
     private static var POST_ENDPOINT_DEC : String  {
         

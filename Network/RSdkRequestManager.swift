@@ -51,9 +51,9 @@ enum RequestManagerType {
                 let enc = try encoder.encode(payload).base64EncodedData()
                 return enc
                 
-            } catch let error {
+            } catch let error as NSError {
    
-                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .encodeNativeData(payload.snippetId, payload.token, error.localizedDescription))) {
+                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .encodeNativeData(payload.snippetId, payload.token, error.debugDescription))) {
                     (_,_) in
                     
                 }

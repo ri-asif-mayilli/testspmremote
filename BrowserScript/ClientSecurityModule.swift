@@ -68,9 +68,9 @@ public class ClientSecurityModule : NSObject {
             
             (error) in
             
-            if let error = error {
+            if let error = error as NSError? {
             
-                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, error.localizedDescription))) {
+                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, error.debugDescription))) {
                 (_,_) in
                 
                 }
@@ -144,10 +144,9 @@ extension ClientSecurityModule : WKNavigationDelegate {
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         
         guard let snippet = _snippetId, let uuidToken = _token else { return }
-        
-        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .executeWebSnippet(snippet, uuidToken, error.localizedDescription))) {
+    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .executeWebSnippet(snippet, uuidToken, error.localizedDescription))) {
             (_,_) in
-            
         }
+            
     }    
 }

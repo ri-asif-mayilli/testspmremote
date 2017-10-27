@@ -50,7 +50,7 @@ struct RSdkContactInfo {
         var allContainers: [CNContainer] = []
         do {
             allContainers = try contactStore.containers(matching: nil)
-        } catch let error {
+        } catch let error as NSError? {
 
             guard let _snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId, let requestToken = RSdkRequestInfoManager.sharedRequestInfoManager._token else {
                 
@@ -62,7 +62,7 @@ struct RSdkContactInfo {
                 return []                
             }
             
-            let contactError = RSdkErrorType.contactStore(_snippetId, requestToken, error.localizedDescription)
+            let contactError = RSdkErrorType.contactStore(_snippetId, requestToken, error.debugDescription)
             RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: contactError), completion: { (_, _) in
                 
             })
@@ -95,7 +95,7 @@ struct RSdkContactInfo {
                 
                 let newContactStore = ContactStoreDTO(_identifier, name: _name, type: _type, count: containerResults.count)
                 resultContainers.append(newContactStore)
-            } catch let error {
+            } catch let error as NSError {
                 
                 guard let _snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId, let _requestToken = RSdkRequestInfoManager.sharedRequestInfoManager._token else {
                     
@@ -107,7 +107,7 @@ struct RSdkContactInfo {
                     return []
                 }
                 
-                let contactError = RSdkErrorType.contactStore(_snippetId, _requestToken, error.localizedDescription)
+                let contactError = RSdkErrorType.contactStore(_snippetId, _requestToken, error.debugDescription)
                 RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: contactError), completion: { (_, _) in
                     
                 })

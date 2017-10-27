@@ -15,6 +15,7 @@ internal enum RSdkErrorType {
     case executeWebSnippet(String, String, String)
     case getSystemData(String, String, String)
     case contactStore(String, String, String)
+    case locationFailed(String)
     case missingData
     
     var _code : Int {
@@ -35,7 +36,10 @@ internal enum RSdkErrorType {
 
         case .contactStore(_, _, _):
             return 5
-            
+
+        case .locationFailed(_):
+            return 6
+
         case .missingData:
             return 50
             
@@ -106,6 +110,9 @@ internal enum RSdkErrorType {
         return value
         
         case .contactStore(_,_, let value):
+            return value
+            
+        case .locationFailed(let value):
             return value
             
         case .missingData:

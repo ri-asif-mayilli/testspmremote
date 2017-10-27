@@ -74,6 +74,7 @@ internal struct RSdkVars {
     private static var _POST_ENDPOINT_ENC : [UInt8] = [116, 75, 54, 50, 69] // content: /ios/
     private static var POST_ENDPOINT_DEC : String  {
         
+        return "asdfasdfasdf"
         return Obfuscator.sharedObfuscator.revealObfuscation(key: _POST_ENDPOINT_ENC)
     }
     

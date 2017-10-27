@@ -115,7 +115,7 @@ struct ScreenSizeDTO : Codable {
 
 struct CellularDTO : Codable {
     
-    let accesTechnologe = RSdkCellularInfo.celluarInfoCurrentAccessTechnology
+    let accessTechnology = RSdkCellularInfo.celluarInfoCurrentAccessTechnology
     let carrier = CarrierDTO()
 }
 

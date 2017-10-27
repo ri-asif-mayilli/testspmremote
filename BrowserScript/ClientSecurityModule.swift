@@ -38,6 +38,10 @@ public class ClientSecurityModule : NSObject {
     }
     
     
+    internal override init() {
+        
+    }
+    
     /// This is the Client Security Module.
     ///
     /// Usage:
@@ -48,16 +52,18 @@ public class ClientSecurityModule : NSObject {
     ///   - snippetId: String -> The snippet id
     ///   - token: String -> A Unique execution UUID for the Call.
     ///   - location: String -> String for ?
+    ///   - customArgs: [ String : String ] -> Dictionary of Strings. Default: nil
     ///   - enableLocationFinder: Bool -> Enable Location Finding. Default: false
     ///   - geoLocation: CLLocation -> Class with the user _location.
-    public init(snippetId: String, token: String, location: String? = nil, enableLocationFinder: Bool = false, geoLocation: CLLocation? = nil) {
+    public init(snippetId: String, token: String, location: String? = nil,
+                customArgs: [ String : String ]? = nil, enableLocationFinder: Bool = false, geoLocation: CLLocation? = nil) {
     
         super.init()
         uuidToken = token
         _snippetId = snippetId
         RSdkRequestInfoManager.sharedRequestInfoManager.setupManager(_token: token, _snippetId: snippetId)
         wkWebView.navigationDelegate = self
-        doExecute(_snippetId: snippetId, _location: location)
+        doExecute(_snippetId: snippetId, _location: location, _customArgs: customArgs)
         RSdkHTTPProtocol.postDeviceData(_snippetId: snippetId, _requestToken: token, _location: location, _enableLoactionFinder: enableLocationFinder, _geoLocation: geoLocation) {
             
             (error) in
@@ -72,17 +78,60 @@ public class ClientSecurityModule : NSObject {
         }
     }
     
-    private func doExecute(_snippetId: String, _location: String?) {
+    internal func doExecute(_snippetId: String, _location: String?, _customArgs: [String : String]?) {
         
-        guard let request = createRequest(_snippetId: _snippetId, _token: uuidToken, _location: _location), let _ = request.url else { return }
+        guard let request = createRequest(_snippetId: _snippetId, _token: uuidToken, _location: _location, _customArgs: _customArgs), let _ = request.url else { return }
         wkWebView.load(request)
     }
 
-    private func createRequest(_snippetId: String, _token: String, _location: String?) -> URLRequest? {
+    internal func createRequest(_snippetId: String, _token: String, _location: String?, _customArgs: [String : String]?) -> URLRequest? {
         
-        let urlString = "\(RSdkVars.SNIPPET_ENDPOINT)\(_snippetId)?t=\(_token)&l=\(_location ?? "")"
+        
+        var urlStringBuild = "\(RSdkVars.SNIPPET_ENDPOINT)\(_snippetId)?t=\(_token)"
+        
+        if let _location = _location, !_location.isEmpty {
+            
+            urlStringBuild = "\(urlStringBuild)&l=\(_location)"
+        }
+        
+        let urlString : String
+        if let _customArgs = _customArgs {
+            
+            urlString = addCustomArgs(urlStringBuild, _customArgs: _customArgs)
+            print(urlString)
+        } else {
+            
+            urlString = urlStringBuild
+        }
+        
         guard let url = URL(string: urlString) else { return nil }
         return URLRequest(url: url)
+    }
+    
+    internal func addCustomArgs(_ urlString : String, _customArgs: [String : String]) -> String {
+       
+        var first = true
+        var _customArgsString = ""
+        for (_key, _value) in _customArgs {
+            
+            if let key = _key.htmlEncoded, let value = _value.htmlEncoded {
+            
+                if first {
+                    first = !first
+                    _customArgsString = "\(key)=\(value)"
+                } else {
+                    
+                    _customArgsString = "\(key)=\(value)&\(_customArgsString)"
+                }
+            }
+        }
+
+        if let encodedCustomArgs = _customArgsString.htmlEncoded {
+            
+            return "\(urlString)&va=\(encodedCustomArgs)"
+        } else {
+            return urlString
+        }
     }
 }
 

@@ -166,6 +166,7 @@ internal class RSdkRequestManager {
             return
             
         }
+
         let task = rsdkRequestSession?.dataTask(with: request) {
             
             (data, response, error) in

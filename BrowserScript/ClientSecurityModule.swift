@@ -52,6 +52,7 @@ public class ClientSecurityModule : NSObject {
     ///   - snippetId: String -> The snippet id
     ///   - token: String -> A Unique execution UUID for the Call.
     ///   - location: String -> String for ?
+    ///   - domain: String -> An custom Domain
     ///   - customArgs: [ String : String ] -> Dictionary of Strings. Default: nil
     ///   - enableLocationFinder: Bool -> Enable Location Finding. Default: false
     ///   - geoLocation: CLLocation -> Class with the user _location.

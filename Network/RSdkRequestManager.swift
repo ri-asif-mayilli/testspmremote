@@ -82,7 +82,12 @@ enum RequestManagerType {
         case .postBin(let payload):
             
             let urlString = "\(RSdkVars.POST_ENDPOINT)\(payload.snippetId)\(RSdkVars.ENDPOINT_ADDITIONAL)\(payload.token)"
-            guard let url = URL(string: urlString) else { return nil }
+            guard let url = URL(string: urlString) else {
+                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .domainError("Not valid Domain: \(urlString)")), completion: { (data, error) in
+                    
+                })
+                return nil
+            }
             return url
         
         

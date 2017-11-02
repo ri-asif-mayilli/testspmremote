@@ -28,18 +28,14 @@ internal class RSdkRequestInfoManager {
         }
         set {
             
-            if newValue = newValue {
-                
-                _domain = newValue
-            }
-            
+            _domain = newValue
         }
     }
     
     internal static var sharedRequestInfoManager = RSdkRequestInfoManager()
     private init() {}
     
-    func setupManager(_token : String, _snippetId : String, _domain: String) {
+    func setupManager(_token : String, _snippetId : String, _domain: String?) {
         
         self._token = _token
         self._snippetId = _snippetId

@@ -66,7 +66,7 @@ internal struct RSdkVars {
     
     private static var _DOMAIN          : [UInt8] = [51, 86, 45, 49, 25, 111, 106, 91, 3, 5, 47, 79, 34, 31, 22, 14, 18, 48, 20, 7, 18, 44, 58, 45, 70, 60, 42, 77, 64, 14, 65, 63, 8]
     
-    private static var DOMAIN : String {
+    internal static var DOMAIN : String {
 
         return Obfuscator.sharedObfuscator.revealObfuscation(key: _DOMAIN)
     }
@@ -74,7 +74,6 @@ internal struct RSdkVars {
     private static var _POST_ENDPOINT_ENC : [UInt8] = [116, 75, 54, 50, 69] // content: /ios/
     private static var POST_ENDPOINT_DEC : String  {
         
-        return "asdfasdfasdf"
         return Obfuscator.sharedObfuscator.revealObfuscation(key: _POST_ENDPOINT_ENC)
     }
     
@@ -97,10 +96,10 @@ internal struct RSdkVars {
         return Obfuscator.sharedObfuscator.revealObfuscation(key: _ENDPOINT_ADDITIONAL_ENC)
     }
     
-    internal static var POST_ENDPOINT   = "\(DOMAIN)\(POST_ENDPOINT_DEC)"
-    internal static var ERROR_ENDPOINT  = "\(DOMAIN)\(ERROR_ENDPOINT_DEC)"
+    internal static var POST_ENDPOINT   = "\(RSdkRequestInfoManager.sharedRequestInfoManager.customDomain)\(POST_ENDPOINT_DEC)"
+    internal static var ERROR_ENDPOINT  = "\(RSdkRequestInfoManager.sharedRequestInfoManager.customDomain)\(ERROR_ENDPOINT_DEC)"
     
-    internal static var SNIPPET_ENDPOINT = "\(DOMAIN)\(SNIPPET_ENDPOINT_DEC)"
+    internal static var SNIPPET_ENDPOINT = "\(RSdkRequestInfoManager.sharedRequestInfoManager.customDomain)\(SNIPPET_ENDPOINT_DEC)"
     
     internal static var ENDPOINT_ADDITIONAL : String { return ENDPOINT_ADDITIONAL_DEC }
 

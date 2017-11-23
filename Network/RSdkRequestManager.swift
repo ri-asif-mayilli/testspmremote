@@ -83,7 +83,7 @@ enum RequestManagerType {
             
             let urlString = "\(RSdkVars.POST_ENDPOINT)\(payload.snippetId)\(RSdkVars.ENDPOINT_ADDITIONAL)\(payload.token)"
             guard let url = URL(string: urlString) else {
-                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .domainError("Not valid Domain: \(urlString)")), completion: { (data, error) in
+                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .domainError("Not valid Domain: \(urlString)")), completion: { (_, _) in
                     
                 })
                 return nil
@@ -172,20 +172,24 @@ internal class RSdkRequestManager {
             
         }
 
-        let task = rsdkRequestSession?.dataTask(with: request) {
-            
-            (data, response, error) in
+        let task = rsdkRequestSession?.dataTask(with: request) {(data, response, error) in
             
             if let error = error as NSError? {
 
                 print(error)
-                if let token = RSdkRequestInfoManager.sharedRequestInfoManager._token,
-                    let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId {
-                    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, error.debugDescription))) { (_,_)  in }
-                }
 
-                completion(nil, error)
-                return
+                switch requestType {
+                case .postError:
+                    return
+                case .postBin:
+                    if let token = RSdkRequestInfoManager.sharedRequestInfoManager._token,
+                        let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId {
+                        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, error.debugDescription))) { (_,_)  in }
+                    }
+
+                    completion(nil, error)
+                    return
+                }
             }
             
             if let response = response as? HTTPURLResponse {

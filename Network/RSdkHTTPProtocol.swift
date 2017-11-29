@@ -19,7 +19,7 @@ internal class RSdkHTTPProtocol {
     ///   - _token: String : The Token for the Request
     ///   - _location: String : Optional Location String
     ///   - completion: (Error) -> Void : Completion Handler which give Back Error to App (Error)
-    internal class func postDeviceData(_snippetId : String, _token: String? = nil, _location: String? = nil, _completion: @escaping (Error?) -> Void) {
+    internal class func postDeviceData(_snippetId : String, _token: String, _location: String? = nil, _completion: @escaping (Error?) -> Void) {
     
         DeviceDTOFactory.createDTO(_snippetId: _snippetId, _requestToken: _token, _location: _location, _completion: { (device) in
             

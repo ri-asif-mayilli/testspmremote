@@ -177,10 +177,6 @@ internal class RSdkRequestManager {
             if let error = error as NSError? {
 
                 //print(error)
-                if let token = RSdkRequestInfoManager.sharedRequestInfoManager._token,
-                    let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId {
-                    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, error.debugDescription))) { (_,_)  in }
-                }
                 switch requestType {
                 case .postError:
                     return

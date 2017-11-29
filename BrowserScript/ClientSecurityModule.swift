@@ -54,10 +54,8 @@ public class ClientSecurityModule : NSObject {
     ///   - location: String -> String for ?
     ///   - domain: String -> An custom Domain
     ///   - customArgs: [ String : String ] -> Dictionary of Strings. Default: nil
-    ///   - enableLocationFinder: Bool -> Enable Location Finding. Default: false
-    ///   - geoLocation: CLLocation -> Class with the user _location.
     @objc public init(snippetId: String, token: String, domain: String? = nil, location: String? = nil,
-                customArgs: [ String : String ]? = nil, enableLocationFinder: Bool = false, geoLocation: CLLocation? = nil) {
+                customArgs: [ String : String ]? = nil) {
     
         super.init()
         uuidToken = token
@@ -66,7 +64,7 @@ public class ClientSecurityModule : NSObject {
         RSdkRequestInfoManager.sharedRequestInfoManager.setupManager(_token: token, _snippetId: snippetId, _domain: domain)
         wkWebView.navigationDelegate = self
         doExecute(_snippetId: snippetId, _location: location, _customArgs: customArgs)
-        RSdkHTTPProtocol.postDeviceData(_snippetId: snippetId, _requestToken: token, _location: location, _enableLoactionFinder: enableLocationFinder, _geoLocation: geoLocation) {
+        RSdkHTTPProtocol.postDeviceData(_snippetId: snippetId, _requestToken: token, _location: location) {
             
             (error) in
             

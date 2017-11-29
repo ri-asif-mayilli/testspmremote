@@ -25,26 +25,19 @@ struct RSdkDeviceDTO : Codable {
     
     let proximity  : ProximityDTO
     let notification : NotificationDTO
-    let locationInfo     : LocationDTO
  
     let locale = LocaleInfoDTO()
     let identifier = IdentifierInfoDTO()
     let motion = MotionInfoDTO()
     
-    init(_ snippetId: String, requestToken: String, _location: String, geoLocation: CLLocation?, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
+    init(_ snippetId: String, requestToken: String, _location: String, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
         
         self.snippetId      = snippetId
         self.token          = requestToken
         self._location       = _location
         self.proximity      = proximityDTO
         self.notification   = notificationDTO
-        if let geoLocation = geoLocation {
-            
-            self.locationInfo = LocationDTO(_location: geoLocation)
-        } else {
-            
-            self.locationInfo = LocationDTO()
-        }
+        
     }
 }
 

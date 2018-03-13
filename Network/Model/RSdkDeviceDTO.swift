@@ -14,6 +14,7 @@ struct RSdkDeviceDTO : Codable {
     var snippetId  : String
     var _location   : String
     var token      : String
+    var diMobileSdkVersion : String
     let sysctlInfo = SysctlDTO()
     let jailBreak  = JailbreakDTO()
     let device     = DeviceVarsDTO()
@@ -30,14 +31,14 @@ struct RSdkDeviceDTO : Codable {
     let identifier = IdentifierInfoDTO()
     let motion = MotionInfoDTO()
     
-    init(_ snippetId: String, requestToken: String, _location: String, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
+    init(_ snippetId: String, requestToken: String, _location: String, mobileSdkVersion: String, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
         
         self.snippetId      = snippetId
         self.token          = requestToken
         self._location       = _location
         self.proximity      = proximityDTO
         self.notification   = notificationDTO
-        
+        self.diMobileSdkVersion = mobileSdkVersion
     }
 }
 

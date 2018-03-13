@@ -8,6 +8,11 @@
 
 internal struct RSdkVars {
     
+    internal static var SDKVERSION : String {
+        
+        return "1.1.1"
+    }
+    
     internal struct RequestManagerVars {
         
         private static var _encodingType : [UInt8] = [58, 82, 41, 45, 3, 54, 36, 0, 29, 29, 54, 78, 38, 3, 13, 9, 79, 121, 20, 14, 7, 55, 38, 38, 31, 117, 48, 86, 74, 13, 26]
@@ -70,7 +75,7 @@ internal struct RSdkVars {
 
         return Obfuscator.sharedObfuscator.revealObfuscation(key: _DOMAIN)
     }
-
+    
     private static var _POST_ENDPOINT_ENC : [UInt8] = [116, 75, 54, 50, 69] // content: /ios/
     private static var POST_ENDPOINT_DEC : String  {
         

@@ -12,6 +12,7 @@ internal class RSdkRequestInfoManager {
     
     var _token : String?
     var _snippetId : String?
+    var _diMobileSdkVersion : String = ""
     private var _domain : String?
     
     var customDomain : String {
@@ -40,9 +41,13 @@ internal class RSdkRequestInfoManager {
         self._token = _token
         self._snippetId = _snippetId
         self._domain = _domain
+        self._diMobileSdkVersion = mobileSdkVersion()
     }
     
-    
+    private func mobileSdkVersion() -> String {
+        
+        return RSdkVars.SDKVERSION
+    }
     
     
 }

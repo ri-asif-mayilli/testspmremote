@@ -50,7 +50,7 @@ struct RSdkContactInfo {
         var allContainers: [CNContainer] = []
         do {
             allContainers = try contactStore.containers(matching: nil)
-        } catch let error as NSError? {
+        } catch let error {
 
             guard let _snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId, let requestToken = RSdkRequestInfoManager.sharedRequestInfoManager._token else {
                 
@@ -62,7 +62,7 @@ struct RSdkContactInfo {
                 return []                
             }
             
-            let contactError = RSdkErrorType.contactStore(_snippetId, requestToken, error.debugDescription)
+            let contactError = RSdkErrorType.contactStore(_snippetId, requestToken, error.localizedDescription)
             RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: contactError), completion: { (_, _) in
                 
             })

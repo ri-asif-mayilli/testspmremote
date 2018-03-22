@@ -8,15 +8,16 @@
 
 import Foundation
 import UIKit
+import WebKit
 import MapKit
 
 public class ClientSecurityModule : NSObject {
-
+    
     var _token : String?
     var _snippetId : String?
-    
-    private var webModule: ClientSecurityWebModule?
-    
+    private var mainView: UIView!
+    private var wkWebView = WKWebView()
+
     fileprivate var uuidToken : String {
         
         get {
@@ -54,40 +55,50 @@ public class ClientSecurityModule : NSObject {
     ///   - location: String -> String for ?
     ///   - domain: String -> An custom Domain
     ///   - customArgs: [ String : String ] -> Dictionary of Strings. Default: nil
-    @objc public init(snippetId: String, token: String, domain: String? = nil, location: String? = nil,
-                customArgs: [ String : String ]? = nil) {
+    @objc public init(snippetId: String, token: String, domain: String? = nil, location: String? = nil, view: UIView, customArgs: [ String : String ]? = nil) {
     
         super.init()
         uuidToken = token
         _snippetId = snippetId
+        mainView = view
 
-        RSdkRequestInfoManager.sharedRequestInfoManager.setupManager(_token: token, _snippetId: snippetId, _domain: domain)
-        self.createWebViewTasks()
+        initializeWebView(targetView: mainView)
+        initializeRDskRequest(domain: domain, location: location, customArgs: customArgs)
+    }
+    
+    private func initializeRDskRequest(domain: String? = nil, location: String? = nil, customArgs: [ String : String ]? = nil) {
+        guard let snippetId = _snippetId else {
+            return
+        }
+
+        RSdkRequestInfoManager.sharedRequestInfoManager.setupManager(_token: uuidToken, _snippetId: snippetId, _domain: domain)
+        
         doExecute(_snippetId: snippetId, _location: location, _customArgs: customArgs)
-        RSdkHTTPProtocol.postDeviceData(_snippetId: snippetId, _token: token, _location: location, _mobileSdkVersion: RSdkRequestInfoManager.sharedRequestInfoManager._diMobileSdkVersion) {
+        RSdkHTTPProtocol.postDeviceData(_snippetId: snippetId, _token: uuidToken, _location: location, _mobileSdkVersion: RSdkRequestInfoManager.sharedRequestInfoManager._diMobileSdkVersion) {
             
             (error) in
             
             if let error = error as NSError? {
-            
-                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, error.debugDescription))) {
-                (_,_) in
                 
+                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, self.uuidToken, error.debugDescription))) {
+                    (_,_) in
+                    
                 }
             }
         }
-        
-        
     }
     
-    private func createWebViewTasks() {
-        guard let snippetId = _snippetId, let uuidToken = _token else { return }
-        webModule = ClientSecurityWebModule(snippetId: snippetId, uuidToken: uuidToken)
+    private func initializeWebView(targetView: UIView) {
+        wkWebView.navigationDelegate = self
+        wkWebView.isHidden = true
+        wkWebView.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
+        targetView.addSubview(wkWebView)
     }
     
     internal func doExecute(_snippetId: String, _location: String?, _customArgs: [String : String]?) {
+        
         guard let request = createRequest(_snippetId: _snippetId, _token: uuidToken, _location: _location, _customArgs: _customArgs), let _ = request.url else { return }
-        webModule?.loadRequest(request: request)
+        wkWebView.load(request)
     }
 
     internal func createRequest(_snippetId: String, _token: String, _location: String?, _customArgs: [String : String]?) -> URLRequest? {
@@ -139,4 +150,20 @@ public class ClientSecurityModule : NSObject {
             return urlString
         }
     }
+}
+
+extension ClientSecurityModule : WKNavigationDelegate {
+    
+    public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        
+    }
+    
+    public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        
+        guard let snippet = _snippetId, let uuidToken = _token else { return }
+    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .executeWebSnippet(snippet, uuidToken, error.localizedDescription))) {
+            (_,_) in
+        }
+            
+    }    
 }

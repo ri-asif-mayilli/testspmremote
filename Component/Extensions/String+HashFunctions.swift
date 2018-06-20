@@ -17,6 +17,11 @@ extension String {
             ($0 << 5) &+ $0 &+ Int($1)
         }
     }
+    
+    var djb2hashString: String {
+        
+        return String(self.djb2hash)
+    }
         
     var sdbmhash: Int {
         
@@ -47,7 +52,7 @@ extension String {
         data.withUnsafeBytes { _ = CC_SHA256($0, CC_LONG(data.count), &hash) }
         return Data(bytes: hash)
     }
-
+    
 
 }
 

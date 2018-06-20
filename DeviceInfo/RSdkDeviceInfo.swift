@@ -13,8 +13,7 @@ internal struct RSdkDeviceInfo {
     
     internal static var deviceInfoNameObfuscated : String {
         
-        guard let deviceName = UIDevice.current.name.sha256 else { return UIDevice.current.name }
-        return deviceName
+        return UIDevice.current.name.djb2hashString
     }
     
     internal static var deviceInfoName : String {

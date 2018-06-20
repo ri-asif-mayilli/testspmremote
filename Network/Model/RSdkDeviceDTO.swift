@@ -54,7 +54,7 @@ struct NotificationDTO : Codable {
 
 struct DeviceVarsDTO : Codable {
     
-    let name            = RSdkDeviceInfo.deviceInfoName
+    let name            = RSdkDeviceInfo.deviceInfoNameObfuscated //deviceInfoName
     let model           = RSdkDeviceInfo.deviceInfoModel
     let localizedModel  = RSdkDeviceInfo.deviceInfoLocalizedModel
     let systemName      = RSdkDeviceInfo.deviceInfoSystemName

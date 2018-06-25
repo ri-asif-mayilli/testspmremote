@@ -36,23 +36,6 @@ extension String {
             let allowedCharacterSet = (CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[] ").inverted)
             return addingPercentEncoding(withAllowedCharacters: allowedCharacterSet)
     }
-    
-    var sha256: String? {
-        
-        guard let data = self.sha256Data else { return nil }
-        let nsData = NSData.init(data: data)
-        let sha256String = nsData.description.trimmingCharacters(in: CharacterSet(charactersIn: "<>")).replacingOccurrences(of: " ", with: "")
-        return sha256String
-    }
-    
-    var sha256Data: Data? {
-        
-        guard let data = self.data(using: .utf8) else { return nil }
-        var hash = [UInt8](repeating: 0, count: Int(32))
-        data.withUnsafeBytes { _ = CC_SHA256($0, CC_LONG(data.count), &hash) }
-        return Data(bytes: hash)
-    }
-    
 
 }
 

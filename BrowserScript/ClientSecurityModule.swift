@@ -73,7 +73,6 @@ public class ClientSecurityModule : NSObject {
 
         RSdkRequestInfoManager.sharedRequestInfoManager.setupManager(_token: uuidToken, _snippetId: snippetId, _domain: domain)
         
-        doExecute(_snippetId: snippetId, _location: location, _customArgs: customArgs)
         RSdkHTTPProtocol.postDeviceData(_snippetId: snippetId, _token: uuidToken, _location: location, _mobileSdkVersion: RSdkRequestInfoManager.sharedRequestInfoManager._diMobileSdkVersion) {
             
             (error) in
@@ -84,6 +83,8 @@ public class ClientSecurityModule : NSObject {
                     (_,_) in
                     
                 }
+            } else {
+                self.doExecute(_snippetId: snippetId, _location: location, _customArgs: customArgs)
             }
         }
     }

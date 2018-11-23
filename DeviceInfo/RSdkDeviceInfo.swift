@@ -12,9 +12,13 @@ import UIKit
 internal struct RSdkDeviceInfo {
     
     internal static var deviceInfoNameObfuscated : String {
-
-        guard let deviceName = UIDevice.current.name.sha256 else { return UIDevice.current.name }
-        return deviceName
+        let shaName = UIDevice.current.name.sha256
+        
+        if shaName.isEmpty {
+            return UIDevice.current.name
+        }
+        
+        return shaName
     }
     
     internal static var deviceInfoName : String {

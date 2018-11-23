@@ -126,15 +126,7 @@ struct CarrierDTO : Codable {
 
 struct SysctlDTO : Codable {
 
-    var hostname: String {
-        get {
-            if let name = RSdkSyctlInfoType.hostname.sysctlValue.djb2hashString.sha256 {
-                return name
-            }
-
-            return ""
-        }
-    }
+    var hostname    = RSdkSyctlInfoType.hostname.sysctlValue.djb2hashString.sha256
     var machine     = RSdkSyctlInfoType.machine.sysctlValue
     var activeCPUs  = RSdkSyctlInfoType.activeCPUs.sysctlValue
     var osRelease   = RSdkSyctlInfoType.osRelease.sysctlValue
@@ -193,15 +185,7 @@ internal struct NetworkInfoDTO : Codable {
  
     let ip = RSdkNetworkInfo.networkInfoGetWiFiAddress
     
-    var ssid: String {
-        get {
-            if let info = RSdkNetworkInfo.networkInfoGetWiFiSsid?.djb2hashString.sha256 {
-                return info
-            }
-
-            return ""
-        }
-    }
+    var ssid = RSdkNetworkInfo.networkInfoGetWiFiSsid?.djb2hashString.sha256
     var proxy: ProxyInfoDTO?
 
     public init() {

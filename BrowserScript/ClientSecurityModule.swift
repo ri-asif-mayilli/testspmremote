@@ -99,7 +99,10 @@ public class ClientSecurityModule : NSObject {
     internal func doExecute(_snippetId: String, _location: String?, _customArgs: [String : String]?) {
         
         guard let request = createRequest(_snippetId: _snippetId, _token: uuidToken, _location: _location, _customArgs: _customArgs), let _ = request.url else { return }
-        wkWebView.load(request)
+        DispatchQueue.main.async {
+            self.wkWebView.load(request)
+        }
+        
     }
 
     internal func createRequest(_snippetId: String, _token: String, _location: String?, _customArgs: [String : String]?) -> URLRequest? {

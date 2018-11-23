@@ -38,9 +38,9 @@ extension String {
             return addingPercentEncoding(withAllowedCharacters: allowedCharacterSet)
     }
 
-    var sha256: String? {
+    var sha256: String {
 
-        guard let data = self.sha256Data else { return nil }
+        guard let data = self.sha256Data else { return "" }
         let nsData = NSData.init(data: data)
         let sha256String = nsData.description.trimmingCharacters(in: CharacterSet(charactersIn: "<>")).replacingOccurrences(of: " ", with: "")
         return sha256String

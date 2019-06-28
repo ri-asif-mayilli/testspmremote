@@ -8,8 +8,6 @@
 
 import Foundation
 import UIKit
-import WebKit
-import MapKit
 
 public class ClientSecurityModule : NSObject {
     

@@ -39,6 +39,15 @@ public class ClientSecurityModule : NSObject {
         
     }
     
+    @available(*, deprecated)
+    @objc public init(snippetId: String, token: String, domain: String? = nil, location: String? = nil,view: UIView, customArgs: [ String : String ]? = nil) {
+        super.init()
+        uuidToken = token
+        _snippetId = snippetId
+
+        initializeRDskRequest(domain: domain, location: location, customArgs: customArgs)
+    }
+
     /// This is the Client Security Module.
     ///
     /// Usage:

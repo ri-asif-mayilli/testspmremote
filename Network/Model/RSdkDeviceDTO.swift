@@ -213,6 +213,7 @@ internal struct IdentifierInfoDTO : Codable {
     let vendorId              = RSdkIdentifierInfo.identifierInfoVendor
     let advertTrackingEnabled = RSdkIdentifierInfo.identifierInfoIsAdvertisingEnabled
     let uniqueAppId           = RSdkIdentifierInfo.identifierUniqueAppIdentifier
+    let localStorageId        = RSdkIdentifierInfo.identifierlocalStorage
 }
 
 internal struct MotionInfoDTO : Codable {

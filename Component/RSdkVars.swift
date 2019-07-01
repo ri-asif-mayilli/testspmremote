@@ -107,6 +107,8 @@ internal struct RSdkVars {
     internal static var SNIPPET_ENDPOINT = "\(RSdkRequestInfoManager.sharedRequestInfoManager.customDomain)\(SNIPPET_ENDPOINT_DEC)"
     
     internal static var ENDPOINT_ADDITIONAL : String { return ENDPOINT_ADDITIONAL_DEC }
+    
+    internal static var CLIENT_DATA_ENDPOINT = "\(RSdkRequestInfoManager.sharedRequestInfoManager.customDomain)/ni"
 
 }
 

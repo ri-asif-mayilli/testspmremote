@@ -23,12 +23,18 @@ internal class RSdkHTTPProtocol {
     internal class func postDeviceData(_snippetId : String, _token: String, _location: String? = nil, _mobileSdkVersion: String, _completion: @escaping (Error?) -> Void) {
     
         DeviceDTOFactory.createDTO(_snippetId: _snippetId, _requestToken: _token, _location: _location, _mobileSdkVersion: _mobileSdkVersion, _completion: { (device) in
-            
-            postBin(device: device) {
-                (error) in
-                
-                _completion(error)
+            postBin(device: device) { postBinError in
+                if(postBinError != nil) {
+                    _completion(postBinError)
+                } else {
+                    postClientBin(device: device) {
+                        (error) in
+                        
+                        _completion(error)
+                    }
+                }
             }
+            
         })
     }
     
@@ -37,6 +43,24 @@ internal class RSdkHTTPProtocol {
         DispatchQueue.global(qos: .userInteractive).async {
         
             RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postBin(deviceDTO: device)) {
+                
+                (data, error) in
+                
+                if let error = error {
+                    
+                    completionHandler(error)
+                    return
+                }
+                completionHandler(nil)
+            }
+        }
+    }
+    
+    private class func postClientBin(device : RSdkDeviceDTO, completionHandler: @escaping (Error?) -> Void) {
+        
+        DispatchQueue.global(qos: .userInteractive).async {
+            
+            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postClientBin(deviceDTO: device)) {
                 
                 (data, error) in
                 

@@ -37,6 +37,7 @@ enum RequestMethod : String {
 
 enum RequestManagerType {
     
+    case postClientBin(deviceDTO : RSdkDeviceDTO)
     case postBin(deviceDTO : RSdkDeviceDTO)
     case postError(error : RSdkErrorType)
     
@@ -59,6 +60,9 @@ enum RequestManagerType {
                 }
                 return nil
             }
+        case .postClientBin(let payload):
+            return nil
+            
         
         case .postError(let error):
         
@@ -90,6 +94,8 @@ enum RequestManagerType {
             }
             return url
         
+        case .postClientBin(let payload):
+            return nil
         
         case .postError(let error):
 
@@ -106,16 +112,22 @@ enum RequestManagerType {
         case .postBin:
             return .put
     
+        case .postClientBin:
+            return .post
+            
         case .postError:
             return .put
+        
         }
     }
     
     var authString : String? {
         
         switch self {
-
+            
         case .postBin:
+            return nil
+        case .postClientBin:
             return nil
         case .postError:
             return nil
@@ -127,6 +139,9 @@ enum RequestManagerType {
         switch self {
 
         case .postBin:
+            return false
+            
+        case .postClientBin:
             return false
             
         case .postError:
@@ -187,6 +202,8 @@ internal class RSdkRequestManager {
                     }
 
                     completion(nil, error)
+                    return
+                case .postClientBin:
                     return
                 }
             }

@@ -65,7 +65,7 @@ public class ClientSecurityModule : NSObject {
             return
         }
 
-        RSdkRequestInfoManager.sharedRequestInfoManager.setupManager(_token: uuidToken, _snippetId: snippetId, _domain: domain)
+        RSdkRequestInfoManager.sharedRequestInfoManager.setupManager(_token: uuidToken, _snippetId: snippetId, _domain: domain, _customArgs: customArgs)
         
         RSdkHTTPProtocol.postDeviceData(_snippetId: snippetId, _token: uuidToken, _location: location, _mobileSdkVersion: RSdkRequestInfoManager.sharedRequestInfoManager._diMobileSdkVersion) {
             

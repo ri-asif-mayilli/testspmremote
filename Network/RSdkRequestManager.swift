@@ -195,7 +195,7 @@ internal class RSdkRequestManager {
                     formParams["v"] = deviceData.snippetId
                     formParams["l"] = deviceData._location
                     formParams["d"] = try encoder.encode(deviceData).base64EncodedString()
-                    
+                    formParams["va"] = customArgsToString(customArgs: RSdkRequestInfoManager.sharedRequestInfoManager._customArgs)
                     request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
                     
                     request.httpBody = formParams
@@ -221,6 +221,12 @@ internal class RSdkRequestManager {
         }
 
         return request
+    }
+    
+    private func customArgsToString(customArgs: [String:String]) -> String {
+        return customArgs
+            .map{ (key,value) in return "\(key)=\(value)" }
+            .joined(separator: "&")
     }
     
     func doRequest(requestType : RequestManagerType, completion: @escaping RequestCompletionHandler) {

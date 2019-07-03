@@ -60,16 +60,8 @@ internal class RSdkHTTPProtocol {
         
         DispatchQueue.global(qos: .userInteractive).async {
             
-            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postClientBin(deviceDTO: device)) {
-                
-                (data, error) in
-                
-                if let error = error {
-                    
-                    completionHandler(error)
-                    return
-                }
-                completionHandler(nil)
+            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postClientBin(deviceDTO: device)) { (data, error) in
+                completionHandler(error)
             }
         }
     }

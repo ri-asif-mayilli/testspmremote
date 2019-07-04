@@ -126,16 +126,17 @@ struct CarrierDTO : Codable {
 
 struct SysctlDTO : Codable {
 
-    var hostname    = RSdkSyctlInfoType.hostname.sysctlValue.djb2hashString.sha256
-    var machine     = RSdkSyctlInfoType.machine.sysctlValue
-    var activeCPUs  = RSdkSyctlInfoType.activeCPUs.sysctlValue
-    var osRelease   = RSdkSyctlInfoType.osRelease.sysctlValue
-    var osRev       = RSdkSyctlInfoType.osRev.sysctlValue
-    var osType      = RSdkSyctlInfoType.osType.sysctlValue
-    var osVersion   = RSdkSyctlInfoType.osVersion.sysctlValue
-    var version     = RSdkSyctlInfoType.version.sysctlValue
-    var memSize     = RSdkSyctlInfoType.memSize.sysctlValue
-    var machineArch = RSdkSyctlInfoType.machineArch.sysctlValue
+    var hostname        = RSdkSyctlInfoType.hostname.sysctlValue.djb2hashString.sha256
+    var machine         = RSdkSyctlInfoType.machine.sysctlValue
+    var activeCPUs      = RSdkSyctlInfoType.activeCPUs.sysctlValue
+    var osRelease       = RSdkSyctlInfoType.osRelease.sysctlValue
+    var osRev           = RSdkSyctlInfoType.osRev.sysctlValue
+    var osType          = RSdkSyctlInfoType.osType.sysctlValue
+    var osVersion       = RSdkSyctlInfoType.osVersion.sysctlValue
+    var version         = RSdkSyctlInfoType.version.sysctlValue
+    var memSize         = RSdkSyctlInfoType.memSize.sysctlValue
+    var machineArch     = RSdkSyctlInfoType.machineArch.sysctlValue
+    var bootTimestamp   = RSdkSyctlInfoType.bootTimestamp.sysctlValue
 }
 
 

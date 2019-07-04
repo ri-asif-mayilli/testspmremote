@@ -13,6 +13,7 @@ enum RSdkSyctlInfoType {
     case version
     case memSize
     case machineArch
+    case bootTimestamp
     
     var sysctlValue : String {
         
@@ -47,6 +48,8 @@ enum RSdkSyctlInfoType {
         case .memSize:
             return Sysctl.sysctlMemSize.description
             
+        case .bootTimestamp:
+            return String(describing: Sysctl.bootTimestamp)
         case .version:
             return Sysctl.sysctlVersion
         }
@@ -374,4 +377,15 @@ private struct Sysctl {
             return missingInt64DataError(error: error as! Sysctl.Error)
         }
     }
+    
+    internal static var bootTimestamp: UInt64 {
+
+        do {
+            return try UInt64(Sysctl.valueOfType(timeval.self, forKeys: [CTL_KERN, KERN_BOOTTIME]).tv_sec)
+        } catch let error {
+
+            return missingInt64DataError(error: error as! Sysctl.Error)
+        }
+    }
+    
 }

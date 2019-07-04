@@ -37,6 +37,7 @@ enum RequestMethod : String {
 
 enum RequestManagerType {
     
+    case postClientBin(deviceDTO : RSdkDeviceDTO)
     case postBin(deviceDTO : RSdkDeviceDTO)
     case postError(error : RSdkErrorType)
     
@@ -59,6 +60,21 @@ enum RequestManagerType {
                 }
                 return nil
             }
+        case .postClientBin(let payload):
+            let encoder = JSONEncoder()
+            do {
+                let enc = try encoder.encode(payload).base64EncodedData()
+                return enc
+                
+            } catch let error as NSError {
+                
+                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .encodeNativeData(payload.snippetId, payload.token, error.debugDescription))) {
+                    (_,_) in
+                    
+                }
+                return nil
+            }
+            
         
         case .postError(let error):
         
@@ -90,6 +106,15 @@ enum RequestManagerType {
             }
             return url
         
+        case .postClientBin(let payload):
+            let urlString = "\(RSdkVars.CLIENT_DATA_ENDPOINT)?t=\(payload.token)"
+            guard let url = URL(string: urlString) else {
+                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .domainError("Not valid Domain: \(urlString)")), completion: { (_, _) in
+                    
+                })
+                return nil
+            }
+            return url
         
         case .postError(let error):
 
@@ -106,16 +131,22 @@ enum RequestManagerType {
         case .postBin:
             return .put
     
+        case .postClientBin:
+            return .post
+            
         case .postError:
             return .put
+        
         }
     }
     
     var authString : String? {
         
         switch self {
-
+            
         case .postBin:
+            return nil
+        case .postClientBin:
             return nil
         case .postError:
             return nil
@@ -127,6 +158,9 @@ enum RequestManagerType {
         switch self {
 
         case .postBin:
+            return false
+            
+        case .postClientBin:
             return false
             
         case .postError:
@@ -153,14 +187,46 @@ internal class RSdkRequestManager {
         guard let url = requestType.url else { return nil }
         var request = URLRequest(url: url)
         request.httpMethod = requestType.method.value
-        
-        if let payload = requestType.payload {
-            request.setValue(RSdkVars.RequestManagerVars.encodingType, forHTTPHeaderField: RSdkVars.RequestManagerVars.encodingHeaderType)
-            request.setValue(RSdkVars.RequestManagerVars.xdib, forHTTPHeaderField: RSdkVars.RequestManagerVars.xdibContentEncoding)
-            request.httpBody = payload
+        switch requestType{
+            case .postClientBin(let deviceData):
+                let encoder = JSONEncoder()
+                do {
+                    var formParams = [String: String]()
+                    formParams["v"] = deviceData.snippetId
+                    formParams["l"] = deviceData._location
+                    formParams["d"] = try encoder.encode(deviceData).base64EncodedString()
+                    formParams["va"] = customArgsToString(customArgs: RSdkRequestInfoManager.sharedRequestInfoManager._customArgs)
+                    request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                    
+                    request.httpBody = formParams
+                        .map{(key,value) in return "\(key)=\(value)"}
+                        .joined(separator:"&").data(using: .utf8)
+                    
+                } catch let error as NSError {
+                    
+                    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .encodeNativeData(deviceData.snippetId, deviceData.token, error.debugDescription))) {
+                        (_,_) in
+                        
+                    }
+                    return nil
+                }
+
+            
+            default:
+                if let payload = requestType.payload {
+                    request.setValue(RSdkVars.RequestManagerVars.encodingType, forHTTPHeaderField: RSdkVars.RequestManagerVars.encodingHeaderType)
+                    request.setValue(RSdkVars.RequestManagerVars.xdib, forHTTPHeaderField: RSdkVars.RequestManagerVars.xdibContentEncoding)
+                    request.httpBody = payload
+                }
         }
-        
+
         return request
+    }
+    
+    private func customArgsToString(customArgs: [String:String]) -> String {
+        return customArgs
+            .map{ (key,value) in return "\(key)=\(value)" }
+            .joined(separator: "&")
     }
     
     func doRequest(requestType : RequestManagerType, completion: @escaping RequestCompletionHandler) {
@@ -171,11 +237,9 @@ internal class RSdkRequestManager {
             return
             
         }
-
         let task = rsdkRequestSession?.dataTask(with: request) {(data, response, error) in
             
             if let error = error as NSError? {
-
                 //print(error)
                 switch requestType {
                 case .postError:
@@ -188,19 +252,23 @@ internal class RSdkRequestManager {
 
                     completion(nil, error)
                     return
+                case .postClientBin:
+                    if let token = RSdkRequestInfoManager.sharedRequestInfoManager._token,
+                        let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId {
+                        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, error.debugDescription))) { (_,_)  in }
+                    }
+                    
+                    completion(nil, error)
+                    return
                 }
             }
             
             if let response = response as? HTTPURLResponse {
-                
                 if response.statusCode != 200 {
-                    
                     if let token = RSdkRequestInfoManager.sharedRequestInfoManager._token,
                         let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId {
                         RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, "http status \(response.statusCode)"))) { (_,_)  in }
                     }
-
-                    
                     //print(response)
                 }
             }

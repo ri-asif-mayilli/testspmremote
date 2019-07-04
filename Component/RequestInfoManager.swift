@@ -13,6 +13,7 @@ internal class RSdkRequestInfoManager {
     var _token : String?
     var _snippetId : String?
     var _diMobileSdkVersion : String = ""
+    var _customArgs: [String:String]
     private var _domain : String?
     
     var customDomain : String {
@@ -34,13 +35,16 @@ internal class RSdkRequestInfoManager {
     }
     
     internal static var sharedRequestInfoManager = RSdkRequestInfoManager()
-    private init() {}
+    private init() {
+        self._customArgs = [String:String]()
+    }
     
-    func setupManager(_token : String, _snippetId : String, _domain: String?) {
+    func setupManager(_token : String, _snippetId : String, _domain: String?, _customArgs:[String:String]?) {
         
         self._token = _token
         self._snippetId = _snippetId
         self._domain = _domain
+        self._customArgs = _customArgs ?? [String:String]()
         self._diMobileSdkVersion = mobileSdkVersion()
     }
     

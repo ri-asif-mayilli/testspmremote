@@ -229,7 +229,7 @@ internal class RSdkRequestManager {
     }
     
     private func customArgsToString(customArgs: [String:String]) -> String {
-        let customAllowedSet = NSCharacterSet(charactersIn:"=\"#%/<>?@\\^`{|}").inverted
+        let customAllowedSet = NSCharacterSet(charactersIn:"=\"#%/<>?@\\^`{|}&").inverted
         return customArgs
             .map{ (key,value) in return "\(key)=\(value)" }
             .joined(separator: "&")

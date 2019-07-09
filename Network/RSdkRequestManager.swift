@@ -187,20 +187,25 @@ internal class RSdkRequestManager {
         guard let url = requestType.url else { return nil }
         var request = URLRequest(url: url)
         request.httpMethod = requestType.method.value
+        
         switch requestType{
             case .postClientBin(let deviceData):
                 let encoder = JSONEncoder()
                 do {
-                    var formParams = [String: String]()
-                    formParams["v"] = deviceData.snippetId
-                    formParams["l"] = deviceData._location
-                    formParams["d"] = try encoder.encode(deviceData).base64EncodedString()
-                    formParams["va"] = customArgsToString(customArgs: RSdkRequestInfoManager.sharedRequestInfoManager._customArgs)
                     request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
                     
-                    request.httpBody = formParams
-                        .map{(key,value) in return "\(key)=\(value)"}
-                        .joined(separator:"&").data(using: .utf8)
+                    let customArgsFormatted = customArgsToString(customArgs: RSdkRequestInfoManager.sharedRequestInfoManager._customArgs)
+                    
+                    let parameters: [String: Any] = [
+                        "v": deviceData.snippetId,
+                        "l": deviceData._location,
+                        "d": try encoder.encode(deviceData).base64EncodedString(),
+                        "va": customArgsFormatted
+                    ]
+                    let body = parameters.map{(key,value) in return "\(key)=\(value)"}
+                        .joined(separator:"&")
+                    
+                    request.httpBody = body.data(using:String.Encoding.utf8, allowLossyConversion: true)
                     
                 } catch let error as NSError {
                     
@@ -224,9 +229,11 @@ internal class RSdkRequestManager {
     }
     
     private func customArgsToString(customArgs: [String:String]) -> String {
+        let customAllowedSet = NSCharacterSet(charactersIn:"=\"#%/<>?@\\^`{|}").inverted
         return customArgs
             .map{ (key,value) in return "\(key)=\(value)" }
             .joined(separator: "&")
+            .addingPercentEncoding(withAllowedCharacters:customAllowedSet)!
     }
     
     func doRequest(requestType : RequestManagerType, completion: @escaping RequestCompletionHandler) {

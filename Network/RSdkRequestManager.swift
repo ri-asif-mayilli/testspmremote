@@ -202,8 +202,7 @@ internal class RSdkRequestManager {
                         "d": try encoder.encode(deviceData).base64EncodedString(),
                         "va": customArgsFormatted
                     ]
-                    let body = parameters.map{(key,value) in return "\(key)=\(value)"}
-                        .joined(separator:"&")
+                    let body = joinMapToString(map: parameters)
                     
                     request.httpBody = body.data(using:String.Encoding.utf8, allowLossyConversion: true)
                     
@@ -228,12 +227,17 @@ internal class RSdkRequestManager {
         return request
     }
     
+    private func joinMapToString(map: [String : Any]) -> String {
+        return map.map{ (key,value) in return "\(key)=\(value)" }.joined(separator: "&")
+    }
+    
     private func customArgsToString(customArgs: [String:String]) -> String {
         let customAllowedSet = NSCharacterSet(charactersIn:"=\"#%/<>?@\\^`{|}&").inverted
-        return customArgs
-            .map{ (key,value) in return "\(key)=\(value)" }
-            .joined(separator: "&")
-            .addingPercentEncoding(withAllowedCharacters:customAllowedSet)!
+        let customArgsJoined = joinMapToString(map: customArgs)
+        guard let encodedArgs = (customArgsJoined.addingPercentEncoding(withAllowedCharacters:customAllowedSet)) else {
+            return customArgsJoined
+        }
+        return encodedArgs
     }
     
     func doRequest(requestType : RequestManagerType, completion: @escaping RequestCompletionHandler) {
@@ -276,7 +280,6 @@ internal class RSdkRequestManager {
                         let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId {
                         RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, "http status \(response.statusCode)"))) { (_,_)  in }
                     }
-                    //print(response)
                 }
             }
             

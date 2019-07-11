@@ -232,8 +232,7 @@ private struct Sysctl {
             return try Sysctl.stringForKeys([CTL_KERN, KERN_HOSTNAME])
             
         } catch let error {
-            
-            return missingDataError(error: error as! Sysctl.Error)
+            return missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
         }
     }
     
@@ -250,7 +249,7 @@ private struct Sysctl {
         #endif
         } catch let error {
             
-            return missingDataError(error: error as! Sysctl.Error)
+            return missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
         }
     }
     
@@ -266,8 +265,7 @@ private struct Sysctl {
             return try Sysctl.stringForKeys([CTL_HW, HW_MODEL])
         #endif
         } catch let error {
-            
-            return missingDataError(error: error as! Sysctl.Error)
+            return missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
         }
     }
     
@@ -278,7 +276,7 @@ private struct Sysctl {
         return try Sysctl.stringForKeys([CTL_HW, HW_MACHINE_ARCH])
         } catch let error {
             
-            return missingDataError(error: error as! Sysctl.Error)
+            return missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
         }
     }
     
@@ -288,7 +286,7 @@ private struct Sysctl {
             return try Sysctl.valueOfType(Int32.self, forKeys: [CTL_HW, HW_AVAILCPU])
         } catch let error {
             
-            return missingInt32DataError(error: error as! Sysctl.Error)
+            return missingInt32DataError(error: error as? Sysctl.Error ?? Error.unknown)
         }
     }
     
@@ -299,7 +297,7 @@ private struct Sysctl {
             return try Sysctl.stringForKeys([CTL_KERN, KERN_OSRELEASE])
         } catch let error {
             
-            return missingDataError(error: error as! Sysctl.Error)
+            return missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
         }
     }
     
@@ -310,7 +308,7 @@ private struct Sysctl {
             return try Sysctl.valueOfType(Int32.self, forKeys: [CTL_KERN, KERN_OSREV])
         } catch let error {
             
-            return missingInt32DataError(error: error as! Sysctl.Error)
+            return missingInt32DataError(error: error as? Sysctl.Error ?? Error.unknown)
         }
     }
     
@@ -321,7 +319,7 @@ private struct Sysctl {
             return try Sysctl.stringForKeys([CTL_KERN, KERN_OSTYPE])
         } catch let error {
             
-            return missingDataError(error: error as! Sysctl.Error)
+            return missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
         }
     }
     
@@ -331,7 +329,7 @@ private struct Sysctl {
             return try Sysctl.valueOfType(Int32.self, forKeys: [CTL_KERN, KERN_SAVED_IDS])
         } catch let error {
             
-            return missingInt32DataError(error: error as! Sysctl.Error)
+            return missingInt32DataError(error: error as? Sysctl.Error ?? Error.unknown)
         }
     }
     
@@ -342,7 +340,7 @@ private struct Sysctl {
             return try Sysctl.stringForKeys([CTL_KERN, KERN_OSVERSION])
         } catch let error {
             
-            return missingDataError(error: error as! Sysctl.Error)
+            return missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
         }
     }
     
@@ -354,7 +352,7 @@ private struct Sysctl {
             return try Sysctl.stringForKeys([CTL_KERN, KERN_VERSION])
         } catch let error {
             
-            return missingDataError(error: error as! Sysctl.Error)
+            return missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
         }
     }
     
@@ -364,7 +362,7 @@ private struct Sysctl {
             return try Sysctl.stringForKeys([CTL_KERN, KERN_DOMAINNAME])
         } catch let error {
             
-            return missingDataError(error: error as! Sysctl.Error)
+            return missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
         }
     }
     
@@ -374,7 +372,7 @@ private struct Sysctl {
             return try Sysctl.valueOfType(UInt64.self, forKeys: [CTL_HW, HW_MEMSIZE])
         } catch let error {
             
-            return missingInt64DataError(error: error as! Sysctl.Error)
+            return missingInt64DataError(error: error as? Sysctl.Error ?? Error.unknown)
         }
     }
     
@@ -384,7 +382,7 @@ private struct Sysctl {
             return try UInt64(Sysctl.valueOfType(timeval.self, forKeys: [CTL_KERN, KERN_BOOTTIME]).tv_sec)
         } catch let error {
 
-            return missingInt64DataError(error: error as! Sysctl.Error)
+            return missingInt64DataError(error: error as? Sysctl.Error ?? Error.unknown)
         }
     }
     

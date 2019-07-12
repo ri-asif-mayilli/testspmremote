@@ -184,8 +184,8 @@ struct ContactStoreDTO : Codable {
 
 internal struct NetworkInfoDTO : Codable {
  
-    let ipV6 = RSdkNetworkInfo.networkInfoGetWiFiAddressV6?.djb2hashString.sha256
-    let ipV4 = RSdkNetworkInfo.networkInfoGetWiFiAddressV4?.djb2hashString.sha256
+    let ipv6 = RSdkNetworkInfo.networkInfoGetWiFiAddressV6?.djb2hashString.sha256
+    let ipv4 = RSdkNetworkInfo.networkInfoGetWiFiAddressV4?.djb2hashString.sha256
     
     var ssid = RSdkNetworkInfo.networkInfoGetWiFiSsid?.djb2hashString.sha256
     var proxy: ProxyInfoDTO?

@@ -21,8 +21,8 @@ struct RSdkIdentifierInfo {
         return ASIdentifierManager.shared().advertisingIdentifier.uuidString
     }
     
-    internal static var identifierUniqueAppIdentifier : String {
-        return ""
+    internal static var identifierUniqueAppIdentifier : String? {
+        return nil
     }
     
     internal static var identifierlocalStorage : String {

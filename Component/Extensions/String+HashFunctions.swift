@@ -50,8 +50,10 @@ extension String {
 
         guard let data = self.data(using: .utf8) else { return nil }
         var hash = [UInt8](repeating: 0, count: Int(32))
-        data.withUnsafeBytes { _ = CC_SHA256($0, CC_LONG(data.count), &hash) }
-        return Data(bytes: hash)
+        _ = data.withUnsafeBytes({ (body: UnsafeRawBufferPointer) -> Void in
+            CC_MD5(body.baseAddress, CC_LONG(self.count), &hash)
+        })
+        return Data(hash)
     }
 }
 

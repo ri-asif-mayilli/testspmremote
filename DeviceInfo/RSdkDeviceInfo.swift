@@ -74,7 +74,7 @@ internal struct RSdkDeviceInfo {
         case .portraitUpsideDown:
             return "portraitUpsideDown"
             
-        case .unknown:
+        default:
             return "unknown"
         }
     }
@@ -115,6 +115,8 @@ internal struct RSdkDisplay {
             return "tvOS"
         case .carPlay:
             return "carPlay"
+        default:
+            return "unknown"
         }
     }
     
@@ -182,6 +184,8 @@ internal struct RSdkDisplay {
             
         case .rightToLeft:
             return "rightToLeft"
+        default:
+            return "unknown"
         }
     }
 }
@@ -217,7 +221,7 @@ internal struct RSdkBattery {
             return "unplugged"
         case .full:
             return "full"
-        case .unknown:
+        default:
             return "unknown"
         }
     }

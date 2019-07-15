@@ -77,21 +77,22 @@ struct RSdkContactInfo {
             let _name = container.name
             let _type : String
             switch(container.type) {
-                
-            case .unassigned:
-                _type = "unassigned"
-            case .local:
-                _type = "local"
-            case .exchange:
-                _type = "exchange"
-            case .cardDAV:
-                _type = "cardDav"
+                case .unassigned:
+                    _type = "unassigned"
+                case .local:
+                    _type = "local"
+                case .exchange:
+                    _type = "exchange"
+                case .cardDAV:
+                    _type = "cardDav"
+                default:
+                    _type = "unknown"
             }
             
             let fetchPredicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
 
             do {
-                if let keys =keysToFetch as? [CNKeyDescriptor] {
+                if let keys = keysToFetch as? [CNKeyDescriptor] {
                     let containerResults = try contactStore.unifiedContacts(matching: fetchPredicate, keysToFetch: keys)
                     let newContactStore = ContactStoreDTO(_identifier, name: _name, type: _type, count: containerResults.count)
                     resultContainers.append(newContactStore)

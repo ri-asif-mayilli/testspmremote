@@ -72,7 +72,9 @@ internal struct RSdkNetworkInfo {
         var ssid: String?
         if let interfaces = CNCopySupportedInterfaces() as NSArray? {
             for interface in interfaces {
-                if let interfaceInfo = CNCopyCurrentNetworkInfo(interface as! CFString) as NSDictionary? {
+                let interfaceString = interface as? String ?? ""
+                let cfString = interfaceString as CFString
+                if let interfaceInfo = CNCopyCurrentNetworkInfo(cfString) as NSDictionary? {
                     ssid = interfaceInfo[kCNNetworkInfoKeySSID as String] as? String
                     break
                 }

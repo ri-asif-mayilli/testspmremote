@@ -91,10 +91,11 @@ struct RSdkContactInfo {
             let fetchPredicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
 
             do {
-                let containerResults = try contactStore.unifiedContacts(matching: fetchPredicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
-                
-                let newContactStore = ContactStoreDTO(_identifier, name: _name, type: _type, count: containerResults.count)
-                resultContainers.append(newContactStore)
+                if let keys =keysToFetch as? [CNKeyDescriptor] {
+                    let containerResults = try contactStore.unifiedContacts(matching: fetchPredicate, keysToFetch: keys)
+                    let newContactStore = ContactStoreDTO(_identifier, name: _name, type: _type, count: containerResults.count)
+                    resultContainers.append(newContactStore)
+                }
             } catch let error as NSError {
                 
                 guard let _snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId, let _requestToken = RSdkRequestInfoManager.sharedRequestInfoManager._token else {

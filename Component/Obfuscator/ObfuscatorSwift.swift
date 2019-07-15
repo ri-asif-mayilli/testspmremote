@@ -68,6 +68,6 @@ internal class Obfuscator {
             decrypted.append(k.element ^ cipher[k.offset % length])
         }
         
-        return String(bytes: decrypted, encoding: String.Encoding.utf8)!
+        return String(bytes: decrypted, encoding: String.Encoding.utf8) ?? ""
     }
 }

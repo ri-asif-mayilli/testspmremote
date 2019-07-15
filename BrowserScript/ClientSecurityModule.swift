@@ -24,7 +24,7 @@ public class ClientSecurityModule : NSObject {
             } else {
                 
                 _token = UUID().uuidString
-                return _token!
+                return _token ?? ""
             }
         }
         

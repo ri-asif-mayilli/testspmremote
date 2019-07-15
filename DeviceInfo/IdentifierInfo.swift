@@ -30,22 +30,20 @@ struct RSdkIdentifierInfo {
         let fileManager = FileManager.default
         
         let dir = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-        if(dir == nil) {
-            return UUID().uuidString
-        }
-        let fileURL = dir!.appendingPathComponent(file)
-        do {
-            let identifier = try String(contentsOf: fileURL, encoding: .utf8)
-            return identifier
-        } catch{
-            let newIdentifier = UUID().uuidString
-            do {
-                try newIdentifier.write(to: fileURL, atomically: false, encoding: .utf8)
-                return newIdentifier
-            } catch {
-                return newIdentifier
-            }
-        }
+
+        return dir
+            .map{url in return url.appendingPathComponent(file)}
+            .map{url -> String in
+                do {
+                    return try String(contentsOf: url, encoding: .utf8)
+                } catch {
+                    let newIdentifier = UUID().uuidString
+                    do {
+                        try newIdentifier.write(to: url, atomically: false, encoding: .utf8)
+                    } catch {}
+                    return newIdentifier
+                }
+            } ?? UUID().uuidString
     }
     
     internal static var identifierInfoVendor : String? {

@@ -256,19 +256,9 @@ internal class RSdkRequestManager {
                 case .postError:
                     return
                 case .postBin:
-                    if let token = RSdkRequestInfoManager.sharedRequestInfoManager._token,
-                        let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId {
-                        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, error.debugDescription))) { (_,_)  in }
-                    }
-
                     completion(nil, error)
                     return
                 case .postClientBin:
-                    if let token = RSdkRequestInfoManager.sharedRequestInfoManager._token,
-                        let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId {
-                        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, error.debugDescription))) { (_,_)  in }
-                    }
-                    
                     completion(nil, error)
                     return
                 }
@@ -276,14 +266,11 @@ internal class RSdkRequestManager {
             
             if let response = response as? HTTPURLResponse {
                 if response.statusCode != 200 {
-                    if let token = RSdkRequestInfoManager.sharedRequestInfoManager._token,
-                        let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId {
-                        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, "http status \(response.statusCode)"))) { (_,_)  in }
-                    }
+                    completion(nil,NSError(domain: "http status \(response.statusCode)", code: 666, userInfo: nil))
+                    return
                 }
             }
-            
-            completion(nil,nil)
+            completion(nil, nil)
         }
         task?.resume()
     }

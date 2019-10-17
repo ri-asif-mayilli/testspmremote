@@ -22,16 +22,24 @@ internal class RSdkHTTPProtocol {
     ///   - completion: (Error) -> Void : Completion Handler which give Back Error to App (Error)
     internal class func postDeviceData(_snippetId : String, _token: String, _location: String? = nil, _mobileSdkVersion: String, _completion: @escaping (Error?) -> Void) {
     
+
         DeviceDTOFactory.createDTO(_snippetId: _snippetId, _requestToken: _token, _location: _location, _mobileSdkVersion: _mobileSdkVersion, _completion: { (device) in
             postBin(device: device) { postBinError in
                 if(postBinError != nil) {
-                    _completion(postBinError)
-                } else {
-                    postClientBin(device: device) {
-                        (error) in
-                        
-                        _completion(error)
-                    }
+                    if let token = RSdkRequestInfoManager.sharedRequestInfoManager._token,
+                         let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId {
+                         RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, postBinError.debugDescription))) { (_,_)  in }
+                     }
+                    _completion(nil)
+                }
+            }
+            postClientBin(device: device) { error in
+                if(error != nil) {
+                    if let token = RSdkRequestInfoManager.sharedRequestInfoManager._token,
+                         let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId {
+                         RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, error.debugDescription))) { (_,_)  in }
+                     }
+                    _completion(nil)
                 }
             }
             
@@ -43,15 +51,8 @@ internal class RSdkHTTPProtocol {
         DispatchQueue.global(qos: .userInteractive).async {
         
             RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postBin(deviceDTO: device)) {
-                
                 (data, error) in
-                
-                if let error = error {
-                    
-                    completionHandler(error)
-                    return
-                }
-                completionHandler(nil)
+                completionHandler(error)
             }
         }
     }

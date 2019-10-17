@@ -177,6 +177,7 @@ internal class RSdkRequestManager {
         
         let _configuration = URLSessionConfiguration.default
         _configuration.timeoutIntervalForRequest = 60 * 30 //30 Minutes
+        _configuration.timeoutIntervalForResource = 60 * 30 //30 Minutes
         let _session = URLSession(configuration: _configuration)
         self.rsdkRequestSession = _session
     }

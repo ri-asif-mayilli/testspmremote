@@ -49,9 +49,9 @@ extension String {
     var sha256Data: Data? {
 
         guard let data = self.data(using: .utf8) else { return nil }
-        var hash = [UInt8](repeating: 0, count: Int(32))
+        var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
         _ = data.withUnsafeBytes({ (body: UnsafeRawBufferPointer) -> Void in
-            CC_MD5(body.baseAddress, CC_LONG(self.count), &hash)
+            CC_SHA256(body.baseAddress, CC_LONG(data.count), &hash)
         })
         return Data(hash)
     }

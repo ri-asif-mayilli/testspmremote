@@ -10,7 +10,7 @@ internal struct RSdkVars {
     
     internal static var SDKVERSION : String {
         
-        return "1.4.3"
+        return "1.5.0"
     }
     
     internal struct RequestManagerVars {

@@ -1,3 +1,7 @@
+/*
+ * This file is subject to the terms and conditions defined in
+ * the LICENSE file that is distributed in the same package.
+ */
 //
 //  LocaleInfo.swift
 //  RiskSDK

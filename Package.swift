@@ -1,8 +1,8 @@
+// swift-tools-version:5.1
 /*
  * This file is subject to the terms and conditions defined in
  * the LICENSE file that is distributed in the same package.
  */
-// swift-tools-version:5.1
 
 import PackageDescription
 

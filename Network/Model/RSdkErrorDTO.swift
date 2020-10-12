@@ -19,6 +19,6 @@ struct RSdkErrorDTO : Codable {
     internal init(_ errorType : RSdkErrorType) {
        
         self.errorCode          = errorType._code
-        self.errorDescription   = errorType._description
+        self.errorDescription   = "\(errorType._description) sdk_version=\(RSdkVars.SDKVERSION)"
     }
 }

@@ -13,12 +13,14 @@
 import Foundation
 
 struct RSdkErrorDTO : Codable {
-    let errorCode        : Int
-    let errorDescription : String
+    let errorCode: Int
+    let errorDescription: String
+    let sdkVersion: String
     
     internal init(_ errorType : RSdkErrorType) {
        
-        self.errorCode          = errorType._code
-        self.errorDescription   = "\(errorType._description) sdk_version=\(RSdkVars.SDKVERSION)"
+        self.errorCode = errorType._code
+        self.errorDescription = errorType._description
+        self.sdkVersion = RSdkVars.SDKVERSION
     }
 }

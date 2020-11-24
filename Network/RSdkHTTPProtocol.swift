@@ -41,7 +41,7 @@ public class RSdkHTTPProtocol {
                      }
                     _completion(nil)
                 }else{
-                    delegate?.updateViews(token: token)
+                    delegate?.updateViews(token: _token)
                 }
             }
             postClientBin(device: device) { error in

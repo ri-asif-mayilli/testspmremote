@@ -13,8 +13,13 @@
 import Foundation
 import CoreLocation
 
-internal class RSdkHTTPProtocol {
-    
+public protocol RSdkHTTPProtocolDelegate {
+    func updateViews(token:String)
+}
+
+public class RSdkHTTPProtocol {
+    //It should not be static, current design does not allow to use instance variable
+    static public var delegate:RSdkHTTPProtocolDelegate?
     
     /// Post Native iOS Data to Risk Ident Backend
     ///
@@ -35,6 +40,8 @@ internal class RSdkHTTPProtocol {
                          RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, postBinError.debugDescription))) { (_,_)  in }
                      }
                     _completion(nil)
+                }else{
+                    delegate?.updateViews(token: token)
                 }
             }
             postClientBin(device: device) { error in

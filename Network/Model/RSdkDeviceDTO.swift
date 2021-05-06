@@ -24,7 +24,9 @@ struct RSdkDeviceDTO : Codable {
     let device     = DeviceVarsDTO()
     let battery    = BatteryDTO()
     let screen     = ScreenDTO()
+    #if !targetEnvironment(macCatalyst)
     let cellular   = CellularDTO()
+    #endif
     let contacts    = ContactDTO()
     let networkInfo  = NetworkInfoDTO()
     
@@ -111,11 +113,13 @@ struct ScreenSizeDTO : Codable {
     let width  = RSdkDisplay.rsdkScreenBoundWidth
 }
 
+#if !targetEnvironment(macCatalyst)
 struct CellularDTO : Codable {
     
     let accessTechnology = RSdkCellularInfo.celluarInfoCurrentAccessTechnology
     let carrier = CarrierDTO()
 }
+
 
 struct CarrierDTO : Codable {
     
@@ -127,6 +131,7 @@ struct CarrierDTO : Codable {
     let allowsVoip        = RSdkCarrierInfo.carrierInfoAllowsVoip
     
 }
+#endif
 
 struct SysctlDTO : Codable {
 

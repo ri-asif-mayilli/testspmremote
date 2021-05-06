@@ -23,27 +23,36 @@
 
 //        Not only cell monitor is protected but it seems like all of the CoreTelephony notifications now require that entitlement to work. For example, kCTMessageReceivedNotification also affected.
 
-
+#if !targetEnvironment(macCatalyst)
 import Foundation
+
 import CoreTelephony
+
+
 
 internal struct RSdkCellularInfo {
     
-    internal static var celluarInfoCurrentAccessTechnology : String? {
     
+    
+    internal static var celluarInfoCurrentAccessTechnology : String? {
+   
         if #available(iOS 9, *) {
             return CTTelephonyNetworkInfo().currentRadioAccessTechnology
         }
+
         return nil
     }
 }
 
+
 internal struct RSdkCarrierInfo {
+    
     
     static private var carrierInfoCarrier : CTCarrier? {
         
         return CTTelephonyNetworkInfo().subscriberCellularProvider
     }
+
     
     static internal var carrierInfoName : String? {
         
@@ -70,3 +79,4 @@ internal struct RSdkCarrierInfo {
         return carrierInfoCarrier?.allowsVOIP
     }
 }
+#endif

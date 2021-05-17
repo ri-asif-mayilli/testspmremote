@@ -60,22 +60,22 @@ struct NotificationDTO : Codable {
 
 struct DeviceVarsDTO : Codable {
     
-    let name            = RSdkDeviceInfo.deviceInfoNameObfuscated //deviceInfoName
-    let model           = RSdkDeviceInfo.deviceInfoModel
-    let localizedModel  = RSdkDeviceInfo.deviceInfoLocalizedModel
-    let systemName      = RSdkDeviceInfo.deviceInfoSystemName
-    let systemVersion   = RSdkDeviceInfo.deviceInfoSystemVersion
-    let orientationNotification = RSdkDeviceInfo.deviceInfoOrientationNotifaction
-    let deviceOrientation = RSdkDeviceInfo.deviceInfoDeviceOrientation
-    let multitasking    = RSdkDeviceInfo.deviceInfoMultitaskingSupported
-    let isSimulator     = RSdkDeviceInfo.deviceInfoIsSimulator
+    var name            = RSdkDeviceInfo.deviceInfoNameObfuscated //deviceInfoName
+    var model           = RSdkDeviceInfo.deviceInfoModel
+    var localizedModel  = RSdkDeviceInfo.deviceInfoLocalizedModel
+    var systemName      = RSdkDeviceInfo.deviceInfoSystemName
+    var systemVersion   = RSdkDeviceInfo.deviceInfoSystemVersion
+    var orientationNotification = RSdkDeviceInfo.deviceInfoOrientationNotifaction
+    var deviceOrientation = RSdkDeviceInfo.deviceInfoDeviceOrientation
+    var multitasking    = RSdkDeviceInfo.deviceInfoMultitaskingSupported
+    var isSimulator     = RSdkDeviceInfo.deviceInfoIsSimulator
 }
 
 struct BatteryDTO  : Codable {
 
-    let batteryMonitoringEnabled = RSdkBattery.rsdkMonitoringEnabled
-    let batteryState    = RSdkBattery.rsdkBatteryState
-    let batteryLevel    = RSdkBattery.rsdkLevel
+    var batteryMonitoringEnabled = RSdkBattery.rsdkMonitoringEnabled
+    var batteryState    = RSdkBattery.rsdkBatteryState
+    var batteryLevel    = RSdkBattery.rsdkLevel
 }
 
 struct ProximityDTO : Codable {

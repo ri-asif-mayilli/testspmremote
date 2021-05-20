@@ -15,18 +15,11 @@ import UIKit
 
 internal class RSdkJailbreak {
     
-    /// Returns a class with all Jailbreak Informationes
-    ///
-    internal class var jbInfo : JailbreakDTO? {
+    internal class var isJailbroken : Bool {
         
-        #if arch(i386) || arch(x86_64)
-            
-            return nil
-        #else
-            
-            return jbGenerate
-        #endif
+        return !jbExistingPath.isEmpty || cydiaInstalled || sandboxBreak
     }
+    
     
     internal class var jbExistingPath : [String] {
         
@@ -41,54 +34,6 @@ internal class RSdkJailbreak {
         }
         
         return pathExists
-    }
-    
-    internal class var sandboxBreak : Bool {
-        
-        return jbWriteIdFile("")
-    }
-    
-    internal class var isJailbroken : Bool {
-        
-        return jbExistingPath.count != 0 || cydiaInstalled || sandboxBreak
-    }
-
-    private class var sandBoxUniqueID : JailbreakDTO? {
-        
-        do {
-            
-            let idString = try String(contentsOfFile: Obfuscator.sharedObfuscator.revealObfuscation(key: RSdkVars.jailBreakPath), encoding: .utf8)
-            if let jsonData = idString.data(using: .utf8) {
-                
-                let decoder = JSONDecoder()
-                return try decoder.decode(JailbreakDTO.self, from: jsonData)
-            } else {
-                
-                return nil
-            }
-            
-        }
-        catch {
-
-            return nil
-        }
-    }
-
-    internal class var cydiaInstalled : Bool {
-        
-        if #available(iOS 10, *) {
-        
-            var result = false
-            
-            DispatchQueue.main.async {
-
-                result = cydiaIOS10()
-            }
-            return result
-        } else {
-        
-            return cydiaIOS9
-        }
     }
     
     @available(iOS 10, *)
@@ -114,34 +59,33 @@ internal class RSdkJailbreak {
         return result
     }
     
-    private class var jbGenerate : JailbreakDTO? {
+
+    
+    
+    internal class var sandboxBreak : Bool {
         
-        if !isJailbroken {
-            
-            return nil
-        }
-        
-        var uniqueSandBoxId : JailbreakDTO
-        if let sandBoxId = sandBoxUniqueID {
-            
-            uniqueSandBoxId = sandBoxId
-            uniqueSandBoxId.created = Date()
-        } else {
-            
-            uniqueSandBoxId = JailbreakDTO(appID: UUID().uuidString, created: Date(), existingPaths: jbExistingPath)
-        }
-        
-        do {
-            
-            let encoder = JSONEncoder()
-            if let data = try? encoder.encode(uniqueSandBoxId), let idString = String(data: data, encoding: .utf8) {
-                
-                let _ = jbWriteIdFile(idString)
-            }
-        }
-        
-        return uniqueSandBoxId
+        return jbWriteIdFile("")
     }
+    
+
+
+    internal class var cydiaInstalled : Bool {
+        
+        if #available(iOS 10, *) {
+        
+            var result = false
+            
+            DispatchQueue.main.async {
+
+                result = cydiaIOS10()
+            }
+            return result
+        } else {
+        
+            return cydiaIOS9
+        }
+    }
+    
     
     private class func jbWriteIdFile(_ idString : String) -> Bool {
         
@@ -150,7 +94,7 @@ internal class RSdkJailbreak {
             try idString.write(toFile: Obfuscator.sharedObfuscator.revealObfuscation(key: RSdkVars.jailBreakPath), atomically:true, encoding:String.Encoding.utf8)
             return true
         } catch {
-            
+            print(error)
             return false
         }
     }

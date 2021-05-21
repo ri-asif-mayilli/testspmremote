@@ -58,25 +58,6 @@ struct NotificationDTO : Codable {
     }
 }
 
-//struct DeviceVarsDTO : Codable {
-//    
-//    var name            = RSdkDeviceInfo.deviceInfoNameObfuscated //deviceInfoName
-//    var model           = RSdkDeviceInfo.deviceInfoModel
-//    var localizedModel  = RSdkDeviceInfo.deviceInfoLocalizedModel
-//    var systemName      = RSdkDeviceInfo.deviceInfoSystemName
-//    var systemVersion   = RSdkDeviceInfo.deviceInfoSystemVersion
-//    var orientationNotification = RSdkDeviceInfo.deviceInfoOrientationNotifaction
-//    var deviceOrientation = RSdkDeviceInfo.deviceInfoDeviceOrientation
-//    var multitasking    = RSdkDeviceInfo.deviceInfoMultitaskingSupported
-//    var isSimulator     = RSdkDeviceInfo.deviceInfoIsSimulator
-//}
-
-//struct BatteryDTO  : Codable {
-//
-//    var batteryMonitoringEnabled = RSdkBattery.rsdkMonitoringEnabled
-//    var batteryState    = RSdkBattery.rsdkBatteryState
-//    var batteryLevel    = RSdkBattery.rsdkLevel
-//}
 
 struct ProximityDTO : Codable {
     
@@ -133,41 +114,6 @@ struct CarrierDTO : Codable {
 }
 #endif
 
-//struct SysctlDTO : Codable {
-//
-//    var hostname        = RSdkSyctlInfoType.hostname.sysctlValue.djb2hashString.sha256
-//    var machine         = RSdkSyctlInfoType.machine.sysctlValue
-//    var activeCPUs      = RSdkSyctlInfoType.activeCPUs.sysctlValue
-//    var osRelease       = RSdkSyctlInfoType.osRelease.sysctlValue
-//    var osRev           = RSdkSyctlInfoType.osRev.sysctlValue
-//    var osType          = RSdkSyctlInfoType.osType.sysctlValue
-//    var osVersion       = RSdkSyctlInfoType.osVersion.sysctlValue
-//    var version         = RSdkSyctlInfoType.version.sysctlValue
-//    var memSize         = RSdkSyctlInfoType.memSize.sysctlValue
-//    var machineArch     = RSdkSyctlInfoType.machineArch.sysctlValue
-//    var bootTimestamp   = RSdkSyctlInfoType.bootTimestamp.sysctlValue
-//}
-
-
-//struct JailbreakDTO : Codable {
-//    
-//    var appId           : String?
-//    var created         : Date?
-//    var jailBroken      = RSdkJailbreak.isJailbroken
-//    let existingPaths   = RSdkJailbreak.jbExistingPath
-//    let cydiaInstalled  = RSdkJailbreak.cydiaInstalled
-//    let sandboxBreakOut = RSdkJailbreak.sandboxBreak
-//    
-//    internal init() {
-//        
-//    }
-//    
-//    internal init(appID : String, created: Date, existingPaths: [String]) {
-//
-//        self.appId = appID
-//        self.created = created
-//    }
-//}
 
 struct ContactDTO : Codable {
     

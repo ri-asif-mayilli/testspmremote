@@ -94,7 +94,6 @@ internal class RSdkJailbreak {
             try idString.write(toFile: Obfuscator.sharedObfuscator.revealObfuscation(key: RSdkVars.jailBreakPath), atomically:true, encoding:String.Encoding.utf8)
             return true
         } catch {
-            print(error)
             return false
         }
     }

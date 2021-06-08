@@ -23,6 +23,8 @@ struct RSdkDeviceDTO : Codable {
     let jailBreak  = JailbreakDTO()
     let device     = DeviceVarsDTO()
     let battery    = BatteryDTO()
+    
+    
     let screen     = ScreenDTO()
     #if !targetEnvironment(macCatalyst)
     let cellular   = CellularDTO()
@@ -70,29 +72,6 @@ struct ProximityDTO : Codable {
     }
 }
 
-struct ScreenDTO : Codable {
-    
-    let idiom   = RSdkDisplay.rsdkDisplayUserInterfaceIdiom
-    let interfaceLayout = RSdkDisplay.rsdkUserInterfaceLayout
-    let bounds  = ScreenBoundDTO()
-    let size    = ScreenSizeDTO()
-}
-
-struct ScreenBoundDTO : Codable {
-    
-    let minX    = RSdkDisplay.rsdkScreenBoundMinX
-    let maxX    = RSdkDisplay.rsdkScreenBoundMaxX
-    let minY    = RSdkDisplay.rsdkScreenBoundMinY
-    let maxY    = RSdkDisplay.rsdkScreenBoundMaxX
-    let height  = RSdkDisplay.rsdkScreenBoundHeight
-    let width   = RSdkDisplay.rsdkScreenBoundWidth
-}
-
-struct ScreenSizeDTO : Codable {
-    
-    let height = RSdkDisplay.rsdkScreenSizeHeight
-    let width  = RSdkDisplay.rsdkScreenBoundWidth
-}
 
 #if !targetEnvironment(macCatalyst)
 struct CellularDTO : Codable {
@@ -115,11 +94,8 @@ struct CarrierDTO : Codable {
 #endif
 
 
-struct ContactDTO : Codable {
-    
-    let access          = RSdkContactInfo.accessContacts
-    let contactsStores  = RSdkContactInfo.conctactStores
-}
+
+
 
 struct ContactStoreDTO : Codable {
     
@@ -136,6 +112,17 @@ struct ContactStoreDTO : Codable {
         self.count = count
     }
 }
+
+extension ContactStoreDTO: Equatable {
+    public static func ==(lhs: ContactStoreDTO, rhs: ContactStoreDTO) -> Bool {
+        return
+            lhs.identifier == rhs.identifier &&
+            lhs.name == rhs.name &&
+            lhs.contactType == rhs.contactType &&
+            lhs.count == rhs.count     
+    }
+}
+
 
 internal struct NetworkInfoDTO : Codable {
  
@@ -165,13 +152,9 @@ internal struct LocaleInfoDTO : Codable {
     let timeZone = RSdkLocaleInfo.localeInfoLocalTimeZone
 }
 
-internal struct IdentifierInfoDTO : Codable {
-    
-    let vendorId              = RSdkIdentifierInfo.identifierInfoVendor
-    let advertTrackingEnabled = RSdkIdentifierInfo.identifierInfoIsAdvertisingEnabled
-    let uniqueAppId           = RSdkIdentifierInfo.identifierUniqueAppIdentifier
-    let localStorageId        = RSdkIdentifierInfo.identifierlocalStorage.djb2hashString.sha256
-}
+
+
+
 
 internal struct MotionInfoDTO : Codable {
     

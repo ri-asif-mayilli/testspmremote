@@ -50,78 +50,6 @@ struct RSdkDeviceDTO : Codable {
     }
 }
 
-struct NotificationDTO : Codable {
-    
-    let enabled : Bool
-    
-    init(enabled: Bool) {
-        
-        self.enabled = enabled
-    }
-}
-
-
-struct ProximityDTO : Codable {
-    
-    let monitoringEnabled = RSdkProximity.rsdkProximityMonitoringEnabled
-    let state             : Bool
-    
-    init(state : Bool) {
-        
-        self.state = state
-    }
-}
-
-
-#if !targetEnvironment(macCatalyst)
-struct CellularDTO : Codable {
-    
-    let accessTechnology = RSdkCellularInfo.celluarInfoCurrentAccessTechnology
-    let carrier = CarrierDTO()
-}
-
-
-struct CarrierDTO : Codable {
-    
-    let name              = RSdkCarrierInfo.carrierInfoName
-    let countryCode       = RSdkCarrierInfo.carrierInfoCountryCode
-    let mobileCountryCode = RSdkCarrierInfo.carrierInfoCountryCode
-    let mobileNetworkCode = RSdkCarrierInfo.carrierInfoNetworkCode
-    let isoCountryCode    = RSdkCarrierInfo.carrierInfoIsoCountryCode
-    let allowsVoip        = RSdkCarrierInfo.carrierInfoAllowsVoip
-    
-}
-#endif
-
-
-
-
-
-struct ContactStoreDTO : Codable {
-    
-    let identifier : String
-    let name : String
-    let contactType : String
-    let count : Int
-    
-    public init(_ identifier: String, name: String, type: String, count: Int) {
-        
-        self.identifier = identifier
-        self.name = name
-        self.contactType = type
-        self.count = count
-    }
-}
-
-extension ContactStoreDTO: Equatable {
-    public static func ==(lhs: ContactStoreDTO, rhs: ContactStoreDTO) -> Bool {
-        return
-            lhs.identifier == rhs.identifier &&
-            lhs.name == rhs.name &&
-            lhs.contactType == rhs.contactType &&
-            lhs.count == rhs.count     
-    }
-}
 
 
 internal struct NetworkInfoDTO : Codable {
@@ -146,20 +74,8 @@ internal struct ProxyInfoDTO : Codable {
     let proxyPort   = RSdkNetworkInfo.networkInfoProxyPort
 }
 
-internal struct LocaleInfoDTO : Codable {
-    
-    let preferredLanguages = RSdkLocaleInfo.localeInfoPreferredLanguages
-    let timeZone = RSdkLocaleInfo.localeInfoLocalTimeZone
-}
 
 
 
 
 
-internal struct MotionInfoDTO : Codable {
-    
-    let accelerometerAvailable  = RSdkMotionInfo.motionInfoAccelerometerAvailable
-    let deviceMotionAvailable   = RSdkMotionInfo.motionInfoDeviceMotionAvailable
-    let magnetometerAvailable   = RSdkMotionInfo.motionInfoMagnetometerAvailable
-    let gyroAvailable           = RSdkMotionInfo.motionInfoGyroAvailable
-}

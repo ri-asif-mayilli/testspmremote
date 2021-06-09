@@ -261,7 +261,7 @@ internal struct RSdkProximity {
                 UIDevice.current.isProximityMonitoringEnabled = !UIDevice.current.isProximityMonitoringEnabled
             }
             
-                completion(_state)
+            completion(_state)
         }
     }
 }

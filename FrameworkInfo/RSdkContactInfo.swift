@@ -50,7 +50,8 @@ struct RSdkContactInfo {
 
         // Iterate all containers and append their contacts to our results array
         for container in allContainers {
-         
+            //FIXME:in previous implementation when one of those containers failed we send empty data which should not be the case but for now lets leave it
+            
             if let formatedContainer = formatContainer(container: container, contactStore: contactStore){
                 resultContainers.append(formatedContainer)
             } else{

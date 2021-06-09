@@ -25,6 +25,33 @@ struct ContactDTO : Codable {
 }
 
 
+
+struct ContactStoreDTO : Codable {
+    
+    let identifier : String
+    let name : String
+    let contactType : String
+    let count : Int
+    
+    public init(_ identifier: String, name: String, type: String, count: Int) {
+        
+        self.identifier = identifier
+        self.name = name
+        self.contactType = type
+        self.count = count
+    }
+}
+
+
+extension ContactStoreDTO: Equatable {
+    public static func ==(lhs: ContactStoreDTO, rhs: ContactStoreDTO) -> Bool {
+        return
+            lhs.identifier == rhs.identifier &&
+            lhs.name == rhs.name &&
+            lhs.contactType == rhs.contactType &&
+            lhs.count == rhs.count
+    }
+}
 extension ContactDTO: Equatable {
     public static func ==(lhs: ContactDTO, rhs: ContactDTO) -> Bool {
         return

@@ -25,45 +25,19 @@ struct RSdkPushNotifications {
                 completion(enabled)
             }
         } else {
-            
-            enabledLegacyiOS() {
-                (enabled) in
-                
-                completion(enabled)
-            }
+            completion( enabledLegacyiOS())
         }
     }
     
-    private static func enabledLegacyiOS(_ completion: (Bool) -> Void) {
-        
-        let isRegisteredForRemoteNotifications = UIApplication.shared.isRegisteredForRemoteNotifications
-        if isRegisteredForRemoteNotifications {
-            
-            completion(true)
-            
-        } else {
-            
-            completion(false)
-        }
+    private static func enabledLegacyiOS()->Bool {
+        return UIApplication.shared.isRegisteredForRemoteNotifications
     }
     
     @available (iOS 10, *)
     private static func enablediOS(_ completion: @escaping (Bool) -> Void) {
-    
-        let current = UNUserNotificationCenter.current()
-        current.getNotificationSettings() {
-            
+        UNUserNotificationCenter.current().getNotificationSettings() {
             (settings) in
-            let status = settings.authorizationStatus
-            
-            switch(status) {
-                
-            case .authorized:
-                completion(true)
-                
-            default:
-                completion(false)
-            }
+            completion(settings.authorizationStatus == .authorized)
         }
-    }
+    }  
 }

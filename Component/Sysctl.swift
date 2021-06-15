@@ -23,7 +23,7 @@ enum RSdkSyctlInfoType {
         
         switch(self) {
         case .machineArch:
-            return ""
+            return Sysctl.sysctlMachineArch
             
         case .hostname:
             return Sysctl.sysctlHostName

@@ -16,26 +16,10 @@ typealias RequestCompletionHandler = (Data?, Error?) -> Void
 
 enum RequestMethod : String {
     
-    case post
-    case get
-    case put
+    case post = "POST"
+    case get = "GET"
+    case put = "PUT"
     
-    var value : String {
-        
-        switch(self) {
-            
-        case .post:
-            
-            return "POST"
-        case .get:
-            
-            return "GET"
-        case .put:
-            
-            return "PUT"
-        }
-        
-    }
 }
 
 
@@ -45,80 +29,36 @@ enum RequestManagerType {
     case postBin(deviceDTO : RSdkDeviceDTO)
     case postError(error : RSdkErrorType)
     
+    
+    
     var payload : Data? {
-        
         switch(self) {
-            
         case .postBin(let payload):
-        
-            let encoder = JSONEncoder()
-            do {
-                let enc = try encoder.encode(payload).base64EncodedData()
-                return enc
-                
-            } catch let error as NSError {
-   
-                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .encodeNativeData(payload.snippetId, payload.token, error.debugDescription))) {
-                    (_,_) in
-                    
-                }
-                return nil
-            }
+            return setPayload(payload: payload) ?? nil
         case .postClientBin(let payload):
-            let encoder = JSONEncoder()
-            do {
-                let enc = try encoder.encode(payload).base64EncodedData()
-                return enc
-                
-            } catch let error as NSError {
-                
-                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .encodeNativeData(payload.snippetId, payload.token, error.debugDescription))) {
-                    (_,_) in
-                    
-                }
-                return nil
-            }
-            
-        
+            return setPayload(payload: payload) ?? nil
         case .postError(let error):
-        
             let encoder = JSONEncoder()
             do {
                 let dto = RSdkErrorDTO(error)
                 let enc = try encoder.encode(dto).base64EncodedData()
                 return enc
-                
             } catch {
-                
                 return nil
             }
         }
     }
     
+    
+    
     var url : URL? {
-        
         switch self {
             
         case .postBin(let payload):
-            
-            let urlString = "\(RSdkVars.POST_ENDPOINT)\(payload.snippetId)\(RSdkVars.ENDPOINT_ADDITIONAL)\(payload.token)"
-            guard let url = URL(string: urlString) else {
-                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .domainError("Not valid Domain: \(urlString)")), completion: { (_, _) in
-                    
-                })
-                return nil
-            }
-            return url
-        
+            return setUrl(endpoint: RSdkVars.POST_ENDPOINT, endpointAdditional: RSdkVars.ENDPOINT_ADDITIONAL, payload: payload) ?? nil
+
         case .postClientBin(let payload):
-            let urlString = "\(RSdkVars.CLIENT_DATA_ENDPOINT)?t=\(payload.token)"
-            guard let url = URL(string: urlString) else {
-                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .domainError("Not valid Domain: \(urlString)")), completion: { (_, _) in
-                    
-                })
-                return nil
-            }
-            return url
+            return setUrl(endpoint: RSdkVars.CLIENT_DATA_ENDPOINT, payload: payload) ?? nil
         
         case .postError(let error):
 
@@ -144,34 +84,40 @@ enum RequestManagerType {
         }
     }
     
-    var authString : String? {
+    func setUrl(endpoint:String,endpointAdditional:String?=nil,payload:RSdkDeviceDTO)->URL?{
+        var urlString = "\(endpoint)"
+        if  let endpointAdditional = endpointAdditional {
+            urlString = urlString + "\(payload.snippetId)\(endpointAdditional)\(payload.token)"
+        }else{
+            urlString = urlString + "?t=\(payload.token)"
+        }
         
-        switch self {
+        guard let url = URL(string: urlString) else {
+            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .domainError("Not valid Domain: \(urlString)")), completion: { (_, _) in
+                
+            })
+            return nil
+        }
+        return url
+    }
+    
+    func setPayload(payload:RSdkDeviceDTO)->Data?{
+        let encoder = JSONEncoder()
+        do {
+            let enc = try encoder.encode(payload).base64EncodedData()
+            return enc
             
-        case .postBin:
-            return nil
-        case .postClientBin:
-            return nil
-        case .postError:
+        } catch let error as NSError {
+
+            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .encodeNativeData(payload.snippetId, payload.token, error.debugDescription))) {
+                (_,_) in
+                
+            }
             return nil
         }
     }
     
-    var retry : Bool {
-        
-        switch self {
-
-        case .postBin:
-            return false
-            
-        case .postClientBin:
-            return false
-            
-        case .postError:
-            return false
-        }
-        
-    }
+   
 }
 
 internal class RSdkRequestManager {
@@ -192,7 +138,7 @@ internal class RSdkRequestManager {
         
         guard let url = requestType.url else { return nil }
         var request = URLRequest(url: url)
-        request.httpMethod = requestType.method.value
+        request.httpMethod = requestType.method.rawValue
         
         switch requestType{
             case .postClientBin(let deviceData):

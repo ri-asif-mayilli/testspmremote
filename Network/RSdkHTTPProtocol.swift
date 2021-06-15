@@ -35,10 +35,8 @@ public class RSdkHTTPProtocol {
         DeviceDTOFactory.createDTO(_snippetId: _snippetId, _requestToken: _token, _location: _location, _mobileSdkVersion: _mobileSdkVersion, _completion: { (device) in
             postBin(device: device) { postBinError in
                 if(postBinError != nil) {
-                    if let token = RSdkRequestInfoManager.sharedRequestInfoManager._token,
-                         let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId {
-                         RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, postBinError.debugDescription))) { (_,_)  in }
-                     }
+                    
+                    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(_snippetId, _token, postBinError.debugDescription))) { (_,_)  in }
                     _completion(nil)
                 }else{
                     delegate?.updateViews(token: _token)
@@ -46,10 +44,7 @@ public class RSdkHTTPProtocol {
             }
             postClientBin(device: device) { error in
                 if(error != nil) {
-                    if let token = RSdkRequestInfoManager.sharedRequestInfoManager._token,
-                         let snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId {
-                         RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, token, error.debugDescription))) { (_,_)  in }
-                     }
+                    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(_snippetId, _token, error.debugDescription))) { (_,_)  in }
                     _completion(nil)
                 }
             }

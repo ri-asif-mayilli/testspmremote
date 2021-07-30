@@ -12,10 +12,15 @@ struct ContactDTO : Codable {
     
     let access:Bool
     let contactsStores:[ContactStoreDTO]
+    let contactCollector = RSdkContactInfo()
+    
+    private enum CodingKeys: String, CodingKey {
+            case contactsStores, access
+    }
     
     init(){
-        self.access = RSdkContactInfo.accessContacts
-        self.contactsStores = RSdkContactInfo.conctactStores
+        self.access = contactCollector.accessContacts
+        self.contactsStores = contactCollector.conctactStores
     }
     
     init(access:Bool,contactsStores:[ContactStoreDTO] ){

@@ -93,9 +93,7 @@ enum RequestManagerType {
         }
         
         guard let url = URL(string: urlString) else {
-            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .domainError("Not valid Domain: \(urlString)")), completion: { (_, _) in
-                
-            })
+            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .domainError("Not valid Domain: \(urlString)")))
             return nil
         }
         return url
@@ -109,10 +107,7 @@ enum RequestManagerType {
             
         } catch let error as NSError {
 
-            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .encodeNativeData(payload.snippetId, payload.token, error.debugDescription))) {
-                (_,_) in
-                
-            }
+            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .encodeNativeData(payload.snippetId, payload.token, error.debugDescription)))
             return nil
         }
     }
@@ -160,10 +155,7 @@ internal class RSdkRequestManager {
                     
                 } catch let error as NSError {
                     
-                    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .encodeNativeData(deviceData.snippetId, deviceData.token, error.debugDescription))) {
-                        (_,_) in
-                        
-                    }
+                    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .encodeNativeData(deviceData.snippetId, deviceData.token, error.debugDescription))) 
                     return nil
                 }
 
@@ -192,11 +184,11 @@ internal class RSdkRequestManager {
         return encodedArgs
     }
     
-    func doRequest(requestType : RequestManagerType, completion: @escaping RequestCompletionHandler) {
+    func doRequest(requestType : RequestManagerType, completion: RequestCompletionHandler? = nil) {
         
         guard let request = createRequest(requestType: requestType) else {
         
-            completion(nil, NSError(domain: "", code: 666, userInfo: nil))
+            completion!(nil, NSError(domain: "", code: 666, userInfo: nil))
             return
             
         }
@@ -208,21 +200,21 @@ internal class RSdkRequestManager {
                 case .postError:
                     return
                 case .postBin:
-                    completion(nil, error)
+                    completion!(nil, error)
                     return
                 case .postClientBin:
-                    completion(nil, error)
+                    completion!(nil, error)
                     return
                 }
             }
             
             if let response = response as? HTTPURLResponse {
                 if response.statusCode != 200 {
-                    completion(nil,NSError(domain: "http status \(response.statusCode)", code: 666, userInfo: nil))
+                    completion!(nil,NSError(domain: "http status \(response.statusCode)", code: 666, userInfo: nil))
                     return
                 }
             }
-            completion(nil, nil)
+            completion!(nil, nil)
         }
         task?.resume()
     }

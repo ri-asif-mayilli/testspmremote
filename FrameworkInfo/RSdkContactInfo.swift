@@ -15,9 +15,10 @@ import Contacts
 import AddressBook
 import UIKit
 
-struct RSdkContactInfo {
-    
-    internal static var accessContacts : Bool {
+class RSdkContactInfo {
+    var throwable:Bool = true
+    var errors:[String] = []
+    internal var accessContacts : Bool {
         
         if #available(iOS 9, *) {
             return CNContactStore.authorizationStatus(for: CNEntityType.contacts) == .authorized
@@ -27,20 +28,20 @@ struct RSdkContactInfo {
     }
     
     @available(iOS 9, *)
-    static func getContainers(contactStore: CNContactStore) -> [CNContainer]{
+    func getContainers(contactStore: CNContactStore) -> [CNContainer]{
         
         do {
             let allContainers = try contactStore.containers(matching: nil)
             return allContainers
         } catch let error as NSError {
-            sendError(error:error)
+            errors.append(error.debugDescription)
             return []
         }
     }
     
     
     @available(iOS 9, *)
-    private static var rSdkContactStores : [ContactStoreDTO] {
+    private var rSdkContactStores : [ContactStoreDTO] {
     
         var resultContainers = [ContactStoreDTO]()
         let contactStore = CNContactStore()
@@ -63,7 +64,7 @@ struct RSdkContactInfo {
     
     
     @available(iOS 9.0, *)
-    static func formatContainer(container:CNContainer,contactStore:CNContactStore)->ContactStoreDTO?{
+    func formatContainer(container:CNContainer,contactStore:CNContactStore)->ContactStoreDTO?{
         let keysToFetch = [
             CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
             CNContactPhoneNumbersKey ] as [Any]
@@ -92,32 +93,12 @@ struct RSdkContactInfo {
                 return newContactStore
             }
         } catch let error as NSError {
-            sendError(error:error)
+            errors.append(error.debugDescription)
         }
         return nil
     }
     
-
-    static func sendError(error:NSError){
-        guard let _snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId, let _requestToken = RSdkRequestInfoManager.sharedRequestInfoManager._token else {
-            
-            let _dataError = RSdkErrorType.missingData
-            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: _dataError), completion: { (_, _) in
-                
-            })
-            
-            return
-        }
-        
-        let contactError = RSdkErrorType.contactStore(_snippetId, _requestToken, error.debugDescription)
-        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: contactError), completion: { (_, _) in
-            
-        })
-    }
-    
-    
-    
-    internal static var conctactStores : [ContactStoreDTO] {
+    internal var conctactStores : [ContactStoreDTO] {
         if #available(iOS 9, *) {
             if accessContacts {
                 return rSdkContactStores

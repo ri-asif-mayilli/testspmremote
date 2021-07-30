@@ -73,10 +73,7 @@ public class ClientSecurityModule : NSObject {
             
             if let error = error as NSError? {
                 
-                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, self.uuidToken, error.debugDescription))) {
-                    (_,_) in
-                    
-                }
+                RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(snippetId, self.uuidToken, error.debugDescription))) 
             }
         }
     }

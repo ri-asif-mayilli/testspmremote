@@ -36,7 +36,7 @@ public class RSdkHTTPProtocol {
             postBin(device: device) { postBinError in
                 if(postBinError != nil) {
                     
-                    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(_snippetId, _token, postBinError.debugDescription))) { (_,_)  in }
+                    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(_snippetId, _token, postBinError.debugDescription)))
                     _completion(nil)
                 }else{
                     delegate?.updateViews(token: _token)
@@ -44,7 +44,7 @@ public class RSdkHTTPProtocol {
             }
             postClientBin(device: device) { error in
                 if(error != nil) {
-                    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(_snippetId, _token, error.debugDescription))) { (_,_)  in }
+                    RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .postNativeData(_snippetId, _token, error.debugDescription))) 
                     _completion(nil)
                 }
             }

@@ -63,6 +63,8 @@ enum RSdkSyctlInfoType {
 
 /// A "static"-only namespace around a series of functions that operate on buffers returned from the `Darwin.sysctl` function
 private struct Sysctl {
+    static var errors:[String] = []
+    let throwable:Bool = true
     
     private static let _requestToken = RSdkRequestInfoManager.sharedRequestInfoManager._token
     private static let _snippetId = RSdkRequestInfoManager.sharedRequestInfoManager._snippetId
@@ -163,9 +165,7 @@ private struct Sysctl {
         guard let _snippetId = _snippetId, let _requestToken = _requestToken else {
             
             let dataError = RSdkErrorType.missingData
-            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: dataError), completion: { (_, _) in
-                
-            })
+            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: dataError))
             return ""
         }
         
@@ -175,9 +175,7 @@ private struct Sysctl {
     private static func createErrorMessage(_requestToken : String, _snippetId: String, _error : Error)  -> String {
         
         let sdkError = RSdkErrorType.getSystemData(_snippetId, _requestToken, _error.localizedDescription)
-        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: sdkError), completion: { (_, _) in
-            
-        })
+        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: sdkError))
         return ""
     }
     
@@ -186,9 +184,7 @@ private struct Sysctl {
         guard let _snippetId = _snippetId, let _requestToken = _requestToken else {
             
             let dataError = RSdkErrorType.missingData
-            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: dataError), completion: { (_, _) in
-                
-            })
+            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: dataError))
             return 0
         }
         
@@ -198,9 +194,7 @@ private struct Sysctl {
     private static func createInt32ErrorMessage(_requestToken : String, _snippetId: String, _error : Error)  -> Int32 {
         
         let sdkError = RSdkErrorType.getSystemData(_snippetId, _requestToken, _error.localizedDescription)
-        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: sdkError), completion: { (_, _) in
-            
-        })
+        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: sdkError))
         return 0
     }
     
@@ -209,9 +203,7 @@ private struct Sysctl {
         guard let _snippetId = _snippetId, let _requestToken = _requestToken else {
             
             let dataError = RSdkErrorType.missingData
-            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: dataError), completion: { (_, _) in
-                
-            })
+            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: dataError))
             return 0
         }
         
@@ -221,12 +213,10 @@ private struct Sysctl {
     private static func createInt64ErrorMessage(_requestToken : String, _snippetId: String, _error : Error)  -> UInt64 {
         
         let sdkError = RSdkErrorType.getSystemData(_snippetId, _requestToken, _error.localizedDescription)
-        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: sdkError), completion: { (_, _) in
-            
-        })
+        RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: sdkError))
         return 0
     }
-    
+    //Collected
     /// e.g. "MyComputer.local" (from System Preferences -> Sharing -> Computer Name) or
     /// "My-Name-iPhone" (from Settings -> General -> About -> Name)
     internal static var sysctlHostName : String {
@@ -239,6 +229,21 @@ private struct Sysctl {
             return missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
         }
     }
+    
+    
+    //Collected
+    internal static var sysctlMachineArch : String {
+        
+        do {
+        
+        return try Sysctl.stringForKeys([CTL_HW, HW_MACHINE_ARCH])
+        } catch let error {
+            
+            return missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
+        }
+    }
+    
+    //Collected
     
     /// e.g. "x86_64" or "N71mAP"
     /// NOTE: this is *corrected* on iOS devices to fetch hw.model
@@ -257,6 +262,7 @@ private struct Sysctl {
         }
     }
     
+    //Collected
     /// e.g. "MacPro4,1" or "iPhone8,1"
     /// NOTE: this is *corrected* on iOS devices to fetch hw.machine
     internal static var sysctlModel : String {
@@ -273,16 +279,8 @@ private struct Sysctl {
         }
     }
     
-    internal static var sysctlMachineArch : String {
-        
-        do {
-        
-        return try Sysctl.stringForKeys([CTL_HW, HW_MACHINE_ARCH])
-        } catch let error {
-            
-            return missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
-        }
-    }
+    
+    //Collected
     
     internal static var sysctlActiveCPUs : Int32 {
         
@@ -294,6 +292,7 @@ private struct Sysctl {
         }
     }
     
+    //Collected
     /// e.g. "15.3.0" or "15.0.0"
     internal static var sysctlOsRelease : String {
         
@@ -305,6 +304,7 @@ private struct Sysctl {
         }
     }
     
+    //Collected
     /// e.g. 199506 or 199506
     internal static var sysctlOsRev : Int32 {
         
@@ -316,6 +316,7 @@ private struct Sysctl {
         }
     }
     
+    //Collected
     /// e.g. "Darwin" or "Darwin"
     internal static var sysctlOsType : String {
         
@@ -327,6 +328,7 @@ private struct Sysctl {
         }
     }
     
+    //Collected
     internal static var sysctlKernID : Int32 {
         
         do {
@@ -337,6 +339,7 @@ private struct Sysctl {
         }
     }
     
+    //Collected
     /// e.g. "15D21" or "13D20"
     internal static var sysctlOsVersion : String {
         
@@ -347,7 +350,7 @@ private struct Sysctl {
             return missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
         }
     }
-    
+    //Collected
     /// e.g. "Darwin Kernel Version 15.3.0: Thu Dec 10 18:40:58 PST 2015; root:xnu-3248.30.4~1/RELEASE_X86_64" or
     /// "Darwin Kernel Version 15.0.0: Wed Dec  9 22:19:38 PST 2015; root:xnu-3248.31.3~2/RELEASE_ARM64_S8000"
     internal static var sysctlVersion : String {
@@ -360,6 +363,7 @@ private struct Sysctl {
         }
     }
     
+    //Not collected
     internal static var sysctlDomainName : String {
         
         do {
@@ -370,6 +374,7 @@ private struct Sysctl {
         }
     }
     
+    //Collected
     internal static var sysctlMemSize : UInt64 {
         
         do {
@@ -380,6 +385,7 @@ private struct Sysctl {
         }
     }
     
+    //Collected
     internal static var bootTimestamp: UInt64 {
 
         do {

@@ -20,19 +20,34 @@ struct SysctlDTO : Codable {
     let machineArch:String
     let memSize:String = RSdkSyctlInfoType.memSize.sysctlValue
     let bootTimestamp:String = RSdkSyctlInfoType.bootTimestamp.sysctlValue
+    let sysctl = SysctlNew()
+    private enum CodingKeys: String, CodingKey {
+            case hostname, machine, activeCPUs, osRelease, osRev, osType, osVersion, version, machineArch, memSize, bootTimestamp
+        }
     
-    
-    
+        /*
+         
+     case .model:
+         return Sysctl.sysctlModel
+         
+     case .memSize:
+         return Sysctl.sysctlMemSize.description
+         
+     case .bootTimestamp:
+         return String(describing: Sysctl.bootTimestamp)
+
+     }
+     */
     init(){
-        self.hostname = RSdkSyctlInfoType.hostname.sysctlValue.djb2hashString.sha256
-        self.machine = RSdkSyctlInfoType.machine.sysctlValue
-        self.activeCPUs = RSdkSyctlInfoType.activeCPUs.sysctlValue
-        self.osRelease = RSdkSyctlInfoType.osRelease.sysctlValue
-        self.osRev = RSdkSyctlInfoType.osRev.sysctlValue
-        self.osVersion = RSdkSyctlInfoType.osVersion.sysctlValue
-        self.version = RSdkSyctlInfoType.version.sysctlValue
-        self.machineArch = RSdkSyctlInfoType.machineArch.sysctlValue
-        self.osType = RSdkSyctlInfoType.osType.sysctlValue
+        self.hostname = sysctl.sysctlHostName.djb2hashString.sha256
+        self.machine = sysctl.sysctlMachine
+        self.activeCPUs = String(describing:sysctl.sysctlActiveCPUs)
+        self.osRelease = sysctl.sysctlOsRelease
+        self.osRev = String(describing: sysctl.sysctlKernID)
+        self.osVersion = sysctl.sysctlOsVersion
+        self.version = sysctl.sysctlVersion
+        self.machineArch = sysctl.sysctlMachineArch
+        self.osType = sysctl.sysctlOsType
     }
     
     init(hostname:String,machine:String,activeCPUs:String,osRelease:String,
@@ -48,6 +63,11 @@ struct SysctlDTO : Codable {
         self.machineArch = machineArch
         self.osType = osType
     }
+    
+    func errors() -> [String]{
+        return self.sysctl.errors
+    }
+    
 }
 
 

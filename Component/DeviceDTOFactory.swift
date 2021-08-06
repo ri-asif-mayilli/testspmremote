@@ -13,7 +13,7 @@
 import Foundation
 import MapKit
 
-typealias RSdkDeviceDTOCompletion = (RSdkDeviceDTO) -> Void
+typealias RSdkDeviceDTOCompletion = (RSdkDeviceDTO,RSDKNewErrorDTO?) -> Void
 
 internal class DeviceDTOFactory {
     
@@ -21,9 +21,9 @@ internal class DeviceDTOFactory {
         
         createNotificationDTO(_snippetId: _snippetId, _requestToken: _requestToken, _location: _location, _mobileSdkVersion: _mobileSdkVersion) {
          
-            (deviceDTO) in
+            (deviceDTO,errorDTO) in
             
-            _completion(deviceDTO)
+            _completion(deviceDTO,errorDTO)
         }
     }
     
@@ -47,7 +47,7 @@ internal class DeviceDTOFactory {
             
             let _proximityDTO = ProximityDTO(state: state)
             let _deviceDTO = RSdkDeviceDTO(_snippetId, requestToken: _requestToken, _location: _location ?? "", mobileSdkVersion: _mobileSdkVersion, notificationDTO: _notificationDTO, proximityDTO: _proximityDTO)
-            _completion(_deviceDTO)
+            _completion(_deviceDTO,_deviceDTO.collectErrors())
         }
     }
     

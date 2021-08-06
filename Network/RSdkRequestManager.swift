@@ -28,6 +28,7 @@ enum RequestManagerType {
     case postClientBin(deviceDTO : RSdkDeviceDTO)
     case postBin(deviceDTO : RSdkDeviceDTO)
     case postError(error : RSdkErrorType)
+    case postCombinedErrors(error: RSDKNewErrorDTO)
     
     
     
@@ -46,7 +47,18 @@ enum RequestManagerType {
             } catch {
                 return nil
             }
+            
+        case .postCombinedErrors(let error):
+            let encoder = JSONEncoder()
+            do {
+                let enc = try encoder.encode(error).base64EncodedData()
+                return enc
+            } catch {
+                return nil
+            }
         }
+        
+       
     }
     
     
@@ -55,17 +67,25 @@ enum RequestManagerType {
         switch self {
             
         case .postBin(let payload):
-            return setUrl(endpoint: RSdkVars.POST_ENDPOINT, endpointAdditional: RSdkVars.ENDPOINT_ADDITIONAL, payload: payload) ?? nil
+            return setUrl(endpoint: RSdkVars.HOST, endpointAdditional: RSdkVars.ENDPOINT_ADDITIONAL, payload: payload) ?? nil
 
         case .postClientBin(let payload):
-            return setUrl(endpoint: RSdkVars.CLIENT_DATA_ENDPOINT, payload: payload) ?? nil
+            return setUrl(endpoint: RSdkVars.HOST, payload: payload) ?? nil
         
         case .postError(let error):
 
-            let urlString = "\(RSdkVars.ERROR_ENDPOINT)\(error._snippetId)\(RSdkVars.ENDPOINT_ADDITIONAL)\(error._requestToken)"
+            let urlString = "\(RSdkVars.HOST)\(error._snippetId)\(RSdkVars.ENDPOINT_ADDITIONAL)\(error._requestToken)"
+            guard let url = URL(string: urlString) else { return nil }
+            return url
+            
+        case .postCombinedErrors(let error):
+
+            let urlString = "\(RSdkVars.HOST)\(error.snippetId)\(RSdkVars.ENDPOINT_ADDITIONAL)\(error.token)"
             guard let url = URL(string: urlString) else { return nil }
             return url
         }
+
+        
     }
     
     var method : RequestMethod {
@@ -78,7 +98,7 @@ enum RequestManagerType {
         case .postClientBin:
             return .post
             
-        case .postError:
+        case .postError, .postCombinedErrors:
             return .put
         
         }
@@ -93,7 +113,7 @@ enum RequestManagerType {
         }
         
         guard let url = URL(string: urlString) else {
-            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .domainError("Not valid Domain: \(urlString)")))
+            RSdkRequestManager.sharedRequestManager.doRequest(requestType: .postError(error: .domainError("","","Not valid Domain: \(urlString)")))
             return nil
         }
         return url
@@ -197,7 +217,7 @@ internal class RSdkRequestManager {
             if let error = error as NSError? {
                 //print(error)
                 switch requestType {
-                case .postError:
+                case .postError, .postCombinedErrors:
                     return
                 case .postBin:
                     completion!(nil, error)

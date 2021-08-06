@@ -39,6 +39,21 @@ struct RSdkDeviceDTO : Codable {
     let identifier = IdentifierInfoDTO()
     let motion = MotionInfoDTO()
     
+    
+    func collectErrors() -> RSDKNewErrorDTO?{
+        if !contacts.errors().isEmpty || !sysctlInfo.errors().isEmpty {
+            var errorMesages = ""
+            for item in (contacts.errors() + sysctlInfo.errors()){
+                errorMesages = errorMesages + "errorCode:" + "\(RSdkErrorType.contactStore("", "", item)._code)\n"
+                errorMesages = errorMesages + "errorDescription" + item + "\n"
+                errorMesages = errorMesages +  "=============================\n"
+            }
+            return RSDKNewErrorDTO(errors: errorMesages,snippetId: self.snippetId,token: self.token)
+          //  return RSDKNewErrorDTO(
+        }
+        return nil
+    }
+    
     init(_ snippetId: String, requestToken: String, _location: String, mobileSdkVersion: String, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
         
         self.snippetId      = snippetId

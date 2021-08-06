@@ -18,6 +18,12 @@ struct ContactDTO : Codable {
             case contactsStores, access
     }
     
+    
+    func errors() -> [String]{
+        return self.contactCollector.errors
+    }
+    
+    
     init(){
         self.access = contactCollector.accessContacts
         self.contactsStores = contactCollector.conctactStores

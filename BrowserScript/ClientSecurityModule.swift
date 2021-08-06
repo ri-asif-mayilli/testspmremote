@@ -17,7 +17,7 @@ public class ClientSecurityModule : NSObject {
     
     var _token : String?
     var _snippetId : String?
-
+    var networkInterface: NetworkInterface = NetworkInterface()
     fileprivate var uuidToken : String {
         
         get {
@@ -67,7 +67,7 @@ public class ClientSecurityModule : NSObject {
 
         RSdkRequestInfoManager.sharedRequestInfoManager.setupManager(_token: uuidToken, _snippetId: snippetId, _domain: domain, _customArgs: customArgs)
         
-        RSdkHTTPProtocol.postDeviceData(_snippetId: snippetId, _token: uuidToken, _location: location, _mobileSdkVersion: RSdkRequestInfoManager.sharedRequestInfoManager._diMobileSdkVersion) {
+        networkInterface.postDeviceData(_snippetId: snippetId, _token: uuidToken, _location: location, _mobileSdkVersion: RSdkRequestInfoManager.sharedRequestInfoManager._diMobileSdkVersion) {
             
             (error) in
             

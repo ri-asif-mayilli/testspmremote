@@ -74,20 +74,20 @@ internal struct RSdkVars {
     internal static var EMPTY_VENDOR    : [UInt8] = [107, 18, 105, 113, 90, 101, 117, 68, 89, 66, 104, 81, 124, 93, 82, 87, 68, 105, 90, 86, 86, 117, 101, 110, 91, 120, 117, 18, 28, 16, 18, 96, 85, 90, 126, 101]
     internal static var CYDIA_URL       : [UInt8] = [56, 91, 61, 40, 11, 111, 106, 91, 4, 19, 59, 10, 45, 23, 7, 72, 23, 54, 26, 72, 3, 61, 52, 46, 27, 36, 32, 12, 92, 65, 65, 59, 4, 13, 43]
     
-    private static var _DOMAIN          : [UInt8] = [51, 86, 45, 49, 25, 111, 106, 91, 3, 5, 47, 79, 34, 31, 22, 14, 18, 48, 20, 7, 18, 44, 58, 45, 70, 60, 42, 77, 64, 14, 65, 63, 8]
+    private static var _DOMAIN          : [UInt8] = [44, 85, 46, 111, 4, 58, 49, 29, 18, 27, 59, 0, 56, 25, 13, 9, 89, 45, 24, 9, 10, 107, 54, 44, 6]
     
     internal static var DOMAIN : String {
 
         return Obfuscator.sharedObfuscator.revealObfuscation(key: _DOMAIN)
     }
     
-    private static var _POST_ENDPOINT_ENC : [UInt8] = [116, 75, 54, 50, 69] // content: /ios/
+    private static var _POST_ENDPOINT_ENC : [UInt8] = [116, 75, 54, 50] // content: /ios/
     private static var POST_ENDPOINT_DEC : String  {
         
         return Obfuscator.sharedObfuscator.revealObfuscation(key: _POST_ENDPOINT_ENC)
     }
     
-    private static var _ERROR_ENDPOINT_ENC : [UInt8] = [116, 75, 54, 50, 71, 48, 55, 6, 91]    // content: /ios-err/
+    private static var _ERROR_ENDPOINT_ENC : [UInt8] = [50, 77, 42, 108, 15, 39, 55]    // content: /ios-err/
     private static var ERROR_ENDPOINT_DEC : String  {
         
         return Obfuscator.sharedObfuscator.revealObfuscation(key: _ERROR_ENDPOINT_ENC)
@@ -106,14 +106,17 @@ internal struct RSdkVars {
         return Obfuscator.sharedObfuscator.revealObfuscation(key: _ENDPOINT_ADDITIONAL_ENC)
     }
     
-    internal static var POST_ENDPOINT   = "\(RSdkRequestInfoManager.sharedRequestInfoManager.customDomain)\(POST_ENDPOINT_DEC)"
-    internal static var ERROR_ENDPOINT  = "\(RSdkRequestInfoManager.sharedRequestInfoManager.customDomain)\(ERROR_ENDPOINT_DEC)"
+    
+    internal static var POST_PATH = "\(POST_ENDPOINT_DEC)"
+    internal static var ERROR_PATH = "\(ERROR_ENDPOINT_DEC)"
+    
+    internal static var HOST   = "\(RSdkRequestInfoManager.sharedRequestInfoManager.customDomain)"
+
     
     internal static var SNIPPET_ENDPOINT = "\(RSdkRequestInfoManager.sharedRequestInfoManager.customDomain)\(SNIPPET_ENDPOINT_DEC)"
     
     internal static var ENDPOINT_ADDITIONAL : String { return ENDPOINT_ADDITIONAL_DEC }
-    
-    internal static var CLIENT_DATA_ENDPOINT = "\(RSdkRequestInfoManager.sharedRequestInfoManager.customDomain)/ni"
+
 
 }
 

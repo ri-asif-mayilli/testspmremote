@@ -79,7 +79,6 @@ extension SysctlDTO: Equatable {
             lhs.osRelease == rhs.osRelease &&
             lhs.osRev == rhs.osRev &&
             lhs.osType == rhs.osType &&
-            lhs.osVersion == rhs.osVersion &&
-            lhs.version == rhs.version
+            lhs.osVersion == rhs.osVersion
     }
 }

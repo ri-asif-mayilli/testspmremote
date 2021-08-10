@@ -11,17 +11,30 @@ import Foundation
 struct JailbreakDTO : Codable {
     
     var appId:String?
-    var created:Date = Date()
+    var created:String
     var jailBroken:Bool
     let existingPaths:[String]
     let cydiaInstalled:Bool
     let sandboxBreakOut:Bool
     
+    
+    static func setDate()->String{
+        
+        let date = Date()
+        // Create Date Formatter
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        return dateFormatter.string(from: date)
+            
+    
+    }
     init(){
         self.jailBroken = RSdkJailbreak.isJailbroken
         self.existingPaths = RSdkJailbreak.jbExistingPath
         self.cydiaInstalled = RSdkJailbreak.cydiaInstalled
         self.sandboxBreakOut = RSdkJailbreak.sandboxBreak
+        self.created = JailbreakDTO.setDate()
+        
     }
     
     init(appID : String) {
@@ -30,7 +43,14 @@ struct JailbreakDTO : Codable {
         self.existingPaths = RSdkJailbreak.jbExistingPath
         self.cydiaInstalled = RSdkJailbreak.cydiaInstalled
         self.sandboxBreakOut = RSdkJailbreak.sandboxBreak
+        self.created = JailbreakDTO.setDate()
     }
+    
+//    internal init(appID : String, created: Date, existingPaths: [String]) {
+//
+//        self.appId = appID
+//        self.created = created
+//    }
     
     init(appID : String,
                   existingPaths:[String],cydiaInstalled:Bool,jailBroken:Bool,sandboxBreakOut:Bool) {
@@ -39,6 +59,7 @@ struct JailbreakDTO : Codable {
         self.existingPaths = existingPaths
         self.cydiaInstalled = cydiaInstalled
         self.sandboxBreakOut = sandboxBreakOut
+        self.created = JailbreakDTO.setDate()
     }
     
     init(existingPaths:[String],cydiaInstalled:Bool,jailBroken:Bool,sandboxBreakOut:Bool) {
@@ -46,6 +67,7 @@ struct JailbreakDTO : Codable {
         self.existingPaths = existingPaths
         self.cydiaInstalled = cydiaInstalled
         self.sandboxBreakOut = sandboxBreakOut
+        self.created = JailbreakDTO.setDate()
     }
 }
 

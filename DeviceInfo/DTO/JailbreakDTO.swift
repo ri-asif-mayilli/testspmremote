@@ -43,11 +43,15 @@ struct JailbreakDTO : Codable {
         self.created = JailbreakDTO.setDate(date:Date())
     }
     
-//    internal init(appID : String, created: Date, existingPaths: [String]) {
-//
-//        self.appId = appID
-//        self.created = created
-//    }
+    internal init(appID : String, created: Date, existingPaths: [String]) {
+
+        self.appId = appID
+        self.created = JailbreakDTO.setDate(date: created)
+        self.existingPaths = existingPaths
+        self.jailBroken = RSdkJailbreak.isJailbroken
+        self.cydiaInstalled = RSdkJailbreak.cydiaInstalled
+        self.sandboxBreakOut = RSdkJailbreak.sandboxBreak
+    }
     
     init(appID : String,
                   existingPaths:[String],cydiaInstalled:Bool,jailBroken:Bool,sandboxBreakOut:Bool) {

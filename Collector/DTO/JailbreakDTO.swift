@@ -11,23 +11,44 @@ import Foundation
 struct JailbreakDTO : Codable {
     
     var appId:String?
-    var created:Date = Date()
+    var created:String
     var jailBroken:Bool
     let existingPaths:[String]
     let cydiaInstalled:Bool
     let sandboxBreakOut:Bool
     
+    
+    static func setDate(date:Date)->String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        return dateFormatter.string(from: date)
+            
+    
+    }
     init(){
         self.jailBroken = RSdkJailbreak.isJailbroken
         self.existingPaths = RSdkJailbreak.jbExistingPath
         self.cydiaInstalled = RSdkJailbreak.cydiaInstalled
         self.sandboxBreakOut = RSdkJailbreak.sandboxBreak
+        self.created = JailbreakDTO.setDate(date:Date())
+        
     }
     
     init(appID : String) {
         self.appId = appID
         self.jailBroken = RSdkJailbreak.isJailbroken
         self.existingPaths = RSdkJailbreak.jbExistingPath
+        self.cydiaInstalled = RSdkJailbreak.cydiaInstalled
+        self.sandboxBreakOut = RSdkJailbreak.sandboxBreak
+        self.created = JailbreakDTO.setDate(date:Date())
+    }
+    
+    internal init(appID : String, created: Date, existingPaths: [String]) {
+
+        self.appId = appID
+        self.created = JailbreakDTO.setDate(date: created)
+        self.existingPaths = existingPaths
+        self.jailBroken = RSdkJailbreak.isJailbroken
         self.cydiaInstalled = RSdkJailbreak.cydiaInstalled
         self.sandboxBreakOut = RSdkJailbreak.sandboxBreak
     }
@@ -39,6 +60,7 @@ struct JailbreakDTO : Codable {
         self.existingPaths = existingPaths
         self.cydiaInstalled = cydiaInstalled
         self.sandboxBreakOut = sandboxBreakOut
+        self.created = JailbreakDTO.setDate(date:Date())
     }
     
     init(existingPaths:[String],cydiaInstalled:Bool,jailBroken:Bool,sandboxBreakOut:Bool) {
@@ -46,6 +68,7 @@ struct JailbreakDTO : Codable {
         self.existingPaths = existingPaths
         self.cydiaInstalled = cydiaInstalled
         self.sandboxBreakOut = sandboxBreakOut
+        self.created = JailbreakDTO.setDate(date:Date())
     }
 }
 

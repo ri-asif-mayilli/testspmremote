@@ -54,7 +54,7 @@ extension String {
 
         guard let data = self.data(using: .utf8) else { return nil }
         var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
-        _ = data.withUnsafeBytes({ (body: UnsafeRawBufferPointer) -> Void in
+        data.withUnsafeBytes({ (body: UnsafeRawBufferPointer) -> Void in
             CC_SHA256(body.baseAddress, CC_LONG(data.count), &hash)
         })
         return Data(hash)

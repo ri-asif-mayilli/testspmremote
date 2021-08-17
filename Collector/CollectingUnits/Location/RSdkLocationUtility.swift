@@ -154,16 +154,11 @@ internal class RSdkLocationUtility
                 let courseLong = Int((courseLongitude / granularityLon) * granularityLon)
                 courseLatitude = Double(Int(courseLatitude / granularityLat)) * granularityLat;
                 courseLongitude = Double(Int(courseLongitude / granularityLon)) * granularityLon;
-                
+
                 let loc = CLLocation(latitude: Double(courseInt), longitude: Double(courseLong))
-//                print (loc)
-                
                 return loc
             }
-        
-//            print("course latitude: \(courseLatitude)")
-//            print("couse longitude: \(courseLongitude)")
-            
+         
             return nil
         }
     }

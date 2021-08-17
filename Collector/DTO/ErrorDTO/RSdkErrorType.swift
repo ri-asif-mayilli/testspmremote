@@ -46,7 +46,7 @@ internal enum RSdkErrorType {
         case .locationFailed(_):
             return 6
             
-        case .domainError(_):
+        case .domainError(_,_,_):
             return 7
         
         case .combinedErrors(_,_,_):

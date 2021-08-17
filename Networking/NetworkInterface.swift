@@ -16,8 +16,6 @@ import CoreLocation
 
 
 internal class NetworkInterface {
-    //It should not be static, current design does not allow to use instance variable
-    
     /// Post Native iOS Data to Risk Ident Backend
     ///
     /// - Parameters:
@@ -26,36 +24,33 @@ internal class NetworkInterface {
     ///   - _location: String : Optional Location String
     ///   - _mobileSdkVersion: String The current SDK of this build
     ///   - completion: (Error) -> Void : Completion Handler which give Back Error to App (Error)
-    internal  func postDeviceData(_snippetId : String, _token: String, _location: String? = nil, _mobileSdkVersion: String, _completion: @escaping (Error?) -> Void) {
-    
+    internal  func postDeviceData(requestInfoManager: RSdkRequestInfoManager, _completion: @escaping (Error?) -> Void) {
+        guard let token = requestInfoManager._token, let snippetId = requestInfoManager._snippetId else {return}
 
-        DeviceDTOFactory.createDTO(_snippetId: _snippetId, _requestToken: _token, _location: _location, _mobileSdkVersion: _mobileSdkVersion, _completion: { (device,error) in
+        DeviceDTOFactory.createDTO(requestInfoManager:requestInfoManager, _completion: { (device,error) in
+            
             
             DispatchQueue.global(qos: .userInteractive).async {
                 
-                RSdkRequestManager.sharedRequestManager.doRequest( requestType:.postBin(deviceDTO: device)) {
+                NetworkService.sharedRequestManager.request( router:.postBin(payload: device,requestInfo:requestInfoManager)) {
                     (data, requestError) in
                     if error != nil {
-                        NetworkService.sharedRequestManager.request(router: .postError(error: .postNativeData(_snippetId, _token, requestError.debugDescription)))
+                        NetworkService.sharedRequestManager.request(router: .postError(error: .postNativeData(snippetId, token, requestError.debugDescription),requestInfo:requestInfoManager))
                     }
                 }
-                RSdkRequestManager.sharedRequestManager.doRequest( requestType:.postBin(deviceDTO: device)) {
+                NetworkService.sharedRequestManager.request( router:.postClientBin(payload: device,requestInfo:requestInfoManager)) {
                     (data, requestError) in
                     if error != nil {
-                        NetworkService.sharedRequestManager.request(router: .postError(error: .postNativeData(_snippetId, _token, requestError.debugDescription)))
+                        NetworkService.sharedRequestManager.request(router: .postError(error: .postNativeData(snippetId, token, requestError.debugDescription),requestInfo:requestInfoManager))
                     }
                 }
                 if let error = error{
-                    NetworkService.sharedRequestManager.request(router: .postCombinedErrors(error: error))
+                    NetworkService.sharedRequestManager.request(router: .postCombinedErrors(error: error,requestInfo:requestInfoManager))
                 }
-               
                 _completion(nil)
-                
             }
-            
         })
     }
-    
 }
 
 

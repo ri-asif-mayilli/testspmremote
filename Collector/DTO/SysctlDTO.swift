@@ -18,9 +18,9 @@ struct SysctlDTO : Codable {
     let osVersion:String
     let version:String
     let machineArch:String
-    let memSize:String = RSdkSyctlInfoType.memSize.sysctlValue
-    let bootTimestamp:String = RSdkSyctlInfoType.bootTimestamp.sysctlValue
-    let sysctl = SysctlNew()
+    let memSize:String
+    let bootTimestamp:String
+    let sysctl = Sysctl()
     private enum CodingKeys: String, CodingKey {
             case hostname, machine, activeCPUs, osRelease, osRev, osType, osVersion, version, machineArch, memSize, bootTimestamp
         }
@@ -48,11 +48,13 @@ struct SysctlDTO : Codable {
         self.version = sysctl.sysctlVersion
         self.machineArch = sysctl.sysctlMachineArch
         self.osType = sysctl.sysctlOsType
+        self.memSize = sysctl.sysctlMemSize.description
+        self.bootTimestamp = String(describing:sysctl.bootTimestamp)
     }
     
     init(hostname:String,machine:String,activeCPUs:String,osRelease:String,
          osRev:String,osType:String,osVersion:String,version:String,
-         machineArch:String){
+         machineArch:String, memSize:String, bootTimeStamp:String){
         self.hostname = hostname
         self.machine = machine
         self.activeCPUs = activeCPUs
@@ -62,6 +64,8 @@ struct SysctlDTO : Codable {
         self.version = version
         self.machineArch = machineArch
         self.osType = osType
+        self.memSize = memSize
+        self.bootTimestamp = bootTimeStamp
     }
     
     func errors() -> [String]{

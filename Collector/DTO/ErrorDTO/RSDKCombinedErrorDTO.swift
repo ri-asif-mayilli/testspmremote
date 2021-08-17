@@ -8,7 +8,7 @@
 
 import Foundation
 
-class RSDKNewErrorDTO: Codable{
+class RSDKCombinedErrorDTO: Codable{
     let errorDescription: String
     let sdkVersion: String
     let snippetId: String

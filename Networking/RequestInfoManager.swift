@@ -15,39 +15,23 @@ import Foundation
 internal class RSdkRequestInfoManager {
     
     var _token : String?
-    var _snippetId : String?
+     var _snippetId : String?
     var _diMobileSdkVersion : String = ""
     var _customArgs: [String:String]
-    private var _domain : String?
+    var location : String?
     
-    var customDomain : String {
-        get {
-        
-            if let _domain = _domain {
-                
-                return _domain
-            } else {
-                
-                return RSdkVars.DOMAIN
-            }
-            
-        }
-        set {
-            
-            _domain = newValue
-        }
-    }
     
-    internal static var sharedRequestInfoManager = RSdkRequestInfoManager()
-    private init() {
+    
+   // internal static var sharedRequestInfoManager = RSdkRequestInfoManager()
+    init() {
         self._customArgs = [String:String]()
     }
     
-    func setupManager(_token : String, _snippetId : String, _domain: String?, _customArgs:[String:String]?) {
+    func setupManager(_token : String, _snippetId : String, location:String?, _customArgs:[String:String]? = nil) {
         
         self._token = _token
         self._snippetId = _snippetId
-        self._domain = _domain
+        self.location = location
         self._customArgs = _customArgs ?? [String:String]()
         self._diMobileSdkVersion = mobileSdkVersion()
     }

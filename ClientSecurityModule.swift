@@ -22,19 +22,23 @@ public class ClientSecurityModule : NSObject {
     ///
     /// Usage:
     ///
-    /// Just init the Module and store locally the refernce to it globally.
+    /// Just init the Module and and call sendData method
     ///
     /// - Parameters:
     ///   - snippetId: String -> The snippet id
-    ///   - token: String -> A Unique execution UUID for the Call.
-    ///   - location: String -> String for ?
-    ///   - domain: String -> An custom Domain
-    ///   - customArgs: [ String : String ] -> Dictionary of Strings. Default: nil
+
     @objc public init(snippetId: String) {
         super.init()
         requestInfoManager._snippetId = snippetId
     }
-    
+    /// This is the sendData method.
+    ///
+    /// - Parameters:
+    ///   - token: String -> A Unique execution UUID for the Call.
+    ///   - location: String -> String for ?
+    ///   - domain: String -> An custom Domain
+    ///   - customArgs: [ String : String ] -> Dictionary of Strings. Default: nil
+    ///   - completion: is completion handler which gets 3 arguments error message,token, flag which indicates if request was succesfull or not
     public func sendData(token: String, location: String? = nil,customArgs: [ String : String ]? = nil, completion:  ((String?,String?,Bool?)->Void)? = nil){
         
         guard let snippetId = requestInfoManager._snippetId else {

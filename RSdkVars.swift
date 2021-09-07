@@ -110,10 +110,10 @@ internal struct RSdkVars {
     internal static var POST_PATH = "\(POST_ENDPOINT_DEC)"
     internal static var ERROR_PATH = "\(ERROR_ENDPOINT_DEC)"
     
-    internal static var HOST = "\(Domain.getDomain())"
+    internal static var HOST = "\(Domain.sharedDomainManager.domain)"
 
     
-    internal static var SNIPPET_ENDPOINT = "\(Domain.getDomain())\(SNIPPET_ENDPOINT_DEC)"
+    internal static var SNIPPET_ENDPOINT = "\(Domain.sharedDomainManager.domain)\(SNIPPET_ENDPOINT_DEC)"
     
     internal static var ENDPOINT_ADDITIONAL : String { return ENDPOINT_ADDITIONAL_DEC }
 

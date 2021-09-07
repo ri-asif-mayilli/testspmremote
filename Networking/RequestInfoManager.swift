@@ -15,12 +15,11 @@ import Foundation
 internal class RSdkRequestInfoManager {
     
     var _token : String?
-     var _snippetId : String?
+    var _snippetId : String?
     var _diMobileSdkVersion : String = ""
     var _customArgs: [String:String]
     var location : String?
-    
-    
+
     
    // internal static var sharedRequestInfoManager = RSdkRequestInfoManager()
     init() {

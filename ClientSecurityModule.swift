@@ -30,6 +30,7 @@ public class ClientSecurityModule : NSObject {
     @objc public init(snippetId: String) {
         super.init()
         requestInfoManager._snippetId = snippetId
+        
     }
     /// This is the sendData method.
     ///
@@ -39,7 +40,7 @@ public class ClientSecurityModule : NSObject {
     ///   - domain: String -> An custom Domain
     ///   - customArgs: [ String : String ] -> Dictionary of Strings. Default: nil
     ///   - completion: is completion handler which gets 3 arguments error message,token, flag which indicates if request was succesfull or not
-    public func sendData(token: String, location: String? = nil,customArgs: [ String : String ]? = nil, completion:  ((String?,String?,Bool?)->Void)? = nil){
+    public func sendData(token: String, location: String? = nil, customArgs: [ String : String ]? = nil, completion:  ((String?,String?,Bool?)->Void)? = nil){
         
         guard let snippetId = requestInfoManager._snippetId else {
             completion?("No snippetId",token,false)

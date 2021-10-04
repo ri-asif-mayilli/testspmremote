@@ -28,6 +28,7 @@ struct RSdkDeviceDTO : Codable {
     let screen:ScreenDTO
     #if !targetEnvironment(macCatalyst)
     let cellular:CellularDTO
+    let cellularIOS12:CellularDTOIOS12
     #endif
     let contacts:ContactDTO
     let networkInfo:NetworkInfoDTO
@@ -69,6 +70,7 @@ struct RSdkDeviceDTO : Codable {
         self.screen     = ScreenDTO()
         #if !targetEnvironment(macCatalyst)
         self.cellular   = CellularDTO()
+        self.cellularIOS12 = CellularDTOIOS12()
         #endif
         self.contacts    = ContactDTO()
         self.networkInfo  = NetworkInfoDTO()

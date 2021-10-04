@@ -35,8 +35,9 @@ internal struct RSdkCellularInfo {
     
     
     internal static var celluarInfoCurrentAccessTechnology : String? {
-   
-        if #available(iOS 9, *) {
+        if #available(iOS 12.0, *){
+            return nil
+        }else if #available(iOS 9, *) {
             return CTTelephonyNetworkInfo().currentRadioAccessTechnology
         }
 
@@ -50,7 +51,14 @@ internal struct RSdkCarrierInfo {
     
     static private var carrierInfoCarrier : CTCarrier? {
         
-        return CTTelephonyNetworkInfo().subscriberCellularProvider
+        if #available(iOS 12.0, *){
+            return nil
+        }else if #available(iOS 9, *) {
+            return CTTelephonyNetworkInfo().subscriberCellularProvider
+        }
+
+        return nil
+
     }
 
     
@@ -77,6 +85,97 @@ internal struct RSdkCarrierInfo {
     static internal var carrierInfoAllowsVoip : Bool? {
         
         return carrierInfoCarrier?.allowsVOIP
+    }
+}
+
+
+internal struct RSdkCellularInfoIOS12 {
+    
+    internal static var celluarInfoCurrentAccessTechnology : [String]? {
+        var result:[String] = []
+        if #available(iOS 12, *) {
+            guard let accessTech = CTTelephonyNetworkInfo().serviceCurrentRadioAccessTechnology else {return nil}
+            for (_,value) in accessTech {
+                result.append(value)
+            }
+        
+        }
+
+        if result.isEmpty{return nil} else {return result}
+        
+    }
+}
+
+
+internal struct RSdkCarrierInfoIOS12 {
+    
+    
+    static private var carrierInfoCarrier : [String:CTCarrier]? {
+        
+        if #available(iOS 12.0, *) {
+            return CTTelephonyNetworkInfo().serviceSubscriberCellularProviders
+        }
+        return nil
+    }
+
+    
+    static internal var carrierInfoName : [String]? {
+        var result:[String] = []
+        guard let carrierInfo = carrierInfoCarrier else {return nil}
+        for (_,value) in carrierInfo {
+            if let carrierName = value.carrierName{
+                result.append(carrierName)
+            }
+        }
+        if result.isEmpty{return nil} else {return result}
+    }
+    
+    static internal var carrierInfoCountryCode : [String]? {
+    
+        var result:[String] = []
+        guard let carrierInfo = carrierInfoCarrier else {return nil}
+        for (_,value) in carrierInfo {
+            if let mobileCountryCode = value.mobileCountryCode{
+                result.append(mobileCountryCode)
+            }
+        }
+        if result.isEmpty{return nil} else {return result}
+    }
+    
+    static internal var carrierInfoNetworkCode : [String]? {
+        var result:[String] = []
+        guard let carrierInfo = carrierInfoCarrier else {return nil}
+        for (_,value) in carrierInfo {
+            if let mobileNetworkCode = value.mobileNetworkCode{
+                result.append(mobileNetworkCode)
+            }
+        }
+        if result.isEmpty{return nil} else {return result}
+    }
+    
+    static internal var carrierInfoIsoCountryCode : [String]? {
+        var result:[String] = []
+        guard let carrierInfo = carrierInfoCarrier else {return nil}
+        for (_,value) in carrierInfo {
+            if let isoCountryCode = value.isoCountryCode{
+                result.append(isoCountryCode)
+            }
+        }
+        if result.isEmpty{return nil} else {return result}
+
+    }
+    
+    static internal var carrierInfoAllowsVoip : [Bool]? {
+        var result:[Bool] = []
+        guard let carrierInfo = carrierInfoCarrier else {return nil}
+        for (_,value) in carrierInfo {
+            if value.carrierName != nil{
+                result.append(value.allowsVOIP)
+            }
+            
+        }
+        if result.isEmpty{return nil} else {return result}
+
     }
 }
 #endif

@@ -7,21 +7,7 @@
 //
 
 import Foundation
-//struct CellularDTOIOS12 : Codable {
-//
-//    let accessTechnology = RSdkCellularInfoIOS12.celluarInfoCurrentAccessTechnology
-//    let carrier = CarrierDTOIOS12()
-//}
-//
-//
-//struct CarrierDTOIOS12 : Codable {
-//    let names:[String]?              =  RSdkCarrierInfoIOS12.carrierInfoName
-//    let countryCodes : [String]?     = RSdkCarrierInfoIOS12.carrierInfoCountryCode
-//    let mobileCountryCodes:[String]? = RSdkCarrierInfoIOS12.carrierInfoCountryCode
-//    let mobileNetworkCodes:[String]? = RSdkCarrierInfoIOS12.carrierInfoNetworkCode
-//    let isoCountryCodes  :[String]?  = RSdkCarrierInfoIOS12.carrierInfoIsoCountryCode
-//    let allowsVoips   :[Bool]?    = RSdkCarrierInfoIOS12.carrierInfoAllowsVoip
-//}
+
 
 #if !targetEnvironment(macCatalyst)
 struct CellularDTOIOS12 : Codable {
@@ -43,29 +29,29 @@ struct CellularDTOIOS12 : Codable {
 
 struct CarrierDTOIOS12 : Codable {
     
-    let name:[String]?
-    let countryCode:[String]?
-    let mobileCountryCode:[String]?
-    let mobileNetworkCode:[String]?
-    let isoCountryCode:[String]?
-    let allowsVoip:[Bool]?
+    let names:[String]?
+    let countryCodes:[String]?
+    let mobileCountryCodes:[String]?
+    let mobileNetworkCodes:[String]?
+    let isoCountryCodes:[String]?
+    let allowsVoips:[Bool]?
     
     init(){
-        self.name = RSdkCarrierInfoIOS12.carrierInfoName
-        self.countryCode = RSdkCarrierInfoIOS12.carrierInfoCountryCode
-        self.mobileCountryCode = RSdkCarrierInfoIOS12.carrierInfoCountryCode
-        self.mobileNetworkCode = RSdkCarrierInfoIOS12.carrierInfoNetworkCode
-        self.isoCountryCode = RSdkCarrierInfoIOS12.carrierInfoIsoCountryCode
-        self.allowsVoip = RSdkCarrierInfoIOS12.carrierInfoAllowsVoip
+        self.names = RSdkCarrierInfoIOS12.carrierInfoName
+        self.countryCodes = RSdkCarrierInfoIOS12.carrierInfoCountryCode
+        self.mobileCountryCodes = RSdkCarrierInfoIOS12.carrierInfoCountryCode
+        self.mobileNetworkCodes = RSdkCarrierInfoIOS12.carrierInfoNetworkCode
+        self.isoCountryCodes = RSdkCarrierInfoIOS12.carrierInfoIsoCountryCode
+        self.allowsVoips = RSdkCarrierInfoIOS12.carrierInfoAllowsVoip
     }
     
     init(name:[String],countryCode:[String],mobileCountryCode:[String],mobileNetworkCode:[String],isoCountryCode:[String],allowsVoip:[Bool]){
-        self.name = name
-        self.countryCode = countryCode
-        self.mobileCountryCode = mobileCountryCode
-        self.mobileNetworkCode = mobileNetworkCode
-        self.isoCountryCode = isoCountryCode
-        self.allowsVoip = allowsVoip
+        self.names = name
+        self.countryCodes = countryCode
+        self.mobileCountryCodes = mobileCountryCode
+        self.mobileNetworkCodes = mobileNetworkCode
+        self.isoCountryCodes = isoCountryCode
+        self.allowsVoips = allowsVoip
     }
     
 }
@@ -81,12 +67,12 @@ extension CellularDTOIOS12: Equatable {
 extension CarrierDTOIOS12: Equatable {
     public static func ==(lhs: CarrierDTOIOS12, rhs: CarrierDTOIOS12) -> Bool {
         return
-            lhs.name == rhs.name &&
-            lhs.countryCode == rhs.countryCode &&
-            lhs.mobileCountryCode == rhs.mobileCountryCode &&
-            lhs.mobileNetworkCode == rhs.mobileNetworkCode &&
-            lhs.isoCountryCode == rhs.isoCountryCode &&
-            lhs.allowsVoip == rhs.allowsVoip
+            lhs.names == rhs.names &&
+            lhs.countryCodes == rhs.countryCodes &&
+            lhs.mobileCountryCodes == rhs.mobileCountryCodes &&
+            lhs.mobileNetworkCodes == rhs.mobileNetworkCodes &&
+            lhs.isoCountryCodes == rhs.isoCountryCodes &&
+            lhs.allowsVoips == rhs.allowsVoips
     }
 }
 #endif

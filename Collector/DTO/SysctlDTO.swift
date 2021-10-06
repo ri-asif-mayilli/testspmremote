@@ -25,19 +25,7 @@ struct SysctlDTO : Codable {
             case hostname, machine, activeCPUs, osRelease, osRev, osType, osVersion, version, machineArch, memSize, bootTimestamp
         }
     
-        /*
-         
-     case .model:
-         return Sysctl.sysctlModel
-         
-     case .memSize:
-         return Sysctl.sysctlMemSize.description
-         
-     case .bootTimestamp:
-         return String(describing: Sysctl.bootTimestamp)
 
-     }
-     */
     init(){
         self.hostname = sysctl.sysctlHostName.djb2hashString.sha256
         self.machine = sysctl.sysctlMachine
@@ -46,10 +34,10 @@ struct SysctlDTO : Codable {
         self.osRev = String(describing: sysctl.sysctlKernID)
         self.osVersion = sysctl.sysctlOsVersion
         self.version = sysctl.sysctlVersion
-        self.machineArch = sysctl.sysctlMachineArch
+        self.machineArch = sysctl.sysctlMachine
         self.osType = sysctl.sysctlOsType
         self.memSize = sysctl.sysctlMemSize.description
-        self.bootTimestamp = String(describing:sysctl.bootTimestamp)
+        self.bootTimestamp = sysctl.bootTimestamp
     }
     
     init(hostname:String,machine:String,activeCPUs:String,osRelease:String,

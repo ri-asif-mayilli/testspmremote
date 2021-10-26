@@ -69,6 +69,7 @@ internal struct RSdkLocationInfo {
     
     internal static var locationInfoLocation : CLLocation? {
         
+        
         if #available(iOS 9, *) {
             if locationInfoAccess {
             

@@ -55,6 +55,7 @@ struct SysctlDTO : Codable {
         self.memSize = memSize
         self.bootTimestamp = bootTimeStamp
     }
+
     
     func errors() -> [String]{
         return self.sysctl.errors
@@ -67,6 +68,7 @@ extension SysctlDTO: Equatable {
     public static func ==(lhs: SysctlDTO, rhs: SysctlDTO) -> Bool {
         return
             lhs.activeCPUs == rhs.activeCPUs &&
+            lhs.machineArch == rhs.machineArch &&
             lhs.machine == rhs.machine &&
             lhs.osRelease == rhs.osRelease &&
             lhs.osRev == rhs.osRev &&

@@ -10,5 +10,5 @@ import Foundation
 
 class Domain{
     internal static var sharedDomainManager = Domain()
-    var domain : String = "stage-test.jsctool.com"
+    var domain : String = RSdkVars.DOMAIN
 }

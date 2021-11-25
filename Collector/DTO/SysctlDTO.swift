@@ -17,12 +17,11 @@ struct SysctlDTO : Codable {
     let osType:String
     let osVersion:String
     let version:String
-    let machineArch:String
     let memSize:String
     let bootTimestamp:String
     let sysctl = Sysctl()
     private enum CodingKeys: String, CodingKey {
-            case hostname, machine, activeCPUs, osRelease, osRev, osType, osVersion, version, machineArch, memSize, bootTimestamp
+            case hostname, machine, activeCPUs, osRelease, osRev, osType, osVersion, version, memSize, bootTimestamp
         }
     
 
@@ -34,7 +33,6 @@ struct SysctlDTO : Codable {
         self.osRev = String(describing: sysctl.sysctlKernID)
         self.osVersion = sysctl.sysctlOsVersion
         self.version = sysctl.sysctlVersion
-        self.machineArch = sysctl.sysctlMachine
         self.osType = sysctl.sysctlOsType
         self.memSize = sysctl.sysctlMemSize.description
         self.bootTimestamp = sysctl.bootTimestamp
@@ -42,7 +40,7 @@ struct SysctlDTO : Codable {
     
     init(hostname:String,machine:String,activeCPUs:String,osRelease:String,
          osRev:String,osType:String,osVersion:String,version:String,
-         machineArch:String, memSize:String, bootTimeStamp:String){
+          memSize:String, bootTimeStamp:String){
         self.hostname = hostname
         self.machine = machine
         self.activeCPUs = activeCPUs
@@ -50,7 +48,6 @@ struct SysctlDTO : Codable {
         self.osRev = osRev
         self.osVersion = osVersion
         self.version = version
-        self.machineArch = machineArch
         self.osType = osType
         self.memSize = memSize
         self.bootTimestamp = bootTimeStamp

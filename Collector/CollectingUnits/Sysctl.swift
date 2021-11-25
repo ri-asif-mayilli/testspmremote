@@ -125,21 +125,6 @@ class Sysctl {
             return ""
         }
     }
-    
-    
-
-    internal var sysctlMachineArch : String {
-        
-        do {
-        
-        return try stringForKeys([CTL_HW, HW_MACHINE_ARCH])
-        } catch let error {
-           // missingDataError(error: error as? SysctlNew.Error ?? Error.unknown)
-            missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
-            return ""
-        }
-    }
-    
 
     
     /// e.g. "x86_64" or "N71mAP"

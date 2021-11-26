@@ -74,13 +74,15 @@ internal struct RSdkNetworkInfo {
     internal static var networkInfoGetWiFiSsid : String? {
         
         var ssid: String?
-        if let interfaces = CNCopySupportedInterfaces() as NSArray? {
-            for interface in interfaces {
-                let interfaceString = interface as? String ?? ""
-                let cfString = interfaceString as CFString
-                if let interfaceInfo = CNCopyCurrentNetworkInfo(cfString) as NSDictionary? {
-                    ssid = interfaceInfo[kCNNetworkInfoKeySSID as String] as? String
-                    break
+        if #available(iOS 10, macCatalyst 14, *){
+            if let interfaces = CNCopySupportedInterfaces() as NSArray? {
+                for interface in interfaces {
+                    let interfaceString = interface as? String ?? ""
+                    let cfString = interfaceString as CFString
+                    if let interfaceInfo = CNCopyCurrentNetworkInfo(cfString) as NSDictionary? {
+                        ssid = interfaceInfo[kCNNetworkInfoKeySSID as String] as? String
+                        break
+                    }
                 }
             }
         }

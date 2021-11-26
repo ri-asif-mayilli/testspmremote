@@ -27,10 +27,13 @@ public class ClientSecurityModule : NSObject {
     /// - Parameters:
     ///   - snippetId: String -> The snippet id
 
-    @objc public init(snippetId: String, domain:String) {
+    @objc public init(snippetId: String, domain:String?=nil) {
         super.init()
         requestInfoManager._snippetId = snippetId
-        Domain.sharedDomainManager.domain = domain
+        if let domain = domain {
+            Domain.sharedDomainManager.domain = domain
+        }
+        
     }
     /// This is the sendData method.
     ///

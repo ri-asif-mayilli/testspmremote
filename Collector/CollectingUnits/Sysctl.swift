@@ -113,7 +113,7 @@ class Sysctl {
 
     /// e.g. "MyComputer.local" (from System Preferences -> Sharing -> Computer Name) or
     /// "My-Name-iPhone" (from Settings -> General -> About -> Name)
-    internal var sysctlHostName : String {
+    internal var sysctlHostName : String? {
         
         do {
         
@@ -122,14 +122,14 @@ class Sysctl {
         } catch let error {
             
             missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
-            return ""
+            return nil
         }
     }
 
     
     /// e.g. "x86_64" or "N71mAP"
     /// NOTE: this is *corrected* on iOS devices to fetch hw.model
-    internal var sysctlMachine : String {
+    internal var sysctlMachine : String? {
         
         do {
         
@@ -140,14 +140,14 @@ class Sysctl {
         #endif
         } catch let error {
             missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
-            return ""
+            return nil
         }
     }
     
 
     /// e.g. "MacPro4,1" or "iPhone8,1"
     /// NOTE: this is *corrected* on iOS devices to fetch hw.machine
-    internal var sysctlModel : String {
+    internal var sysctlModel : String? {
         
         do {
         
@@ -158,7 +158,7 @@ class Sysctl {
         #endif
         } catch let error {
             missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
-            return ""
+            return nil
         }
     }
     
@@ -177,13 +177,13 @@ class Sysctl {
     
 
     /// e.g. "15.3.0" or "15.0.0"
-    internal var sysctlOsRelease : String {
+    internal var sysctlOsRelease : String? {
         
         do {
             return try stringForKeys([CTL_KERN, KERN_OSRELEASE])
         } catch let error {
             missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
-            return ""
+            return nil
         }
     }
     
@@ -201,13 +201,13 @@ class Sysctl {
     
 
     /// e.g. "Darwin" or "Darwin"
-    internal var sysctlOsType : String {
+    internal var sysctlOsType : String? {
         
         do {
             return try stringForKeys([CTL_KERN, KERN_OSTYPE])
         } catch let error {
             missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
-            return ""
+            return nil
         }
     }
     
@@ -224,36 +224,36 @@ class Sysctl {
     
 
     /// e.g. "15D21" or "13D20"
-    internal var sysctlOsVersion : String {
+    internal var sysctlOsVersion : String? {
         
         do {
             return try stringForKeys([CTL_KERN, KERN_OSVERSION])
         } catch let error {
             missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
-            return ""
+            return nil
         }
     }
 
     /// e.g. "Darwin Kernel Version 15.3.0: Thu Dec 10 18:40:58 PST 2015; root:xnu-3248.30.4~1/RELEASE_X86_64" or
     /// "Darwin Kernel Version 15.0.0: Wed Dec  9 22:19:38 PST 2015; root:xnu-3248.31.3~2/RELEASE_ARM64_S8000"
-    internal var sysctlVersion : String {
+    internal var sysctlVersion : String? {
         
         do {
             return try stringForKeys([CTL_KERN, KERN_VERSION])
         } catch let error {
             missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
-            return ""
+            return nil
         }
     }
     
 
-    internal var sysctlDomainName : String {
+    internal var sysctlDomainName : String? {
         
         do {
             return try stringForKeys([CTL_KERN, KERN_DOMAINNAME])
         } catch let error {
             missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
-            return ""
+            return nil
         }
     }
     
@@ -269,7 +269,7 @@ class Sysctl {
     }
     
 
-    internal var bootTimestamp: String {
+    internal var bootTimestamp: String? {
 
         do {
             let secs = try UInt64(valueOfType(timeval.self, forKeys: [CTL_KERN, KERN_BOOTTIME]).tv_sec)
@@ -278,7 +278,7 @@ class Sysctl {
             return Date.setDate(date: timestamp)
         } catch let error {
             missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
-            return ""
+            return nil
         }
     }
     

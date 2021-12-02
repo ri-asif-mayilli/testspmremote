@@ -9,16 +9,16 @@
 import Foundation
 struct SysctlDTO : Codable {
     
-    let hostname:String
-    let machine:String
-    let activeCPUs:String
-    let osRelease:String
-    let osRev:String
-    let osType:String
-    let osVersion:String
-    let version:String
-    let memSize:String
-    let bootTimestamp:String
+    let hostname:String?
+    let machine:String?
+    let activeCPUs:String?
+    let osRelease:String?
+    let osRev:String?
+    let osType:String?
+    let osVersion:String?
+    let version:String?
+    let memSize:String?
+    let bootTimestamp:String?
     let sysctl = Sysctl()
     private enum CodingKeys: String, CodingKey {
             case hostname, machine, activeCPUs, osRelease, osRev, osType, osVersion, version, memSize, bootTimestamp
@@ -26,7 +26,7 @@ struct SysctlDTO : Codable {
     
 
     init(){
-        self.hostname = sysctl.sysctlHostName.djb2hashString.sha256
+        self.hostname = sysctl.sysctlHostName?.djb2hashString.sha256
         self.machine = sysctl.sysctlMachine
         self.activeCPUs = String(describing:sysctl.sysctlActiveCPUs)
         self.osRelease = sysctl.sysctlOsRelease
@@ -65,7 +65,6 @@ extension SysctlDTO: Equatable {
     public static func ==(lhs: SysctlDTO, rhs: SysctlDTO) -> Bool {
         return
             lhs.activeCPUs == rhs.activeCPUs &&
-            lhs.machineArch == rhs.machineArch &&
             lhs.machine == rhs.machine &&
             lhs.osRelease == rhs.osRelease &&
             lhs.osRev == rhs.osRev &&

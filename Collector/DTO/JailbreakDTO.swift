@@ -18,13 +18,6 @@ struct JailbreakDTO : Codable {
     let sandboxBreakOut:Bool
     
     
-//    static func setDate(date:Date)->String{
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-//        return dateFormatter.string(from: date)
-//
-//
-//    }
     init(){
         self.jailBroken = RSdkJailbreak.isJailbroken
         self.existingPaths = RSdkJailbreak.jbExistingPath

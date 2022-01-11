@@ -272,10 +272,7 @@ class Sysctl {
     internal var bootTimestamp: String? {
 
         do {
-            let secs = try UInt64(valueOfType(timeval.self, forKeys: [CTL_KERN, KERN_BOOTTIME]).tv_sec)
-            let msecs = try UInt64(valueOfType(timeval.self, forKeys: [CTL_KERN, KERN_BOOTTIME]).tv_usec)
-            let timestamp = Date(timeIntervalSince1970: Double(secs) + Double(msecs) / 1_000_000.0)
-            return Date.setDate(date: timestamp)
+            return try String(describing:UInt64(valueOfType(timeval.self, forKeys: [CTL_KERN, KERN_BOOTTIME]).tv_sec))
         } catch let error {
             missingDataError(error: error as? Sysctl.Error ?? Error.unknown)
             return nil

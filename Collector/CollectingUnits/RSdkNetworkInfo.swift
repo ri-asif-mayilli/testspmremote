@@ -12,7 +12,7 @@
 
 import Foundation
 import SystemConfiguration.CaptiveNetwork
-
+import NetworkExtension
 fileprivate enum ProxyConfigType : String {
     
     case proxyType = "kCFProxyTypeKey"
@@ -70,24 +70,48 @@ fileprivate enum ProxyType : String {
 }
 
 internal struct RSdkNetworkInfo {
+ //   var ssid:String?
+    @available(iOS 14.0, *)
+    static func getSsidIOS14(completionHandler:@escaping(String?)->Void) {
+       
+        NEHotspotNetwork.fetchCurrent(){network in
+            if let unwrappedNetwork = network {
+                let networkSSID = unwrappedNetwork.bssid
+                print("Network: %{public}@ and signal strength %d", networkSSID , unwrappedNetwork.signalStrength)
+                completionHandler(networkSSID)
+                //return networkSSID
+            } else {
+                print("No available network")
+                completionHandler(nil)
+                // return nil
+            }
+        }
+    }
     
-    internal static var networkInfoGetWiFiSsid : String? {
-        
-        var ssid: String?
-        if #available(iOS 10, macCatalyst 14, *){
+    static func getSsid(completionHandler:@escaping(String?)->Void){
+        if #available(iOS 14, macCatalyst 14, *){
+            RSdkNetworkInfo.getSsidIOS14(){ssid in
+                completionHandler(ssid)
+                return
+            }
+        } else{
             if let interfaces = CNCopySupportedInterfaces() as NSArray? {
                 for interface in interfaces {
                     let interfaceString = interface as? String ?? ""
                     let cfString = interfaceString as CFString
                     if let interfaceInfo = CNCopyCurrentNetworkInfo(cfString) as NSDictionary? {
-                        ssid = interfaceInfo[kCNNetworkInfoKeySSID as String] as? String
-                        break
+                        let ssid = interfaceInfo[kCNNetworkInfoKeySSID as String] as? String
+                        completionHandler(ssid)
+                        return
                     }
                 }
             }
         }
-        return ssid
+      //  completionHandler(nil)
     }
+
+
+
     
     internal static var networkInfoGetWiFiAddressV6 : String? {
         

@@ -54,27 +54,26 @@ struct RSdkDeviceDTO : Codable {
         return nil
     }
     
-    init(requestInfoManager:RSdkRequestInfoManager, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO) {
-        self.snippetId      = requestInfoManager._snippetId ?? ""
-        self.token          = requestInfoManager._token ?? ""
-        self._location       = requestInfoManager.location ?? ""
-        self.proximity      = proximityDTO
-        self.notification   = notificationDTO
+    init(requestInfoManager:RSdkRequestInfoManager, notificationDTO : NotificationDTO, proximityDTO: ProximityDTO, networkInfoDTO:NetworkInfoDTO) {
+        self.snippetId = requestInfoManager._snippetId ?? ""
+        self.token = requestInfoManager._token ?? ""
+        self._location = requestInfoManager.location ?? ""
+        self.proximity = proximityDTO
+        self.notification = notificationDTO
+        self.networkInfo = networkInfoDTO
         self.diMobileSdkVersion = requestInfoManager._diMobileSdkVersion
         
         self.sysctlInfo = SysctlDTO()
-        self.jailBreak  = JailbreakDTO()
-        self.device     = DeviceVarsDTO()
-        self.battery    = BatteryDTO()
+        self.jailBreak = JailbreakDTO()
+        self.device = DeviceVarsDTO()
+        self.battery = BatteryDTO()
 
-        self.screen     = ScreenDTO()
+        self.screen = ScreenDTO()
         #if !targetEnvironment(macCatalyst)
-        self.cellular   = CellularDTO()
+        self.cellular = CellularDTO()
         self.cellularIOS12 = CellularDTOIOS12()
         #endif
-        self.contacts    = ContactDTO()
-        self.networkInfo  = NetworkInfoDTO()
-     
+        self.contacts = ContactDTO()
         self.locale = LocaleInfoDTO()
         self.identifier = IdentifierInfoDTO()
         self.motion = MotionInfoDTO()
@@ -88,14 +87,14 @@ internal struct NetworkInfoDTO : Codable {
  
     let ipv6:String?
     let ipv4:String?
-    
-    var ssid = RSdkNetworkInfo.networkInfoGetWiFiSsid?.djb2hashString.sha256
+    var ssid:String?
     var proxy: ProxyInfoDTO?
 
-    public init() {
+    public init(ssid:String?) {
         if (RSdkNetworkInfo.networkInfoIsProxyConnected) {
             self.proxy = ProxyInfoDTO()
         }
+        self.ssid = ssid?.djb2hashString.sha256
         self.ipv6 = RSdkNetworkInfo.networkInfoGetWiFiAddressV6?.djb2hashString.sha256
         self.ipv4 = RSdkNetworkInfo.networkInfoGetWiFiAddressV4?.djb2hashString.sha256
     }

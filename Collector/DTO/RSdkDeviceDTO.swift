@@ -109,12 +109,9 @@ internal struct ProxyInfoDTO : Codable {
     init(){
         self.proxyType   = RSdkNetworkInfo.networkInfoProxyType
         self.proxyHost   = RSdkNetworkInfo.networkInfoproxyHost
-        self.proxyPort   = RSdkNetworkInfo.networkInfoProxyPort
+        let port = RSdkNetworkInfo.networkInfoProxyPort
+        self.proxyPort = port != nil ? "\(port!)" : nil
     }
 }
-
-
-
-
 
 

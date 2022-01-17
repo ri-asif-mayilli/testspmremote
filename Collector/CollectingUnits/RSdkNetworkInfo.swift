@@ -70,20 +70,14 @@ fileprivate enum ProxyType : String {
 }
 
 internal struct RSdkNetworkInfo {
- //   var ssid:String?
     @available(iOS 14.0, *)
     static func getSsidIOS14(completionHandler:@escaping(String?)->Void) {
-       
         NEHotspotNetwork.fetchCurrent(){network in
             if let unwrappedNetwork = network {
                 let networkSSID = unwrappedNetwork.bssid
-                print("Network: %{public}@ and signal strength %d", networkSSID , unwrappedNetwork.signalStrength)
                 completionHandler(networkSSID)
-                //return networkSSID
             } else {
-                print("No available network")
                 completionHandler(nil)
-                // return nil
             }
         }
     }
@@ -106,13 +100,11 @@ internal struct RSdkNetworkInfo {
                     }
                 }
             }
+            completionHandler(nil)
         }
-      //  completionHandler(nil)
     }
 
 
-
-    
     internal static var networkInfoGetWiFiAddressV6 : String? {
         
         var address : String?
@@ -129,7 +121,6 @@ internal struct RSdkNetworkInfo {
                 
                 let name = String(cString: interface.ifa_name)
                 if  name == "en0" {
-                    
                     var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
                     getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.pointee.sa_len),
                                 &hostname, socklen_t(hostname.count),
@@ -158,7 +149,6 @@ internal struct RSdkNetworkInfo {
                 
                 let name = String(cString: interface.ifa_name)
                 if  name == "en0" {
-                    
                     var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
                     getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.pointee.sa_len),
                                 &hostname, socklen_t(hostname.count),
@@ -195,10 +185,10 @@ internal struct RSdkNetworkInfo {
         
     }
     
-    internal static var networkInfoProxyPort : String? {
+    internal static var networkInfoProxyPort : Int? {
         
         guard let entry = networkInfoProxyEntry else { return nil }
-        return entry[ProxyConfigType.proxyPort.rawValue] as? String
+        return entry[ProxyConfigType.proxyPort.rawValue] as? Int
     }
     
     internal static var networkInfoIsProxyConnected : Bool {

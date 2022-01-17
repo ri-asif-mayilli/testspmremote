@@ -42,26 +42,13 @@ internal class DeviceDTOFactory {
     private static func createProximityDTO(requestInfoManager:RSdkRequestInfoManager, _notificationDTO : NotificationDTO, _withCompletion _completion: @escaping RSdkDeviceDTOCompletion)  {
     
         RSdkProximity.rsdkProximityState() {
-            
             (state) in
-            
             RSdkNetworkInfo.getSsid(){ssid in
                 let networkDTO = NetworkInfoDTO(ssid:ssid)
                 let _proximityDTO = ProximityDTO(state: state)
                 let _deviceDTO = RSdkDeviceDTO(requestInfoManager:requestInfoManager, notificationDTO: _notificationDTO, proximityDTO: _proximityDTO, networkInfoDTO: networkDTO)
                 _completion(_deviceDTO,_deviceDTO.collectErrors())
             }
-           
         }
     }
-    
-    
-//    private static func createNetworkDTO(requestInfoManager:RSdkRequestInfoManager, _networkDTO:NetworkInfoDTO, _withCompletion _completion: @escaping RSdkDeviceDTOCompletion){
-//        RSdkNetworkInfo.getSsid(){ssid in
-//            let networkDTO = NetworkInfoDTO(ssid:ssid)
-//        }
-//        
-//    }
-    
-    
 }

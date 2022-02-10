@@ -22,6 +22,7 @@ enum Router {
     var scheme: String {
         switch self {
         case .postBin, .postClientBin, .postError, .postCombinedErrors:
+            
             return "https"
         }
     }

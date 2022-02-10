@@ -13,6 +13,7 @@
 import Foundation
 import SystemConfiguration.CaptiveNetwork
 import NetworkExtension
+
 fileprivate enum ProxyConfigType : String {
     
     case proxyType = "kCFProxyTypeKey"
@@ -84,6 +85,7 @@ internal struct RSdkNetworkInfo {
     
     static func getSsid(completionHandler:@escaping(String?)->Void){
         if #available(iOS 14, macCatalyst 14, *){
+           
             RSdkNetworkInfo.getSsidIOS14(){ssid in
                 completionHandler(ssid)
                 return
@@ -103,7 +105,6 @@ internal struct RSdkNetworkInfo {
             completionHandler(nil)
         }
     }
-
 
     internal static var networkInfoGetWiFiAddressV6 : String? {
         
@@ -176,7 +177,6 @@ internal struct RSdkNetworkInfo {
         }
         return nil
     }()
-    
     
     internal static var networkInfoproxyHost : String? {
         

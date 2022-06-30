@@ -22,18 +22,7 @@ internal class RSdkJailbreak {
     
     
     internal class var jbExistingPath : [String] {
-        
-        var pathExists = [String]()
-        
-        for path in RSdkVars.searchJailBreakPaths {
-            
-            if FileManager.default.fileExists(atPath: path) {
-                
-                pathExists.append(path)
-            }
-        }
-        
-        return pathExists
+        return RSdkVars.searchJailBreakPaths.filter(FileManager.default.fileExists)
     }
     
     @available(iOS 10, *)

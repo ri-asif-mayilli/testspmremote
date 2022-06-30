@@ -42,20 +42,10 @@ class RSdkContactInfo {
     
     @available(iOS 9, *)
     private var rSdkContactStores : [ContactStoreDTO] {
-    
-        var resultContainers = [ContactStoreDTO]()
         let contactStore = CNContactStore()
         // Get all the containers
-        let allContainers: [CNContainer] = getContainers(contactStore: contactStore)
         
-
-        // Iterate all containers and append their contacts to our results array
-        for container in allContainers {
-            if let formatedContainer = formatContainer(container: container, contactStore: contactStore){
-                resultContainers.append(formatedContainer)
-            }
-        }
-        return resultContainers
+        return getContainers(contactStore: contactStore).compactMap{formatContainer(container: $0, contactStore: contactStore)}
     }
     
     

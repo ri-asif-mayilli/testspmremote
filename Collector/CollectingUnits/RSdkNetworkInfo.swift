@@ -21,6 +21,7 @@ fileprivate enum ProxyConfigType : String {
     case proxyHost = "kCFProxyHostNameKey"
 }
 
+
 fileprivate enum ProxyType : String {
     
     case none                   = "kCFProxyTypeNone"
@@ -85,6 +86,7 @@ internal struct RSdkNetworkInfo {
     
     static func getSsid(completionHandler:@escaping(String?)->Void){
         if #available(iOS 14, macCatalyst 14, *){
+            
            
             RSdkNetworkInfo.getSsidIOS14(){ssid in
                 completionHandler(ssid)
@@ -92,7 +94,7 @@ internal struct RSdkNetworkInfo {
             }
         } else{
             if let interfaces = CNCopySupportedInterfaces() as NSArray? {
-                for interface in interfaces {
+                interfaces.map{interface in
                     let interfaceString = interface as? String ?? ""
                     let cfString = interfaceString as CFString
                     if let interfaceInfo = CNCopyCurrentNetworkInfo(cfString) as NSDictionary? {
@@ -107,73 +109,52 @@ internal struct RSdkNetworkInfo {
     }
 
     internal static var networkInfoGetWiFiAddressV6 : String? {
-        
-        var address : String?
-        
-        var ifaddr : UnsafeMutablePointer<ifaddrs>?
-        guard getifaddrs(&ifaddr) == 0 else { return nil }
-        guard let firstAddr = ifaddr else { return nil }
-        
-        for ifptr in sequence(first: firstAddr, next: { $0.pointee.ifa_next }) {
-            let interface = ifptr.pointee
-            
-            let addrFamily = interface.ifa_addr.pointee.sa_family
-            if addrFamily == UInt8(AF_INET6) {
-                
-                let name = String(cString: interface.ifa_name)
-                if  name == "en0" {
-                    var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
-                    getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.pointee.sa_len),
-                                &hostname, socklen_t(hostname.count),
-                                nil, socklen_t(0), NI_NUMERICHOST)
-                    address = String(cString: hostname)
-                }
-            }
-        }
-        freeifaddrs(ifaddr)
-        return address
+        return getIp(ipType: AF_INET6)
     }
     
     internal static var networkInfoGetWiFiAddressV4 : String? {
-        
+        return getIp(ipType: AF_INET)
+    }
+    
+    
+    private static func getIp(ipType: Int32) -> String?{
         var address : String?
         
         var ifaddr : UnsafeMutablePointer<ifaddrs>?
         guard getifaddrs(&ifaddr) == 0 else { return nil }
         guard let firstAddr = ifaddr else { return nil }
-        
-        for ifptr in sequence(first: firstAddr, next: { $0.pointee.ifa_next }) {
-            let interface = ifptr.pointee
-            
-            let addrFamily = interface.ifa_addr.pointee.sa_family
-            if addrFamily == UInt8(AF_INET) {
-                
-                let name = String(cString: interface.ifa_name)
-                if  name == "en0" {
-                    var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
-                    getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.pointee.sa_len),
-                                &hostname, socklen_t(hostname.count),
-                                nil, socklen_t(0), NI_NUMERICHOST)
-                    address = String(cString: hostname)
-                }
-            }
+        let interfaces = sequence(first: firstAddr, next: { $0.pointee.ifa_next }).filter{
+            return  $0.pointee.ifa_addr.pointee.sa_family == UInt8(ipType)
         }
+        if (interfaces.isEmpty) { return nil }
+        
+        let interface = interfaces[0].pointee
+        let name = String(cString: interface.ifa_name)
+        if  name == "en0" {
+            var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+            getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.pointee.sa_len),
+                        &hostname, socklen_t(hostname.count),
+                        nil, socklen_t(0), NI_NUMERICHOST)
+            address = String(cString: hostname)
+        }
+        
         freeifaddrs(ifaddr)
         return address
+    
     }
+    
     
     private static var networkInfoProxyEntry : [String : Any]? = {
         
-        if let myUrl = URL(string: "http://www.apple.com") {
-            if let proxySettingsUnmanaged = CFNetworkCopySystemProxySettings() {
-                let proxySettings = proxySettingsUnmanaged.takeRetainedValue()
-                let proxiesUnmanaged = CFNetworkCopyProxiesForURL(myUrl as CFURL, proxySettings)
+        if let myUrl = URL(string: "http://www.apple.com"), let proxySettingsUnmanaged = CFNetworkCopySystemProxySettings() {
+            let proxySettings = proxySettingsUnmanaged.takeRetainedValue()
+            let proxiesUnmanaged = CFNetworkCopyProxiesForURL(myUrl as CFURL, proxySettings)
                 
-                if let proxies = proxiesUnmanaged.takeRetainedValue() as? [[String : Any]], proxies.count > 0 {
-                    
-                    return proxies[0]
-                }
+            if let proxies = proxiesUnmanaged.takeRetainedValue() as? [[String : Any]], !proxies.isEmpty  {
+                
+                return proxies[0]
             }
+            
         }
         return nil
     }()

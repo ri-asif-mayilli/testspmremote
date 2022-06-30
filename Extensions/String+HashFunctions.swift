@@ -55,14 +55,14 @@ import CryptoKit
 extension String {
     var sha256: String {
         if #available(iOS 13.0, *) {
-            var hashedIp = ""
             #if canImport(CryptoKit)
-            hashedIp = SHA256.hash(data:  Data(self.utf8))
+            let hashedIp = SHA256.hash(data:  Data(self.utf8))
                              .description
                              .deletingPrefix("SHA256 digest:")
                              .trimmingCharacters(in: .whitespacesAndNewlines)
-            #endif
             return hashedIp
+            #endif
+            return ""
             
         }else{
             guard let data = self.sha256Data else { return "" }

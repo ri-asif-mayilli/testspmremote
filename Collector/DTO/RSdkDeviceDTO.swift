@@ -43,13 +43,11 @@ struct RSdkDeviceDTO : Codable {
     
     func collectErrors() -> RSDKCombinedErrorDTO?{
         if !contacts.errors().isEmpty || !sysctlInfo.errors().isEmpty {
-            var errorMesages = ""
-            for item in (contacts.errors() + sysctlInfo.errors()){
-                errorMesages = errorMesages + "errorCode:" + "\(RSdkErrorType.contactStore("", "", item)._code)\n"
-                errorMesages = errorMesages + "errorDescription" + item + "\n"
-                errorMesages = errorMesages +  "=============================\n"
+           let errorMessages =  (contacts.errors() + sysctlInfo.errors()).reduce(""){acc, error in
+                acc + "errorCode:" + "\(RSdkErrorType.contactStore("", "", error)._code)\n" + "errorDescription" + error + "\n" + "errorDescription" + error + "\n" + "=============================\n"
             }
-            return RSDKCombinedErrorDTO(errors: errorMesages,snippetId: self.snippetId,token: self.token)
+            
+            return RSDKCombinedErrorDTO(errors: errorMessages,snippetId: self.snippetId,token: self.token)
         }
         return nil
     }

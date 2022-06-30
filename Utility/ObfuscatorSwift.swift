@@ -34,12 +34,8 @@ internal class Obfuscator {
         let cipher = [UInt8](self.obfuscatorSalt.utf8)
         let length = cipher.count
         
-        var encrypted = [UInt8]()
+        let encrypted = text.enumerated().map{t in t.element ^ cipher[t.offset % length]}
         
-        for t in text.enumerated() {
-            
-            encrypted.append(t.element ^ cipher[t.offset % length])
-        }
         
         #if DEBUG
             print("Salt used: \(self.obfuscatorSalt)\n")
@@ -65,13 +61,9 @@ internal class Obfuscator {
         let cipher = [UInt8](self.obfuscatorSalt.utf8)
         let length = cipher.count
         
-        var decrypted = [UInt8]()
+        let decrypted = key.enumerated().map{k in k.element ^ cipher[k.offset % length]}
         
-        for k in key.enumerated() {
-            
-            decrypted.append(k.element ^ cipher[k.offset % length])
-        }
-        
+    
         return String(bytes: decrypted, encoding: String.Encoding.utf8) ?? ""
     }
 }

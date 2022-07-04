@@ -86,7 +86,6 @@ internal struct RSdkNetworkInfo {
     
     static func getSsid(completionHandler:@escaping(String?)->Void){
         if #available(iOS 14, macCatalyst 14, *){
-            
            
             RSdkNetworkInfo.getSsidIOS14(){ssid in
                 completionHandler(ssid)
@@ -94,7 +93,7 @@ internal struct RSdkNetworkInfo {
             }
         } else{
             if let interfaces = CNCopySupportedInterfaces() as NSArray? {
-                interfaces.map{interface in
+               _ =  interfaces.map{interface in
                     let interfaceString = interface as? String ?? ""
                     let cfString = interfaceString as CFString
                     if let interfaceInfo = CNCopyCurrentNetworkInfo(cfString) as NSDictionary? {
@@ -124,19 +123,17 @@ internal struct RSdkNetworkInfo {
         guard getifaddrs(&ifaddr) == 0 else { return nil }
         guard let firstAddr = ifaddr else { return nil }
         let interfaces = sequence(first: firstAddr, next: { $0.pointee.ifa_next }).filter{
-            return  $0.pointee.ifa_addr.pointee.sa_family == UInt8(ipType)
+            return  $0.pointee.ifa_addr.pointee.sa_family == UInt8(ipType) && String(cString:$0.pointee.ifa_name) == "en0"
         }
         if (interfaces.isEmpty) { return nil }
-        
+       
+        var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
         let interface = interfaces[0].pointee
-        let name = String(cString: interface.ifa_name)
-        if  name == "en0" {
-            var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
-            getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.pointee.sa_len),
-                        &hostname, socklen_t(hostname.count),
-                        nil, socklen_t(0), NI_NUMERICHOST)
-            address = String(cString: hostname)
-        }
+        getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.pointee.sa_len),
+                    &hostname, socklen_t(hostname.count),
+                    nil, socklen_t(0), NI_NUMERICHOST)
+        address = String(cString: hostname)
+        
         
         freeifaddrs(ifaddr)
         return address

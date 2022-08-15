@@ -46,26 +46,12 @@ extension String{
         })
         return Data(hash)
     }
-}
-
-#if canImport(CryptoKit)
-import CryptoKit
-#endif
-
-extension String {
     var sha256: String {
         guard let data = self.sha256Data else { return "" }
         let nsData = NSData.init(data: data)
         let sha256String = nsData.description.trimmingCharacters(in: CharacterSet(charactersIn: "<>")).replacingOccurrences(of: " ", with: "")
         return sha256String
        
-    }
-}
-
-extension String {
-    func deletingPrefix(_ prefix: String) -> String {
-        guard self.hasPrefix(prefix) else { return self }
-        return String(self.dropFirst(prefix.count))
     }
 }
 

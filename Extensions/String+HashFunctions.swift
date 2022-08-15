@@ -46,6 +46,7 @@ extension String{
         })
         return Data(hash)
     }
+    
     var sha256: String {
         guard let data = self.sha256Data else { return "" }
         let nsData = NSData.init(data: data)

@@ -54,23 +54,10 @@ import CryptoKit
 
 extension String {
     var sha256: String {
-        if #available(iOS 13.0, *) {
-            #if canImport(CryptoKit)
-                let hashedIp = SHA256.hash(data:  Data(self.utf8))
-                                 .description
-                                 .deletingPrefix("SHA256 digest:")
-                                 .trimmingCharacters(in: .whitespacesAndNewlines)
-                return hashedIp
-            #else
-                return ""
-            #endif
-           
-        }else{
-            guard let data = self.sha256Data else { return "" }
-            let nsData = NSData.init(data: data)
-            let sha256String = nsData.description.trimmingCharacters(in: CharacterSet(charactersIn: "<>")).replacingOccurrences(of: " ", with: "")
-            return sha256String
-        }
+        guard let data = self.sha256Data else { return "" }
+        let nsData = NSData.init(data: data)
+        let sha256String = nsData.description.trimmingCharacters(in: CharacterSet(charactersIn: "<>")).replacingOccurrences(of: " ", with: "")
+        return sha256String
        
     }
 }

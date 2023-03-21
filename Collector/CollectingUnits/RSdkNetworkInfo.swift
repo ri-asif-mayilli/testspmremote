@@ -91,7 +91,7 @@ internal struct RSdkNetworkInfo {
                 completionHandler(ssid)
                 return
             }
-        } else{
+        } else if #available(iOS 10, macCatalyst 14, *){
             if let interfaces = CNCopySupportedInterfaces() as NSArray? {
                _ =  interfaces.map{interface in
                     let interfaceString = interface as? String ?? ""
@@ -103,6 +103,8 @@ internal struct RSdkNetworkInfo {
                     }
                 }
             }
+            completionHandler(nil)
+        }else{
             completionHandler(nil)
         }
     }

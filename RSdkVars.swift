@@ -13,7 +13,7 @@
 internal struct RSdkVars {
     
     internal static var SDKVERSION : String {
-		return "10.10.10"  /*VERSION*/
+		return "10.10.11"  /*VERSION*/
 
     }
     

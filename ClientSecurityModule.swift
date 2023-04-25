@@ -26,7 +26,7 @@ public class ClientSecurityModule : NSObject {
     ///
     /// - Parameters:
     ///   - snippetId: String -> The snippet id
-
+///custom comment
     @objc public init(snippetId: String, domain:String?=nil) {
         super.init()
         requestInfoManager._snippetId = snippetId
